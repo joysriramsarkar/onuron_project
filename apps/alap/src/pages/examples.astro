@@ -1,0 +1,46 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
+---
+
+<BaseLayout title="Examples — alap-framework">
+  <Navbar current="alap" />
+  <main class="container section">
+    <div class="prose">
+      <h1>Examples & Showcase</h1>
+      <p>
+        বাস্তব উদাহরণের মাধ্যমে শিখুন কীভাবে alap-framework ব্যবহার করে সম্পূর্ণ কার্যকর অ্যাপস প্রস্তুত করবেন।
+      </p>
+    </div>
+
+    <div class="grid" style="margin-top: 36px;">
+      <FeatureCard
+        title="Todo List App"
+        desc="লোকাল স্টোরেজ, স্টেট ম্যানেজমেন্ট ও ডায়নামিক লিস্ট রেন্ডারিংয়ের পূর্ণাঙ্গ উদাহরণ।"
+        href="https://github.com/joysriramsarkar/alap-framework/tree/main/examples/todo"
+      />
+      <FeatureCard
+        title="Audio & Music Player"
+        desc="মিডিয়া প্লেব্যাক, প্লেলিস্ট ও কাস্টম অডিও ইকুয়ালাইজার ইন্টারফেস।"
+        href="https://github.com/joysriramsarkar/alap-framework/tree/main/examples/player"
+      />
+      <FeatureCard
+        title="File Browser Tool"
+        desc="onuronOS ফাইল সিস্টেম ইন্টিগ্রেশন, ট্রি-ভিউ ও মেটাডাটা ইন্সপেক্টর।"
+        href="https://github.com/joysriramsarkar/alap-framework/tree/main/examples/filebrowser"
+      />
+    </div>
+
+    <div class="prose" style="margin-top: 48px;">
+      <p>
+        আরও উদাহরণ ও ওপেন-সোর্স কোডের জন্য আমাদের অফিসিয়াল গিটহাব রিপোজিটরি ভিজিট করুন:
+        <a href="https://github.com/joysriramsarkar/alap-framework" target="_blank" rel="noreferrer">
+          github.com/joysriramsarkar/alap-framework ↗
+        </a>
+      </p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

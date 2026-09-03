@@ -1,0 +1,56 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+---
+
+<BaseLayout title="Syntax Guide — nilLang">
+  <Navbar current="nilLang" />
+  <main class="container prose section">
+    <h1>nilLang Syntax Guide</h1>
+    <p>
+      nilLang একটি স্ট্রংলি-টাইপড কিন্তু স্বজ্ঞাত (expressive) প্রোগ্রামিং ভাষা। নিচে এর মূল সিনট্যাক্স নিয়মাবলী তুলে ধরা হলো:
+    </p>
+
+    <h2>১. ভেরিয়েবল ও কনস্ট্যান্ট</h2>
+    <p><code class="mono">let</code> দিয়ে ইমিউটেবল (অপরিবর্তনীয়) এবং <code class="mono">var</code> দিয়ে মিউটেবল ভেরিয়েবল ডিক্লেয়ার করা হয়:</p>
+    <CodeBlock code={`let app_name: str = "Onuron Notes"   // ইমিউটেবল
+var counter: int = 0                  // মিউটেবল
+counter = counter + 1`} />
+
+    <h2>২. ফাংশন ডিফিনিশন</h2>
+    <p>ফাংশন ডিক্লেয়ার করার জন্য <code class="mono">fn</code> কি-ওয়ার্ড ব্যবহৃত হয়:</p>
+    <CodeBlock code={`fn add(a: int, b: int) -> int {
+  return a + b
+}
+
+// এক্সপ্রেশন-স্টাইল শর্টহ্যান্ড:
+fn square(x: int) -> int { x * x }`} />
+
+    <h2>৩. শর্ত ও লুপ (Control Flow)</h2>
+    <p>সহজ ও স্পষ্ট <code class="mono">if / else</code> এবং <code class="mono">for / while</code> স্ট্রাকচার:</p>
+    <CodeBlock code={`if counter > 0 {
+  print("কাউন্টার ধনাত্মক")
+} else {
+  print("কাউন্টার শূন্য বা ঋণাত্মক")
+}
+
+for i in 0..5 {
+  print("ইটারেশন: " + str(i))
+}`} />
+
+    <h2>৪. স্ট্রাকচার ও মেথড</h2>
+    <CodeBlock code={`struct User {
+  name: str,
+  active: bool
+}
+
+impl User {
+  fn describe(self) {
+    print("ইউজার: " + self.name)
+  }
+}`} />
+  </main>
+  <Footer />
+</BaseLayout>

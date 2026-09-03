@@ -1,0 +1,48 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import Hero from "@onuron/ui/components/Hero.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
+---
+
+<BaseLayout title="alap-framework — Build Fast, Elegant Apps for Onuron">
+  <Navbar current="alap" />
+
+  <Hero
+    title="alap-framework"
+    subtitle="onuronOS ও ক্রস-প্ল্যাটফর্মে দ্রুত, আধুনিক ও রিসোর্স-এফিশিয়েন্ট অ্যাপ্লিকেশন বানানোর আধুনিক ফ্রেমওয়ার্ক।"
+  >
+    <a class="btn btn-primary" href="/quickstart">Get Started</a>
+    <a class="btn btn-ghost" href="https://github.com/joysriramsarkar/alap-framework" target="_blank" rel="noreferrer">
+      GitHub ↗
+    </a>
+  </Hero>
+
+  <main>
+    <section class="container" style="max-width: 680px; margin-bottom: 48px;">
+      <CodeBlock label="$" code="alap init my-app && cd my-app && alap run" />
+    </section>
+
+    <section class="section container">
+      <h2>ফিচারস</h2>
+      <div class="grid">
+        <FeatureCard
+          title="Instant Scaffolding"
+          desc="একটিমাত্র কমান্ডে সম্পূর্ণ প্রজেক্ট স্ট্রাকচার তৈরি করুন।"
+        />
+        <FeatureCard
+          title="Single Packaging"
+          desc=".onp প্যাকেজ আউটপুট — যা সরাসরি onuronOS App Store-এ পাবলিশযোগ্য।"
+        />
+        <FeatureCard
+          title="Native nilLang & C Binding"
+          desc="সর্বোচ্চ পারফরম্যান্স ও মেমরি সেফটির জন্য আর্কিটেকচারাল ইন্টিগ্রেশন।"
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

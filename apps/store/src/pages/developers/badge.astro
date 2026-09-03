@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import StoreBadge from "@onuron/ui/components/StoreBadge.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+---
+
+<BaseLayout title="Store Badge — onuronOS App Store">
+  <Navbar current="App Store" />
+  <main class="container prose section">
+    <h1>Official Store Badges</h1>
+    <p>
+      আপনার ওয়েবসাইটে, গিটহাব README-তে বা প্রোমোশনাল পেজে onuronOS App Store ব্যাজ ব্যবহার করে ইউজারদের সরাসরি অ্যাপ পেজে আমন্ত্রণ জানান।
+    </p>
+
+    <h2>ব্যাজ প্রিভিউ</h2>
+    <div style="margin: 24px 0;">
+      <StoreBadge href="https://store.onuron.org/apps/org.onuron.notes" />
+    </div>
+
+    <h2>Markdown এম্বেড কোড</h2>
+    <CodeBlock code={`[![Get it on onuronOS App Store](https://store.onuron.org/badge.svg)](https://store.onuron.org/apps/YOUR_APP_ID)`} />
+
+    <h2>HTML এম্বেড কোড</h2>
+    <CodeBlock code={`<a href="https://store.onuron.org/apps/YOUR_APP_ID" target="_blank">
+  <img src="https://store.onuron.org/badge.svg" alt="Get it on onuronOS App Store" width="220" />
+</a>`} />
+  </main>
+  <Footer />
+</BaseLayout>

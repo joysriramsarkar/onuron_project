@@ -1,0 +1,34 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+---
+
+<BaseLayout title="Features — onuronOS">
+  <Navbar current="onuronOS" />
+  <main class="container prose section">
+    <h1>onuronOS Features</h1>
+    <p>
+      onuronOS কে গ্রাউন্ড আপ থেকে তৈরি করা হয়েছে আধুনিক ও স্বাধীন কম্পিউটিংয়ের নতুন স্ট্যান্ডার্ড স্থাপনের লক্ষ্যে।
+    </p>
+
+    <h2>কোর বৈশিষ্ঠ্যসমূহ</h2>
+    <ul>
+      <li><strong>মডুলার মাইক্রো/হাইব্রিড কার্নেল ডিজাইন</strong> — বেস সিস্টেম ও ব্যবহারকারীর পছন্দসই ডেস্কটপ লেয়ার আলাদা।</li>
+      <li><strong>বিল্ট-ইন App Store ক্লায়েন্ট</strong> — গিট-ভিত্তিক সেন্ট্রালাইজড ফিড (<code class="mono">store.onuron.org/api/v1</code>) থেকে আপডেট পুল।</li>
+      <li><strong>এন্ড-টু-এন্ড সিগনেচার ভেরিফিকেশন</strong> — প্রতিটি <code class="mono">.onp</code> প্যাকেজ ed25519 সাইনিং ও sha256 দ্বারা সুরক্ষিত।</li>
+      <li><strong>মাল্টি-আর্কিটেকচার সাপোর্ট</strong> — <code class="mono">x86_64</code>, <code class="mono">aarch64</code> (ARM64), এবং পরীক্ষামূলক <code class="mono">riscv64</code>।</li>
+      <li><strong>নেটিভ ল্যাঙ্গুয়েজ ইন্টিগ্রেশন</strong> — alap-framework ও nilLang-এর জন্য আউট-অফ-দ্য-বক্স ফার্স্ট পার্টি রানটাইম সাপোর্ট।</li>
+      <li><strong>গোপনীয়তা ও স্বাধীনতা</strong> — জিরো টেলিমেট্রি, জিরো ব্লোটওয়্যার।</li>
+    </ul>
+
+    <h2>হার্ডওয়্যার প্রয়োজনীয়তা (System Requirements)</h2>
+    <table class="meta">
+      <tr><td>প্রসেসর</td><td>64-bit Dual Core (x86_64 / ARM64)</td></tr>
+      <tr><td>র‍্যাম (RAM)</td><td>ন্যূনতম 1 GB (2 GB বা তদূর্ধ্ব রেকমেন্ডেড)</td></tr>
+      <tr><td>স্টোরেজ</td><td>ন্যূনতম 8 GB ফ্রি স্পেস</td></tr>
+      <tr><td>ডিসপ্লে</td><td>1024x768 বা তদূর্ধ্ব রেজোলিউশন</td></tr>
+    </table>
+  </main>
+  <Footer />
+</BaseLayout>

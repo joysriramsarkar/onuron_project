@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+---
+
+<BaseLayout title="Submit Your App — onuronOS App Store">
+  <Navbar current="App Store" />
+  <main class="container prose section">
+    <h1>App Submission Guide</h1>
+    <p>
+      onuronOS অ্যাপ রেজিস্ট্রিতে আপনার অ্যাপ অন্তর্ভুক্ত করার জন্য একটি বৈধ <code class="mono">manifest.json</code> ফাইল প্রয়োজন।
+    </p>
+
+    <h2>মডেল Manifest এর উদাহরণ</h2>
+    <CodeBlock
+      code={`{
+  "id": "com.example.calculator",
+  "name": "Super Calc",
+  "summary": "দ্রুত ও স্টাইলিশ সায়েন্টিফিক ক্যালকুলেটর",
+  "description": "অনুরণ ওএস এর জন্য তৈরি হাইপার-পারফরম্যান্ট ক্যালকুলেটর অ্যাপ।",
+  "version": "1.0.0",
+  "minOs": "0.9.0",
+  "arch": ["x86_64", "aarch64"],
+  "category": "utilities",
+  "tags": ["calculator", "math", "tools"],
+  "license": "MIT",
+  "developer": {
+    "name": "Your Name / Organization",
+    "email": "dev@example.com",
+    "url": "https://example.com"
+  },
+  "package": {
+    "url": "https://cdn.example.com/packages/calc-1.0.0.onp",
+    "size": 2489120,
+    "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+  },
+  "media": {
+    "icon": "icon.svg",
+    "screenshots": ["shots/screen1.png"]
+  }
+}`}
+    />
+
+    <h2>বাধ্যতামূলক শর্তাবলী</h2>
+    <ul>
+      <li><strong>ID ও ফোল্ডার নেম</strong>: অ্যাপের আইডি রিভার্স-ডোমেইন নোটিশনে (<code class="mono">com.example.app</code>) হতে হবে এবং ফোল্ডারের নামের সাথে হুবহু মিলতে হবে।</li>
+      <li><strong>আইকন</strong>: ন্যূনতম ৫১২x৫১২ ভিউবক্সের ক্লিয়ার ভেক্টর SVG ফরম্যাটে আইকন দিতে হবে।</li>
+      <li><strong>HTTPS URL</strong>: প্যাকেজ ডাউনলোড লিংক অবশ্যই নিরাপদ HTTPS হতে হবে।</li>
+      <li><strong>Content Policy</strong>: অ্যাপে কোনো ম্যালওয়্যার বা অনুমতিহীন টেলিমেট্রি থাকতে পারবে না (<a href="/policy/content">Content Policy পড়ুন</a>)।</li>
+    </ul>
+
+    <div style="margin-top: 24px;">
+      <a class="btn btn-primary" href="https://github.com/joysriramsarkar" target="_blank" rel="noreferrer">
+        GitHub PR সাবমিট করুন ↗
+      </a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

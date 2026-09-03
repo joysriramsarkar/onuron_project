@@ -1,0 +1,111 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import InstallButton from "@onuron/ui/components/InstallButton.astro";
+import { loadApps, getApp, formatBytes } from "../../lib/registry";
+
+export function getStaticPaths() {
+  return loadApps().map((app) => ({ params: { id: app.id } }));
+}
+
+const { id } = Astro.params;
+const app = getApp(id as string);
+
+if (!app) {
+  throw new Error(`App ${id} not found in registry`);
+}
+---
+
+<BaseLayout title={`${app.name} — onuronOS App Store`} description={app.summary}>
+  <Navbar current="App Store" />
+  <main class="container section">
+    <div
+      class="card"
+      style="display: flex; gap: 28px; align-items: center; flex-wrap: wrap; margin-bottom: 36px; padding: 32px;"
+    >
+      <img
+        class="app-icon"
+        style="width: 96px; height: 96px; border-radius: 20px;"
+        src={app.media.iconUrl}
+        alt={`${app.name} icon`}
+      />
+      <div style="flex: 1; min-width: 240px;">
+        <h1 style="margin: 0 0 8px;">{app.name}</h1>
+        <p class="muted" style="font-size: 1.1rem; margin: 0 0 12px;">{app.summary}</p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="badge" style="background: rgba(91, 140, 255, 0.15); color: var(--accent);">
+            {app.category}
+          </span>
+          {app.tags?.map((t) => <span class="badge">#{t}</span>)}
+        </div>
+      </div>
+      <div>
+        <InstallButton appId={app.id} packageUrl={app.package.url} />
+      </div>
+    </div>
+
+    {
+      app.media.screenshotUrls && app.media.screenshotUrls.length > 0 && (
+        <div style="margin-bottom: 40px;">
+          <h2>Screenshots</h2>
+          <div class="shots">
+            {app.media.screenshotUrls.map((s) => (
+              <img src={s} alt={`${app.name} screenshot`} />
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    <div
+      style="display: grid; grid-template-columns: 2fr 1fr; gap: 36px;"
+      class="store-detail"
+    >
+      <div>
+        <h2>বিবরণ</h2>
+        <div class="card" style="line-height: 1.8;">
+          <p style="margin: 0;">{app.description ?? app.summary}</p>
+        </div>
+      </div>
+
+      <div>
+        <h2>টেকনিক্যাল স্পেসিফিকেশন</h2>
+        <div class="card">
+          <table class="meta">
+            <tbody>
+              <tr><td>ভার্সন</td><td class="mono">v{app.version}</td></tr>
+              <tr><td>নূন্যতম ওএস</td><td class="mono">onuronOS ≥ {app.minOs}</td></tr>
+              <tr><td>আর্কিটেকচার</td><td class="mono">{app.arch.join(", ")}</td></tr>
+              <tr><td>প্যাকেজ সাইজ</td><td>{formatBytes(app.package.size)}</td></tr>
+              <tr><td>লাইসেন্স</td><td>{app.license ?? "MIT"}</td></tr>
+              <tr><td>ডেভেলপার</td><td>{app.developer.name}</td></tr>
+              {
+                app.developer.url && (
+                  <tr>
+                    <td>ওয়েবসাইট</td>
+                    <td><a href={app.developer.url} target="_blank" rel="noreferrer">{app.developer.url}</a></td>
+                  </tr>
+                )
+              }
+              <tr>
+                <td>SHA256</td>
+                <td class="mono small" style="word-break: break-all;">{app.package.sha256}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    @media (max-width: 768px) {
+      .store-detail {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+  <Footer />
+</BaseLayout>

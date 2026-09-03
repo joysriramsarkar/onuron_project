@@ -1,0 +1,43 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import Hero from "@onuron/ui/components/Hero.astro";
+import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
+import StoreBadge from "@onuron/ui/components/StoreBadge.astro";
+---
+
+<BaseLayout title="onuronOS — A Modular Open-Source Operating System">
+  <Navbar current="onuronOS" />
+
+  <Hero
+    title="onuronOS"
+    subtitle="হালকা, মডুলার ও নিরাপদ অপারেটিং সিস্টেম — নিজস্ব বিল্ট-ইন App Store ও আধুনিক ইউজার এক্সপেরিয়েন্স সহ।"
+  >
+    <a class="btn btn-primary" href="/download">Download ISO</a>
+    <a class="btn btn-ghost" href="/install">Installation Guide</a>
+    <StoreBadge href="https://store.onuron.org" />
+  </Hero>
+
+  <main>
+    <section class="section container">
+      <h2>কেন onuronOS?</h2>
+      <div class="grid">
+        <FeatureCard
+          title="Modular Architecture"
+          desc="কোর সিস্টেমের ওপর প্রয়োজনমতো মডিউল বাছাই করুন — ন্যূনতম রিসোর্স অপচয়।"
+        />
+        <FeatureCard
+          title="Onuron App Store"
+          desc="ক্রিপ্টোগ্রাফিক সাইন-ভেরিফাইড অ্যাপস, অটো ডিপ-লিঙ্ক ইনস্টল ও ইনস্ট্যান্ট আপডেট।"
+        />
+        <FeatureCard
+          title="Ultra Lightweight"
+          desc="স্বল্প র‍্যাম ও যেকোনো আধুনিক হার্ডওয়্যারে চোখের পলকে সুপার ফাস্ট বুট।"
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

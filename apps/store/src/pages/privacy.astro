@@ -1,0 +1,36 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+---
+
+<BaseLayout title="Privacy Policy — onuronOS App Store">
+  <Navbar current="App Store" />
+  <main class="container prose section">
+    <h1>App Store Privacy Policy</h1>
+    <p>
+      onuronOS App Store একটি প্রাইভেসি-ফার্স্ট আর্কিটেকচারের ওপর প্রতিষ্ঠিত।
+      আমরা কীভাবে ডেটা হ্যান্ডেল করি তা নিচে স্পষ্টভাবে উল্লেখ করা হলো:
+    </p>
+
+    <h2>ক্লায়েন্ট টেলিমেট্রি শূন্য</h2>
+    <p>
+      onuronOS অ্যাপ্লিকেশনের ভেতরে থাকা স্টোর ক্লায়েন্ট কোনো ইউজার আইডি, ব্রাউজিং অভ্যাস বা লোকেশন ডেটা সেন্ট্রাল সার্ভারে পাঠায় না।
+      ক্লায়েন্ট কেবল <code class="mono">/api/v1/index.json</code> ফেচ করে এবং স্থানীয়ভাবে মেটাডাটা প্রসেস করে।
+    </p>
+
+    <h2>আপডেট রিকোয়েস্ট</h2>
+    <p>
+      আপডেট চেকের সময় শুধুমাত্র সিস্টেম আর্কিটেকচার (<code class="mono">x86_64</code> / <code class="mono">aarch64</code>) এবং
+      ওএস সংস্করণ যাচাই করা হয়, যা সম্পূর্ণ অ্যানোনিমাস।
+    </p>
+
+    <h2>প্যাকেজ ডাউনলোড সিডিএন লগ</h2>
+    <p>
+      Cloudflare R2 বা CDN সার্ভারে কেবল ব্যান্ডউইথ ও মৌলিক ক্যাশিং মেট্রিক সংরক্ষিত হয়। কোনো আইপি দীর্ঘমেয়াদে ট্র্যাক বা শেয়ার করা হয় না।
+    </p>
+
+    <p>যেকোনো জিজ্ঞাসায় যোগাযোগ করুন: <strong>privacy@onuron.org</strong></p>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import AppCard from "@onuron/ui/components/AppCard.astro";
+import { loadApps } from "../../lib/registry";
+
+const apps = loadApps();
+---
+
+<BaseLayout title="All Apps — onuronOS App Store">
+  <Navbar current="App Store" />
+  <main class="container section">
+    <div style="margin-bottom: 32px;">
+      <h1>All Apps</h1>
+      <p class="muted">onuronOS এর জন্য উপলব্ধ সকল ভেরিফাইড অ্যাপ খুঁজুন ও ব্রাউজ করুন।</p>
+    </div>
+
+    <div style="margin-bottom: 28px;">
+      <input
+        id="q"
+        class="code"
+        style="width: 100%; padding: 14px 18px; outline: none; border: 1px solid var(--border); border-radius: 12px; font-size: 1rem;"
+        placeholder="🔍 নাম, ক্যাটাগরি বা ট্যাগ লিখে অ্যাপ খুঁজুন…"
+      />
+    </div>
+
+    <div class="grid" id="apps-grid">
+      {apps.map((app) => <AppCard app={app} />)}
+    </div>
+
+    <p id="empty-msg" class="muted" style="display: none; text-align: center; padding: 48px 0;">
+      কোনো অ্যাপ খুঁজে পাওয়া যায়নি। ভিন্ন কি-ওয়ার্ড দিয়ে চেষ্টা করুন।
+    </p>
+  </main>
+
+  <script>
+    const input = document.querySelector<HTMLInputElement>("#q");
+    const emptyMsg = document.querySelector<HTMLElement>("#empty-msg");
+    const cards = document.querySelectorAll<HTMLElement>(".app-card");
+
+    input?.addEventListener("input", () => {
+      const q = input.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach((c) => {
+        const searchData = c.dataset.search ?? "";
+        const matches = searchData.includes(q);
+        c.style.display = matches ? "" : "none";
+        if (matches) visibleCount++;
+      });
+
+      if (emptyMsg) {
+        emptyMsg.style.display = visibleCount === 0 ? "block" : "none";
+      }
+    });
+  </script>
+
+  <Footer />
+</BaseLayout>

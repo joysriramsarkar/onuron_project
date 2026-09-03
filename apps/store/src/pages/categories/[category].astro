@@ -1,0 +1,33 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import AppCard from "@onuron/ui/components/AppCard.astro";
+import { loadApps } from "../../lib/registry";
+
+export function getStaticPaths() {
+  const apps = loadApps();
+  const categories = [...new Set(apps.map((a) => a.category))];
+  return categories.map((category) => ({
+    params: { category },
+    props: { apps: apps.filter((a) => a.category === category) },
+  }));
+}
+
+const { category } = Astro.params;
+const { apps } = Astro.props;
+---
+
+<BaseLayout title={`${category} Apps — onuronOS App Store`}>
+  <Navbar current="App Store" />
+  <main class="container section">
+    <div style="margin-bottom: 32px;">
+      <h1 style="text-transform: capitalize;">{category} Apps</h1>
+      <p class="muted">এই ক্যাটাগরিতে {apps.length}টি অ্যাপ্লিকেশন পাওয়া গেছে।</p>
+    </div>
+    <div class="grid">
+      {apps.map((a) => <AppCard app={a} />)}
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

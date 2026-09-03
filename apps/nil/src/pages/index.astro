@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import Hero from "@onuron/ui/components/Hero.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
+---
+
+<BaseLayout title="nilLang — Simple. Fast. Yours.">
+  <Navbar current="nilLang" />
+
+  <Hero
+    title="nilLang"
+    subtitle="সরল সিনট্যাক্স, মেমোরি সেফটি ও আধুনিক কম্পিউটিংয়ের জন্য তৈরি সাধারণ প্রোগ্রামিং ল্যাঙ্গুয়েজ।"
+  >
+    <a class="btn btn-primary" href="/playground">Try in Playground</a>
+    <a class="btn btn-ghost" href="/syntax">Syntax Guide</a>
+    <a class="btn btn-ghost" href="https://github.com/joysriramsarkar/nilLang" target="_blank" rel="noreferrer">
+      GitHub ↗
+    </a>
+  </Hero>
+
+  <main>
+    <section class="container" style="max-width: 680px; margin-bottom: 48px;">
+      <CodeBlock
+        code={`// nilLang উদাহরণ
+fn greet(name: str) -> str {
+  return "হ্যালো, " + name + "! স্বাগতম nilLang-এ।"
+}
+
+fn main() {
+  let message = greet("Onuron")
+  print(message)
+}`}
+      />
+    </section>
+
+    <section class="section container">
+      <h2>কেন nilLang?</h2>
+      <div class="grid">
+        <FeatureCard
+          title="Clean & Readable"
+          desc="অনাবশ্যক বয়লারপ্লেট মুক্ত পরিচ্ছন্ন কোডিং সিনট্যাক্স।"
+          href="/syntax"
+        />
+        <FeatureCard
+          title="Zero Overhead"
+          desc="নেটিভ মেশিন কোড এবং WebAssembly উভয় ফরম্যাটেই হাই-স্পিড কম্পাইলেশন।"
+          href="/playground"
+        />
+        <FeatureCard
+          title="Designed for Onuron"
+          desc="onuronOS ও alap-framework-এর সাথে হারমনিয়াস ফার্স্ট-পার্টি সাপোর্ট।"
+          href="https://docs.onuron.org"
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

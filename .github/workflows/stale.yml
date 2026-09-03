@@ -1,0 +1,26 @@
+name: Stale Issues & PRs
+
+on:
+  schedule:
+    - cron: "30 2 * * *" # Daily at 02:30 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: "এই ইস্যুটি দীর্ঘ ৬০ দিন ধরে কোনো কার্যকলাপ না থাকায় ইনঅ্যাক্টিভ হিসেবে চিহ্নিত করা হয়েছে। যদি এটি এখনো প্রাসঙ্গিক থাকে, অনুগ্রহ করে একটি কমেন্ট করুন।"
+          stale-pr-message: "এই পুল রিকোয়েস্টে দীর্ঘ ৬০ দিন ধরে কোনো কার্যকলাপ না থাকায় স্টেল হিসেবে চিহ্নিত করা হয়েছে।"
+          close-issue-message: "কোনো পরবর্তী আপডেট না আসায় এই ইস্যুটি স্বয়ংক্রিয়ভাবে ক্লোজ করা হলো।"
+          close-pr-message: "কোনো পরবর্তী আপডেট না আসায় এই পিআরটি স্বয়ংক্রিয়ভাবে ক্লোজ করা হলো।"
+          days-before-stale: 60
+          days-before-close: 7
+          stale-issue-label: "stale"
+          stale-pr-label: "stale"

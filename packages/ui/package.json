@@ -1,0 +1,13 @@
+{
+  "name": "@onuron/ui",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./components/*": "./components/*",
+    "./styles/*": "./styles/*",
+    "./utils/*": "./utils/*"
+  },
+  "dependencies": {
+    "@onuron/store-schema": "workspace:*"
+  }
+}

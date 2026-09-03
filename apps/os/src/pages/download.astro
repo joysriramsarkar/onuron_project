@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+---
+
+<BaseLayout title="Download — onuronOS">
+  <Navbar current="onuronOS" />
+  <main class="container prose section">
+    <h1>Download onuronOS</h1>
+    <p>
+      আপনার কম্পিউটার বা ভার্চুয়াল মেশিনের জন্য onuronOS-এর লেটেস্ট স্ট্যাবল রিলিজ ডাউনলোড করুন।
+    </p>
+
+    <div class="card" style="margin: 24px 0;">
+      <table class="meta">
+        <tr>
+          <td>Stable ISO (x86_64)</td>
+          <td>
+            <a class="btn btn-primary" href="https://cdn.onuron.org/os/onuronos-0.9.2-x86_64.iso">
+              ⬇ Download ISO (850 MB)
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>ARM64 Image (aarch64)</td>
+          <td>
+            <a class="btn btn-ghost" href="https://cdn.onuron.org/os/onuronos-0.9.2-aarch64.img">
+              ⬇ Download IMG (720 MB)
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>ভার্সন</td>
+          <td class="mono">v0.9.2 Beta</td>
+        </tr>
+        <tr>
+          <td>SHA256 Checksum</td>
+          <td class="mono small" style="word-break: break-all;">
+            e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="muted small">
+      ইনস্টলেশনের পূর্বে অবশ্যই ডাউনলোডকৃত ফাইলের SHA256 চেকসাম মিলিয়ে নিন।
+    </p>
+
+    <p style="margin-top: 24px;">
+      <a class="btn btn-ghost" href="/install">→ Installation & Booting Guide পড়ুন</a>
+    </p>
+  </main>
+  <Footer />
+</BaseLayout>

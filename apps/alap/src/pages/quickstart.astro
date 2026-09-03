@@ -1,0 +1,46 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+---
+
+<BaseLayout title="Quick Start — alap-framework">
+  <Navbar current="alap" />
+  <main class="container prose section">
+    <h1>Quick Start Guide</h1>
+    <p>
+      alap-framework দিয়ে মাত্র ২ মিনিটে আপনার প্রথম ডেস্কটপ/সিস্টেম অ্যাপ্লিকেশন তৈরি করুন।
+    </p>
+
+    <h2>১. নতুন প্রজেক্ট তৈরি করুন</h2>
+    <CodeBlock label="$" code="alap init hello-world && cd hello-world" />
+
+    <h2>২. কোড স্ট্রাকচার</h2>
+    <p>প্রধান এন্ট্রি পয়েন্ট <code class="mono">src/main.nil</code> ফাইলে সিম্পল UI ডিফাইন করুন:</p>
+    <CodeBlock code={`// src/main.nil
+fn main() {
+  let win = app.window("Hello Onuron", 520, 360)
+  win.set_background("#0b1020")
+  win.add_label("স্বাগতম, Onuron Ecosystem-এ!", font_size: 18)
+  win.add_button("ক্লিক করুন", on_click: || {
+    print("বোতামে ক্লিক করা হয়েছে!")
+  })
+  app.run()
+}`} />
+
+    <h2>৩. লোকাল ডেভেলপমেন্ট রান</h2>
+    <CodeBlock label="$" code="alap run" />
+
+    <h2>৪. onuronOS প্যাকেজ (.onp) বিল্ড</h2>
+    <p>
+      অ্যাপ বিল্ড করে প্যাকেজিং করতে নিচের কমান্ডটি চালান:
+    </p>
+    <CodeBlock label="$" code="alap build --package onp" />
+    <p>
+      কমান্ডটি সফল হলে <code class="mono">dist/hello-world-1.0.0.onp</code> তৈরি হবে — যা সরাসরি
+      <a href="https://store.onuron.org/developers">onuronOS App Store</a>-এ সাবমিট করার উপযুক্ত।
+    </p>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+import { ECOSYSTEM_URLS } from "../utils/links";
+---
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="brand">
+        <span class="brand-dot">◉</span> onuron
+      </p>
+      <p class="muted small">
+        Open-source ecosystem — operating system, programming language & framework.
+      </p>
+    </div>
+    <div>
+      <h4>Projects</h4>
+      <a href={ECOSYSTEM_URLS.os}>onuronOS</a>
+      <a href={ECOSYSTEM_URLS.alap}>alap-framework</a>
+      <a href={ECOSYSTEM_URLS.nil}>nilLang</a>
+      <a href="https://github.com/joysriramsarkar" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <a href={ECOSYSTEM_URLS.store}>App Store</a>
+      <a href={ECOSYSTEM_URLS.docs}>Documentation</a>
+      <a href={`${ECOSYSTEM_URLS.store}/developers`}>Developer Portal</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href={`${ECOSYSTEM_URLS.main}/privacy`}>Privacy Policy</a>
+      <a href={`${ECOSYSTEM_URLS.main}/terms`}>Terms of Service</a>
+      <a href={`${ECOSYSTEM_URLS.store}/policy/content`}>Content Policy</a>
+      <a href={`${ECOSYSTEM_URLS.store}/policy/dmca`}>DMCA</a>
+    </div>
+  </div>
+  <div class="container muted small" style="margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);">
+    © {new Date().getFullYear()} Onuron Ecosystem. Built with passion for open-source computing.
+  </div>
+</footer>

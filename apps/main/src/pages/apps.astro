@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import Hero from "@onuron/ui/components/Hero.astro";
+import StoreBadge from "@onuron/ui/components/StoreBadge.astro";
+---
+
+<BaseLayout title="Apps — Onuron Ecosystem">
+  <Navbar current="App Store" />
+  <Hero
+    title="onuronOS App Store"
+    subtitle="onuronOS-এর জন্য নির্মিত ও অপ্টিমাইজড অ্যাপসমূহ ব্রাউজ ও ইনস্টল করুন সরাসরি আমাদের স্টোর থেকে।"
+  >
+    <StoreBadge href="https://store.onuron.org" />
+  </Hero>
+
+  <main class="container prose section">
+    <h2>কীভাবে কাজ করে?</h2>
+    <p>
+      onuronOS-এ বিল্ট-ইন App Store ক্লায়েন্ট <code class="mono">store.onuron.org</code> এর API ফিড থেকে
+      স্বয়ংক্রিয়ভাবে অ্যাপ্লিকেশন ক্যাটালগ ও সফটওয়্যার আপডেট ট্র্যাক করে। প্যাকেজ ডাউনলোড করার পর ক্লায়েন্ট
+      SHA256 চেকসাম ও ক্রিপ্টোগ্রাফিক সিগনেচার যাচাই করে নিরাপদ ইনস্টলেশন নিশ্চিত করে।
+    </p>
+
+    <h2>নিরাপত্তা ও প্রাইভেসি</h2>
+    <p>
+      প্রতিটি অ্যাপ স্যান্ডবক্সড এবং পারমিশন-ভিত্তিক। কোনো ব্যাকডোর ট্র্যাকিং বা অযাচিত ডেটা ট্র্যাকার অনুমোদন পায় না।
+    </p>
+
+    <h2>ডেভেলপার পোর্টাল</h2>
+    <p>
+      আপনি কি onuronOS-এর জন্য অ্যাপ বানাচ্ছেন? আপনার অ্যাপটি বিশ্বের কাছে পৌঁছে দিতে ঘুরে আসুন
+      <a href="https://store.onuron.org/developers">Developer Portal</a>-এ।
+    </p>
+  </main>
+  <Footer />
+</BaseLayout>

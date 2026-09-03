@@ -1,0 +1,35 @@
+---
+import { ECOSYSTEM_URLS } from "../utils/links";
+
+export interface Props {
+  current?: string;
+}
+
+const { current = "" } = Astro.props;
+
+const links = [
+  { href: ECOSYSTEM_URLS.main, label: "Home" },
+  { href: ECOSYSTEM_URLS.os, label: "onuronOS" },
+  { href: ECOSYSTEM_URLS.alap, label: "alap" },
+  { href: ECOSYSTEM_URLS.nil, label: "nilLang" },
+  { href: ECOSYSTEM_URLS.store, label: "App Store" },
+  { href: ECOSYSTEM_URLS.docs, label: "Docs" },
+];
+---
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a class="brand" href="https://onuron.org">
+      <span class="brand-dot">◉</span> onuron
+    </a>
+    <nav class="nav-links">
+      {
+        links.map((l) => (
+          <a href={l.href} class:list={{ active: current === l.label }}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

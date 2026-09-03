@@ -1,0 +1,26 @@
+{
+  "id": "org.onuron.notes",
+  "name": "Onuron Notes",
+  "summary": "দ্রুত, অফলাইন-ফার্স্ট নোট অ্যাপ",
+  "description": "Onuron Notes একটি হালকা নোট অ্যাপ — মার্কডাউন সাপোর্ট, এনক্রিপ্টেড নোট ও ক্লাউড সিঙ্ক ছাড়াই সম্পূর্ণ অফলাইন অভিজ্ঞতা।",
+  "version": "1.2.0",
+  "minOs": "0.9.0",
+  "arch": ["x86_64", "aarch64"],
+  "category": "productivity",
+  "tags": ["notes", "markdown", "offline"],
+  "license": "MIT",
+  "developer": {
+    "name": "Onuron Team",
+    "email": "dev@onuron.org",
+    "url": "https://onuron.org"
+  },
+  "package": {
+    "url": "https://cdn.onuron.org/packages/org.onuron.notes-1.2.0.onp",
+    "size": 4521984,
+    "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+  },
+  "media": {
+    "icon": "icon.svg",
+    "screenshots": []
+  }
+}

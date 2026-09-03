@@ -1,0 +1,49 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+---
+
+<BaseLayout title="Developer Portal — onuronOS App Store">
+  <Navbar current="App Store" />
+  <main class="container prose section">
+    <h1>Developer Portal</h1>
+    <p>
+      onuronOS App Store একটি সম্পূর্ণ স্বচ্ছ, ডিক্লারেটিভ এবং Git-ভিত্তিক উন্মুক্ত প্যাকেজ প্ল্যাটফর্ম।
+      কোনো তৃতীয় পক্ষের অ্যাকাউন্ট সাবস্ক্রিপশন বা প্রোপাইটারি সাইনিং ফি নেই।
+    </p>
+
+    <h2>অ্যাপ সাবমিট করার ওয়ার্কফ্লো</h2>
+    <ol>
+      <li>
+        <strong>প্যাকেজ বিল্ড করুন</strong>: <code class="mono">alap build --package onp</code> কমান্ড দিয়ে আপনার অ্যাপকে
+        <code class="mono">.onp</code> ফরম্যাটে প্যাকেজ করুন।
+      </li>
+      <li>
+        <strong>হোস্টিং ও চেকসাম</strong>: প্যাকেজ ফাইলটি কোনো পাবলিক স্টোরেজে (Cloudflare R2, GitHub Releases) আপলোড করে
+        তার SHA256 চেকসাম বের করুন:
+        <div style="margin: 12px 0;">
+          <CodeBlock label="$" code="sha256sum my-app-1.0.0.onp" />
+        </div>
+      </li>
+      <li>
+        <strong>গিটহাব রিপোজিটরি ফর্ক করুন</strong>: <code class="mono">onuron-monorepo</code> ফর্ক করে ক্লোন করুন।
+      </li>
+      <li>
+        <strong>রেজিস্ট্রি ফোল্ডার তৈরি</strong>: <code class="mono">apps/store/public/registry/apps/com.yourname.app/</code>
+        ফোল্ডারে আপনার <code class="mono">manifest.json</code> ও <code class="mono">icon.svg</code> যোগ করুন।
+      </li>
+      <li>
+        <strong>Pull Request খুলুন</strong>: PR সাবমিট করামাত্র আমাদের CI স্বয়ংক্রিয়ভাবে স্কিমা ও ইন্টিগ্রিটি টেস্ট করবে।
+        রিভিউ শেষে মার্জ হওয়ামাত্রই অ্যাপ ওয়েব স্টোর ও কোটি কোটি অনূরণ ওএস ডিভাইসের অ্যাপ স্টোরে লাইভ হয়ে যাবে!
+      </li>
+    </ol>
+
+    <div style="display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap;">
+      <a class="btn btn-primary" href="/developers/submit">বিস্তারিত সাবমিশন গাইড →</a>
+      <a class="btn btn-ghost" href="/developers/badge">অফিসিয়াল স্টোর ব্যাজ কোড →</a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

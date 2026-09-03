@@ -1,0 +1,56 @@
+name: Build & Preview Artifacts
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+concurrency:
+  group: preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-preview:
+    name: Build & Archive Dist Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm approve-builds --all
+
+      - name: Build All Monorepo Sites
+        run: pnpm build
+
+      - name: Upload Main Site Dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-main-site
+          path: apps/main/dist
+          retention-days: 7
+
+      - name: Upload Store Site Dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-store-site
+          path: apps/store/dist
+          retention-days: 7
+
+      - name: Upload Docs Site Dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-docs-site
+          path: apps/docs/dist
+          retention-days: 7

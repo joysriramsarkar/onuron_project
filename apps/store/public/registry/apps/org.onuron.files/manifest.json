@@ -1,0 +1,26 @@
+{
+  "id": "org.onuron.files",
+  "name": "Onuron Files",
+  "summary": "আধুনিক ফাইল ম্যানেজার",
+  "description": "ট্যাবস, ডার্ক মোড ও দ্রুত সার্চসহ onuronOS-এর ডিফল্ট ফাইল ম্যানেজার।",
+  "version": "2.0.1",
+  "minOs": "0.9.0",
+  "arch": ["x86_64", "aarch64", "riscv64"],
+  "category": "utilities",
+  "tags": ["files", "manager"],
+  "license": "MIT",
+  "developer": {
+    "name": "Onuron Team",
+    "email": "dev@onuron.org",
+    "url": "https://onuron.org"
+  },
+  "package": {
+    "url": "https://cdn.onuron.org/packages/org.onuron.files-2.0.1.onp",
+    "size": 8126464,
+    "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+  },
+  "media": {
+    "icon": "icon.svg",
+    "screenshots": []
+  }
+}

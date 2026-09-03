@@ -1,0 +1,52 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import Hero from "@onuron/ui/components/Hero.astro";
+import AppCard from "@onuron/ui/components/AppCard.astro";
+import { loadApps } from "../lib/registry";
+
+const apps = loadApps();
+---
+
+<BaseLayout title="onuronOS App Store — Discover & Install Apps">
+  <Navbar current="App Store" />
+
+  <Hero
+    title="onuronOS App Store"
+    subtitle="ভেরিফাইড ও ক্রিপ্টোগ্রাফিকালি সাইন-করা অ্যাপ্লিকেশন — আপনার onuronOS ডিভাইসের জন্য প্রস্তুত।"
+  >
+    <a class="btn btn-primary" href="/apps">Browse All Apps</a>
+    <a class="btn btn-ghost" href="/developers">Developer Portal</a>
+  </Hero>
+
+  <main>
+    <section class="section container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+        <div>
+          <h2>Featured Apps</h2>
+          <p class="muted small" style="margin: 0;">সর্বাধিক ডাউনলোডকৃত ও প্রথম-সারির অ্যাপস</p>
+        </div>
+        <a href="/apps" class="btn btn-ghost small">সবগুলো দেখুন →</a>
+      </div>
+      <div class="grid">
+        {apps.map((app) => <AppCard app={app} />)}
+      </div>
+    </section>
+
+    <section class="section container" style="background: var(--bg-soft); border-radius: var(--radius); border: 1px solid var(--border); padding: 48px; margin-bottom: 60px;">
+      <div style="max-width: 680px; margin: 0 auto; text-align: center;">
+        <h2>আপনি কি একজন অ্যাপ ডেভেলপার?</h2>
+        <p class="muted">
+          alap-framework অথবা যেকোনো টুলকিট ব্যবহার করে আপনার অ্যাপ তৈরি করুন এবং onuronOS অ্যাপ রেজিস্ট্রি-তে যুক্ত করুন।
+        </p>
+        <div style="display: flex; gap: 14px; justify-content: center; margin-top: 24px; flex-wrap: wrap;">
+          <a class="btn btn-primary" href="/developers">ডেভেলপার গাইড পড়ুন</a>
+          <a class="btn btn-ghost" href="/developers/submit">অ্যাপ সাবমিট করুন</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+---
+
+<BaseLayout title="DMCA & Takedown Policy — onuronOS App Store">
+  <Navbar current="App Store" />
+  <main class="container prose section">
+    <h1>DMCA & Copyright Takedown Policy</h1>
+    <p>
+      আমরা কপিরাইট ও ইন্টেলেকচুয়াল প্রোপার্টি অধিকারের প্রতি পূর্ণ শ্রদ্ধাশীল।
+      onuronOS App Store-এ তালিকাভুক্ত কোনো অ্যাপ যদি আপনার মেধা স্বত্ব লঙ্ঘন করে, তবে আপনি আমাদের সাথে যোগাযোগ করতে পারেন।
+    </p>
+
+    <h2>কপিরাইট নোটিশ পাঠানোর নিয়মাবলী</h2>
+    <p>নোটিশে নিম্নোক্ত তথ্যসমূহ অন্তর্ভুক্ত থাকতে হবে:</p>
+    <ol>
+      <li>যে কাজের কপিরাইট লঙ্ঘিত হয়েছে তার বিস্তারিত বিবরণ।</li>
+      <li>অভিযুক্ত অ্যাপটির নাম ও স্টোর লিঙ্ক (যেমন: <code class="mono">org.example.app</code>)।</li>
+      <li>আপনার সম্পূর্ণ নাম, প্রতিষ্ঠানের নাম, ঠিকানা ও যোগাযোগের ইমেইল।</li>
+      <li>একটি শপথ বিবৃতি (Good Faith Statement) যে উল্লেখিত উপাদানের ব্যবহার কপিরাইট ধারক কর্তৃক অনুমোদিত নয়।</li>
+    </ol>
+
+    <h2>নোটিশ পাঠানোর ঠিকানা</h2>
+    <p>
+      অফিসিয়াল ইমেইল: <strong>dmca@onuron.org</strong>
+    </p>
+    <p class="muted small">
+      বৈধ নোটিশ প্রাপ্তির সর্বোচ্চ ৭২ ঘণ্টার মধ্যে অভিযুক্ত কন্টেন্ট পর্যালোচনা করে যথাযথ ব্যবস্থা গ্রহণ করা হবে।
+    </p>
+  </main>
+  <Footer />
+</BaseLayout>

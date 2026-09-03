@@ -1,0 +1,12 @@
+---
+export interface Props {
+  code: string;
+  label?: string;
+}
+
+const { code, label } = Astro.props;
+---
+
+<div class="code">
+  <code>{label ? `${label}  ` : ""}{code}</code>
+</div>

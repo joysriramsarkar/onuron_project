@@ -1,0 +1,26 @@
+---
+import type { AppManifest } from "@onuron/store-schema";
+import { ECOSYSTEM_URLS } from "../utils/links";
+
+export interface Props {
+  app: AppManifest;
+}
+
+const { app } = Astro.props;
+---
+
+<a
+  class="card app-card"
+  href={`${ECOSYSTEM_URLS.store}/apps/${app.id}`}
+  data-search={`${app.name} ${app.summary} ${app.category} ${(app.tags ?? []).join(" ")}`.toLowerCase()}
+>
+  <img class="app-icon" src={app.media.iconUrl} alt={`${app.name} icon`} width="60" height="60" />
+  <div>
+    <h3>{app.name}</h3>
+    <p class="muted small" style="margin: 0 0 10px;">{app.summary}</p>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <span class="badge">{app.category}</span>
+      <span class="badge">v{app.version}</span>
+    </div>
+  </div>
+</a>

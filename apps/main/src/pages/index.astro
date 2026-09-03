@@ -1,0 +1,1027 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import { ECOSYSTEM_URLS } from "@onuron/ui/utils/links";
+---
+
+<BaseLayout title="Onuron — উন্মুক্ত কম্পিউটিং ইকোসিস্টেম">
+  <Navbar current="Home" />
+
+  <!-- Ambient Light Mesh -->
+  <div class="ambient-glow ambient-blue" style="top: -100px; left: 15%;" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-purple" style="top: 150px; right: 5%;" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-teal" style="top: 600px; left: -50px;" aria-hidden="true"></div>
+
+  <main style="position: relative; z-index: 1;">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <!-- Interactive Constellation Canvas -->
+      <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+
+      <div class="container hero-content">
+        <div class="shimmer-pill">
+          <span class="pulse-dot"></span>
+          <span>Onuron Ecosystem v1.0 • সম্পূর্ণ উন্মুক্ত কম্পিউটিং আর্কিটেকচার</span>
+        </div>
+
+        <h1 class="hero-title">
+          সার্বভৌম কম্পিউটিংয়ের নতুন যুগ
+          <span class="gradient-text hero-subtitle-gradient">OS, প্রোগ্রামিং ল্যাঙ্গুয়েজ ও অ্যাপ ফ্রেমওয়ার্ক</span>
+        </h1>
+
+        <p class="hero-lead">
+          <strong>onuronOS</strong>, <strong>nilLang</strong> এবং <strong>alap-framework</strong> — সম্পূর্ণ ওপেন-সোর্স, উচ্চ-পারফরম্যান্স এবং কোনো ট্র্যাকিং বা ব্লটওয়্যার মুক্ত এক অনন্য কম্পিউটিং প্ল্যাটফর্ম।
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-glow" href={`${ECOSYSTEM_URLS.os}/download`}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            onuronOS ডাউনলোড করুন
+          </a>
+
+          <a class="btn btn-ghost glass-btn" href={ECOSYSTEM_URLS.store}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            App Store এক্সপ্লোর
+          </a>
+
+          <a class="btn btn-ghost" href="https://github.com/joysriramsarkar" target="_blank" rel="noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub ↗
+          </a>
+        </div>
+
+        <!-- INTERACTIVE ECOSYSTEM TERMINAL / CODE INSPECTOR -->
+        <div class="terminal-showcase glass-panel">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="terminal-tabs">
+              <button class="tab-btn active" data-tab="nil">💎 main.nil</button>
+              <button class="tab-btn" data-tab="alap">🎨 App.alap</button>
+              <button class="tab-btn" data-tab="os">⚡ onuronOS.sh</button>
+              <button class="tab-btn" data-tab="store">📦 store-api.json</button>
+            </div>
+            <div class="terminal-actions">
+              <button id="run-demo-btn" class="run-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>রান করুন</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="terminal-body">
+            <!-- Code Tab 1: nilLang -->
+            <pre class="code-tab-content active" id="tab-nil" is:raw><code><span class="code-keyword">import</span> { Window, Button, Label } <span class="code-keyword">from</span> <span class="code-string">"alap/ui"</span>
+<span class="code-keyword">import</span> { Crypto, System } <span class="code-keyword">from</span> <span class="code-string">"onuron/core"</span>
+
+<span class="code-keyword">fn</span> <span class="code-func">main</span>() {
+    <span class="code-comment">// nilLang: মেমরি-নিরাপদ ও উচ্চ-গতিসম্পন্ন সিস্টেম ল্যাঙ্গুয়েজ</span>
+    <span class="code-keyword">let</span> osInfo = System.version()
+    <span class="code-func">print</span>(<span class="code-string">"🚀 Booting Onuron Ecosystem v"</span> + osInfo)
+
+    <span class="code-keyword">let</span> hash = Crypto.sha256(<span class="code-string">"verified-package-payload"</span>)
+    <span class="code-func">print</span>(<span class="code-string">"🔒 Integrity Hash: "</span> + hash.slice(0, 16) + <span class="code-string">"..."</span>)
+}
+
+main()</code></pre>
+
+            <!-- Code Tab 2: alap-framework -->
+            <pre class="code-tab-content" id="tab-alap" is:raw><code><span class="code-keyword">component</span> <span class="code-func">OnuronDashboard</span>() {
+    <span class="code-keyword">state</span> appCount = 42
+    <span class="code-keyword">state</span> status = <span class="code-string">"System Secure"</span>
+
+    <span class="code-keyword">view</span> {
+        &lt;<span class="code-keyword">Window</span> title=<span class="code-string">"onuronOS Control Center"</span> width={800}&gt;
+            &lt;<span class="code-keyword">Header</span> icon=<span class="code-string">"◉"</span> label={status} /&gt;
+            &lt;<span class="code-keyword">Button</span> onClick={() =&gt; appCount++}&gt;
+                ইনস্টলকৃত প্যাকেজ: {appCount}
+            &lt;/<span class="code-keyword">Button</span>&gt;
+        &lt;/<span class="code-keyword">Window</span>&gt;
+    }
+}</code></pre>
+
+            <!-- Code Tab 3: onuronOS -->
+            <pre class="code-tab-content" id="tab-os" is:raw><code><span class="code-comment">#!/bin/sh</span>
+<span class="code-comment"># onuronOS Microkernel Boot Sequence</span>
+<span class="code-keyword">echo</span> <span class="code-string">"[onuronOS] Initializing microkernel memory isolation..."</span>
+sysctl -w kernel.isolation=1
+<span class="code-keyword">echo</span> <span class="code-string">"[onuronOS] Hardware capability verified: x86_64 / ed25519"</span>
+<span class="code-keyword">echo</span> <span class="code-string">"[onuronOS] Starting verified App Store daemon..."</span>
+onuron-store-daemon --port=4325 --verified-only &amp;
+<span class="code-keyword">echo</span> <span class="code-string">"✓ Desktop environment ready in 0.84s"</span></code></pre>
+
+            <!-- Code Tab 4: store-api.json -->
+            <pre class="code-tab-content" id="tab-store" is:raw><code>{
+  <span class="code-string">"version"</span>: <span class="code-string">"1.0.0"</span>,
+  <span class="code-string">"registry"</span>: <span class="code-string">"https://store.onuron.org"</span>,
+  <span class="code-string">"apps"</span>: [
+    {
+      <span class="code-string">"id"</span>: <span class="code-string">"org.onuron.notes"</span>,
+      <span class="code-string">"name"</span>: <span class="code-string">"Onuron Notes"</span>,
+      <span class="code-string">"version"</span>: <span class="code-string">"1.0.0"</span>,
+      <span class="code-string">"verified"</span>: <span class="code-keyword">true</span>,
+      <span class="code-string">"license"</span>: <span class="code-string">"MIT"</span>
+    }
+  ]
+}</code></pre>
+          </div>
+
+          <!-- Interactive Simulator Console Output -->
+          <div id="terminal-console" class="terminal-console">
+            <div class="console-label">Console Output:</div>
+            <div id="console-output" class="console-text">[সিস্টেম প্রস্তুত] "রান করুন" বাটনে ক্লিক করে লাইভ আউটপুট দেখুন...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY STATS SECTION -->
+    <section class="container" style="margin-top: -30px; margin-bottom: 60px;">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">১০০%</div>
+          <div class="stat-label">উন্মুক্ত ও অডিটেবল সোর্স কোড</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">০</div>
+          <div class="stat-label">টেলিমেট্রি, ট্র্যাকিং বা ব্লোটওয়্যার</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">&lt; ১.২s</div>
+          <div class="stat-label">আল্ট্রাফাস্ট মাইক্রোকার্নেল বুট</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">ed25519</div>
+          <div class="stat-label">ক্রিপ্টোগ্রাফিকালি সাইনড প্যাকেজ</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE 3 PILLARS: 3D TILT CARDS -->
+    <section class="section container">
+      <div class="section-head">
+        <span class="section-tag">THE 3 PILLARS</span>
+        <h2 class="section-title">অনুরণ ইকোসিস্টেমের তিনটি মূল স্তম্ভ</h2>
+        <p class="section-desc">অপারেটিং সিস্টেম থেকে প্রোগ্রামিং ভাষা এবং অ্যাপ ফ্রেমওয়ার্ক — প্রতিটি উপাদান একটির সাথে অপরটি নিখুঁতভাবে সমন্বিত।</p>
+      </div>
+
+      <div class="pillars-grid">
+        <!-- Pillar 1: onuronOS -->
+        <div class="motion-card tilt-card" data-tilt>
+          <div class="pillar-icon pillar-icon-blue">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div class="pillar-badge">CORE OPERATING SYSTEM</div>
+          <h3 class="pillar-title">onuronOS</h3>
+          <p class="pillar-desc">
+            হালকা, নিরাপদ এবং আধুনিক মাইক্রোকার্নেল-ভিত্তিক অপারেটিং সিস্টেম। শূন্য টেলিমেট্রি এবং নিজস্ব ভেরিফাইড অ্যাপ স্টোর সহ।
+          </p>
+          <ul class="pillar-list">
+            <li>✓ মেমরি আইসোলেশন ও কনটেইনারাইজড অ্যাপ প্রটেকশন</li>
+            <li>✓ আল্ট্রা-লাইট রিসোর্স খরচ (১ জিবি র‍্যামেই স্বাচ্ছন্দ্যে চলে)</li>
+            <li>✓ সরাসরি <code>onuron://</code> প্রোটোকল ও ক্রিপ্টো চেকসাম ভ্যালিডেশন</li>
+          </ul>
+          <a class="pillar-link" href={ECOSYSTEM_URLS.os}>
+            <span>onuronOS ফিচারস ও ডাউনলোড</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <!-- Pillar 2: nilLang -->
+        <div class="motion-card tilt-card" data-tilt>
+          <div class="pillar-icon pillar-icon-purple">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <div class="pillar-badge">SYSTEMS & APP LANGUAGE</div>
+          <h3 class="pillar-title">nilLang</h3>
+          <p class="pillar-desc">
+            আধুনিক সিস্টেম এবং অ্যাপ্লিকেশন প্রোগ্রামিং ল্যাঙ্গুয়েজ। সহজ পাঠযোগ্য সিনট্যাক্স ও কম্পাইল-টাইম মেমরি সেফটি নিশ্চয়তা।
+          </p>
+          <ul class="pillar-list">
+            <li>✓ কোনো গারবেজ কালেক্টর ওভারহেড ছাড়াই স্মৃতি নিরাপত্তা</li>
+            <li>✓ নেটিভ বাইনারি এবং হাই-স্পিড WebAssembly কম্পাইলেশন</li>
+            <li>✓ ব্রাউজারেই সরাসরি রান করার জন্য লাইভ ইন্টারঅ্যাক্টিভ প্লেগ্রাউন্ড</li>
+          </ul>
+          <a class="pillar-link" href={`${ECOSYSTEM_URLS.nil}/playground`}>
+            <span>ব্রাউজার প্লেগ্রাউন্ড ট্রাই করুন</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <!-- Pillar 3: alap-framework -->
+        <div class="motion-card tilt-card" data-tilt>
+          <div class="pillar-icon pillar-icon-teal">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <div class="pillar-badge">APPLICATION FRAMEWORK</div>
+          <h3 class="pillar-title">alap-framework</h3>
+          <p class="pillar-desc">
+            অনুরণ প্ল্যাটফর্মে দ্রুত, আধুনিক এবং প্রতিক্রিয়াশীল (Reactive) ডেস্কটপ ও ইউটিলিটি অ্যাপ তৈরির জন্য শক্তিশালী ফ্রেমওয়ার্ক।
+          </p>
+          <ul class="pillar-list">
+            <li>✓ ডিক্লোরেটিভ কম্পোনেন্ট আর্কিটেকচার ও স্টেট ম্যানেজমেন্ট</li>
+            <li>✓ হার্ডওয়্যার-অ্যাক্সিলারেটেড 60+ FPS স্মুথ ইউআই রেন্ডারিং</li>
+            <li>✓ nilLang এর সাথে মসৃণ নেটিভ বাইন্ডিং ও প্যাকেজিং</li>
+          </ul>
+          <a class="pillar-link" href={ECOSYSTEM_URLS.alap}>
+            <span>alap কুইকস্টার্ট গাইড</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE STACK VISUALIZER -->
+    <section class="section container">
+      <div class="section-head">
+        <span class="section-tag">SYSTEM ARCHITECTURE</span>
+        <h2 class="section-title">পূর্ণাঙ্গ সার্বভৌম আর্কিটেকচার</h2>
+        <p class="section-desc">হার্ডওয়্যার লেয়ার থেকে শুরু করে অ্যাপ্লিকেশন স্টোরফ্রন্ট পর্যন্ত অনুরুণ কীভাবে কাজ করে:</p>
+      </div>
+
+      <div class="arch-stack glass-panel">
+        <div class="arch-layer" data-layer="store">
+          <div class="arch-badge">LAYER 5</div>
+          <div class="arch-info">
+            <h4>Onuron App Store & Verified Registry</h4>
+            <p>Git-চালিত উন্মুক্ত রেজিস্ট্রি ও ক্রিপ্টোগ্রাফিকালি ভেরিফাইড <code>.onp</code> প্যাকেজ ফিড।</p>
+          </div>
+          <div class="arch-tag">store.onuron.org</div>
+        </div>
+
+        <div class="arch-connector"></div>
+
+        <div class="arch-layer" data-layer="alap">
+          <div class="arch-badge">LAYER 4</div>
+          <div class="arch-info">
+            <h4>alap-framework (UI & Runtime Engine)</h4>
+            <p>ডেস্কটপ উইজেট, রিয়্যাক্টিভ স্টেট এবং গ্লাস-ইউআই রেন্ডারার।</p>
+          </div>
+          <div class="arch-tag">alap.onuron.org</div>
+        </div>
+
+        <div class="arch-connector"></div>
+
+        <div class="arch-layer" data-layer="nil">
+          <div class="arch-badge">LAYER 3</div>
+          <div class="arch-info">
+            <h4>nilLang Native Systems Engine</h4>
+            <p>জিরো-কস্ট অ্যাবস্ট্রাকশন, মেমরি সেফটি ও দ্রুত কম্পাইলেশন ল্যাঙ্গুয়েজ।</p>
+          </div>
+          <div class="arch-tag">nil.onuron.org</div>
+        </div>
+
+        <div class="arch-connector"></div>
+
+        <div class="arch-layer" data-layer="os">
+          <div class="arch-badge">LAYER 2</div>
+          <div class="arch-info">
+            <h4>onuronOS Security Microkernel</h4>
+            <p>হালকা মাইক্রোকার্নেল, হার্ডওয়্যার আইসোলেশন ও সরাসরি সিস্টেম সার্ভিস।</p>
+          </div>
+          <div class="arch-tag">os.onuron.org</div>
+        </div>
+
+        <div class="arch-connector"></div>
+
+        <div class="arch-layer arch-layer-hardware" data-layer="hw">
+          <div class="arch-badge">LAYER 1</div>
+          <div class="arch-info">
+            <h4>Hardware Architecture</h4>
+            <p>x86_64, aarch64 (ARM64), এবং RISC-V আর্কিটেকচারের জন্য নেটিভ অপটিমাইজড।</p>
+          </div>
+          <div class="arch-tag">Bare Metal</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVELOPER CLI INTERACTIVE SNIPPET -->
+    <section class="section container" style="text-align: center;">
+      <div class="cli-box glass-panel">
+        <span class="section-tag" style="margin-bottom: 12px;">QUICK INSTALL</span>
+        <h3 style="margin: 0 0 12px; font-size: 1.8rem;">ডেভেলপমেন্ট শুরু করুন মাত্র এক কমান্ডে</h3>
+        <p class="muted" style="max-width: 580px; margin: 0 auto 24px;">
+          onuronOS টুলচেইন, nilLang কম্পাইলার এবং alap-framework সিএলআই একত্রে ইনস্টল করুন:
+        </p>
+
+        <div class="cli-command-bar">
+          <span class="cli-prompt">$</span>
+          <code id="cli-cmd-text">curl -fsSL https://get.onuron.org | sh</code>
+          <button id="copy-cli-btn" class="cli-copy-btn" title="কমান্ড কপি করুন">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="copy-feedback">কপি</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a class="btn btn-primary" href={ECOSYSTEM_URLS.docs}>ডকুমেন্টেশন ব্রাউজ করুন →</a>
+          <a class="btn btn-ghost" href={`${ECOSYSTEM_URLS.store}/developers/submit`}>অ্যাপ জমা দিন</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* HERO STYLING */
+  .hero-section {
+    position: relative;
+    padding: 90px 0 60px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.55;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-title {
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    line-height: 1.15;
+    margin: 12px 0 20px;
+    font-weight: 800;
+    max-width: 960px;
+  }
+
+  .hero-subtitle-gradient {
+    display: block;
+    margin-top: 8px;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 800;
+  }
+
+  .hero-lead {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--muted);
+    max-width: 780px;
+    margin: 0 auto 36px;
+    line-height: 1.8;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
+  }
+
+  .btn-glow {
+    box-shadow: 0 0 35px rgba(79, 139, 249, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-glow:hover {
+    box-shadow: 0 0 50px rgba(79, 139, 249, 0.65);
+    transform: translateY(-2px);
+  }
+
+  .glass-btn {
+    background: rgba(18, 26, 56, 0.7);
+    border: 1px solid rgba(79, 139, 249, 0.35);
+    backdrop-filter: blur(12px);
+  }
+
+  .glass-btn:hover {
+    background: rgba(26, 38, 80, 0.85);
+    border-color: var(--accent);
+  }
+
+  /* TERMINAL SHOWCASE */
+  .terminal-showcase {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    border-radius: 18px;
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(79, 139, 249, 0.18);
+    transition: transform 0.3s ease;
+  }
+
+  .terminal-header {
+    background: rgba(10, 15, 34, 0.95);
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(46, 64, 120, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+
+  .terminal-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.84rem;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tab-btn:hover {
+    color: var(--text-bright);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+    background: rgba(79, 139, 249, 0.15);
+    font-weight: 600;
+  }
+
+  .run-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 229, 178, 0.15);
+    border: 1px solid rgba(16, 229, 178, 0.4);
+    color: var(--accent-2);
+    padding: 5px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .run-btn:hover {
+    background: rgba(16, 229, 178, 0.25);
+    box-shadow: 0 0 16px rgba(16, 229, 178, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .terminal-body {
+    padding: 24px;
+    background: rgba(7, 10, 22, 0.95);
+    font-family: var(--mono);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    min-height: 220px;
+  }
+
+  .code-tab-content {
+    display: none;
+    margin: 0;
+  }
+
+  .code-tab-content.active {
+    display: block;
+  }
+
+  .code-keyword { color: #f472b6; font-weight: 600; }
+  .code-func { color: #60a5fa; }
+  .code-string { color: #34d399; }
+  .code-comment { color: #64748b; font-style: italic; }
+
+  .terminal-console {
+    background: #030610;
+    border-top: 1px solid rgba(46, 64, 120, 0.5);
+    padding: 14px 20px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+  }
+
+  .console-label {
+    color: #64748b;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .console-text {
+    color: var(--accent-2);
+    min-height: 22px;
+  }
+
+  /* SECTION HEADERS */
+  .section-head {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 48px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  /* PILLARS GRID & 3D TILT CARDS */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 30px;
+  }
+
+  .tilt-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  .pillar-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: transform 0.3s ease;
+  }
+
+  .tilt-card:hover .pillar-icon {
+    transform: scale(1.1) translateZ(20px);
+  }
+
+  .pillar-icon-blue {
+    background: rgba(79, 139, 249, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(79, 139, 249, 0.4);
+    box-shadow: 0 0 20px rgba(79, 139, 249, 0.2);
+  }
+
+  .pillar-icon-purple {
+    background: rgba(157, 92, 255, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(157, 92, 255, 0.4);
+    box-shadow: 0 0 20px rgba(157, 92, 255, 0.2);
+  }
+
+  .pillar-icon-teal {
+    background: rgba(16, 229, 178, 0.15);
+    color: var(--accent-2);
+    border: 1px solid rgba(16, 229, 178, 0.4);
+    box-shadow: 0 0 20px rgba(16, 229, 178, 0.2);
+  }
+
+  .pillar-badge {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .pillar-title {
+    font-size: 1.8rem;
+    margin: 0 0 12px;
+  }
+
+  .pillar-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+
+  .pillar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+    color: #cbd5e1;
+    font-size: 0.92rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pillar-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.96rem;
+    color: var(--text-bright);
+    transition: all 0.2s ease;
+  }
+
+  .pillar-link .arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .tilt-card:hover .pillar-link {
+    color: var(--accent);
+  }
+
+  .tilt-card:hover .pillar-link .arrow {
+    transform: translateX(6px);
+  }
+
+  /* SYSTEM ARCHITECTURE STACK */
+  .arch-stack {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 36px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .arch-layer {
+    background: rgba(18, 27, 58, 0.7);
+    border: 1px solid rgba(56, 78, 145, 0.4);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .arch-layer:hover {
+    background: rgba(28, 42, 88, 0.9);
+    border-color: var(--accent);
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 139, 249, 0.25);
+  }
+
+  .arch-badge {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(79, 139, 249, 0.12);
+    padding: 6px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .arch-info {
+    flex-grow: 1;
+  }
+
+  .arch-info h4 {
+    margin: 0 0 4px;
+    font-size: 1.08rem;
+  }
+
+  .arch-info p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  .arch-tag {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent-2);
+    background: rgba(16, 229, 178, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .arch-connector {
+    width: 2px;
+    height: 16px;
+    background: linear-gradient(180deg, rgba(79, 139, 249, 0.5), rgba(16, 229, 178, 0.5));
+    margin: 0 auto;
+  }
+
+  .arch-layer-hardware {
+    border-style: dashed;
+    background: rgba(10, 16, 36, 0.6);
+  }
+
+  /* CLI QUICK INSTALL BOX */
+  .cli-box {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 36px;
+    border-radius: 20px;
+  }
+
+  .cli-command-bar {
+    background: #040711;
+    border: 1px solid rgba(56, 78, 145, 0.5);
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--text-bright);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .cli-prompt {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .cli-copy-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    margin-left: 12px;
+  }
+
+  .cli-copy-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 60px 0 40px;
+    }
+    .arch-layer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .cli-command-bar {
+      width: 100%;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+      text-align: left;
+    }
+    .cli-copy-btn {
+      margin-left: 0;
+      justify-content: center;
+    }
+  }
+</style>
+
+<!-- SCRIPT: INTERACTIVE PARTICLES CANVAS & INTERACTIVE TERMINAL -->
+<script>
+  // 1. Interactive Constellation Canvas in Hero
+  const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement | null;
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    let width = (canvas.width = canvas.parentElement?.offsetWidth || window.innerWidth);
+    let height = (canvas.height = canvas.parentElement?.offsetHeight || 600);
+
+    window.addEventListener("resize", () => {
+      if (!canvas || !canvas.parentElement) return;
+      width = canvas.width = canvas.parentElement.offsetWidth;
+      height = canvas.height = canvas.parentElement.offsetHeight;
+    });
+
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+    }
+
+    const particles: Particle[] = [];
+    const count = Math.min(45, Math.floor(width / 25));
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 2 + 1,
+      });
+    }
+
+    let mouse = { x: -1000, y: -1000 };
+    window.addEventListener("mousemove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+
+    function draw() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        // Interaction with mouse
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          p.x -= (dx / dist) * 0.8;
+          p.y -= (dy / dist) * 0.8;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(147, 197, 253, 0.45)";
+        ctx.fill();
+
+        // Connect lines
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist2 = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist2 < 110) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(79, 139, 249, ${0.2 * (1 - dist2 / 110)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  // 2. Interactive Terminal Tab Switching
+  const tabs = document.querySelectorAll(".tab-btn");
+  const tabContents = document.querySelectorAll(".code-tab-content");
+  const consoleOutput = document.getElementById("console-output");
+
+  const outputs: Record<string, string> = {
+    nil: "🚀 Booting Onuron Ecosystem v1.0\n🔒 Integrity Hash: 9e107d9d372bb682...\n[Process exited with status 0]",
+    alap: "✓ onuronOS Control Center rendered at 60 FPS\n✓ State synced: appCount = 42, status = 'System Secure'",
+    os: "[onuronOS] Hardware verified: x86_64\n[onuronOS] App Store daemon active on :4325\n✓ Desktop ready in 0.84s",
+    store: "HTTP/1.1 200 OK - Feed verified\n✓ ed25519 signature valid for org.onuron.notes",
+  };
+
+  let activeTab = "nil";
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.classList.remove("active"));
+      tabContents.forEach((c) => c.classList.remove("active"));
+
+      tab.classList.add("active");
+      const target = tab.getAttribute("data-tab");
+      if (target) {
+        activeTab = target;
+        const targetContent = document.getElementById(`tab-${target}`);
+        if (targetContent) targetContent.classList.add("active");
+
+        if (consoleOutput) {
+          consoleOutput.textContent = `[সিস্টেম সুইচ: ${target}] "রান করুন" বাটনে ক্লিক করুন...`;
+        }
+      }
+    });
+  });
+
+  // Run Demo Button
+  const runBtn = document.getElementById("run-demo-btn");
+  if (runBtn && consoleOutput) {
+    runBtn.addEventListener("click", () => {
+      consoleOutput.innerHTML = `<span style="color: #60a5fa;">▶ কম্পাইলিং ও সিমুলেশন চলছে...</span>`;
+      setTimeout(() => {
+        const text = outputs[activeTab] || "Execution completed successfully.";
+        consoleOutput.textContent = text;
+      }, 350);
+    });
+  }
+
+  // Copy CLI command button
+  const copyBtn = document.getElementById("copy-cli-btn");
+  const copyFeedback = document.getElementById("copy-feedback");
+  if (copyBtn && copyFeedback) {
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText("curl -fsSL https://get.onuron.org | sh");
+      copyFeedback.textContent = "কপি হয়েছে!";
+      copyFeedback.style.color = "#10e5b2";
+      setTimeout(() => {
+        copyFeedback.textContent = "কপি";
+        copyFeedback.style.color = "inherit";
+      }, 2000);
+    });
+  }
+
+  // 3. 3D Tilt Cards effect on Mousemove
+  const tiltCards = document.querySelectorAll(".tilt-card");
+  tiltCards.forEach((card) => {
+    card.addEventListener("mousemove", (e: Event) => {
+      const mouseEvent = e as MouseEvent;
+      const htmlCard = card as HTMLElement;
+      const rect = htmlCard.getBoundingClientRect();
+      const x = mouseEvent.clientX - rect.left;
+      const y = mouseEvent.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -7;
+      const rotateY = ((x - centerX) / centerX) * 7;
+
+      htmlCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      const htmlCard = card as HTMLElement;
+      htmlCard.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)";
+    });
+  });
+</script>

@@ -1,0 +1,12 @@
+{
+  "name": "@onuron/store-schema",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/types.ts"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  }
+}

@@ -1,0 +1,19 @@
+---
+export interface Props {
+  appId: string;
+  packageUrl?: string;
+}
+
+const { appId, packageUrl } = Astro.props;
+const deepLink = `onuron://store/install?id=${appId}`;
+---
+
+<div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+    <a class="btn btn-primary" href={deepLink}>⬇ Install on onuronOS</a>
+    {packageUrl && <a class="btn btn-ghost" href={packageUrl} download>Download .onp</a>}
+  </div>
+  <p class="muted small" style="margin-top: 8px;">
+    ডিভাইসে onuronOS থাকলে বাটনে ক্লিক করলে বিল্ট-ইন App Store সরাসরি খুলবে।
+  </p>
+</div>

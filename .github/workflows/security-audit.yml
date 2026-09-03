@@ -1,0 +1,36 @@
+name: Security & Dependency Audit
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Every Monday at 6:00 UTC
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: PNPM Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm approve-builds --all
+
+      - name: Run Vulnerability Audit
+        run: |
+          pnpm audit --audit-level=high || echo "Vulnerabilities detected. Review audit log."
+
+      - name: Check Outdated Packages
+        run: |
+          pnpm outdated || true

@@ -1,0 +1,36 @@
+---
+import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
+import Navbar from "@onuron/ui/components/Navbar.astro";
+import Footer from "@onuron/ui/components/Footer.astro";
+import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
+---
+
+<BaseLayout title="Install — onuronOS">
+  <Navbar current="onuronOS" />
+  <main class="container prose section">
+    <h1>Installation Guide</h1>
+    <p>
+      নিচের ধাপগুলো অনুসরণ করে আপনার ডিভাইসে onuronOS বুট ও ইনস্টল করুন:
+    </p>
+
+    <h2>১. ডাউনলোড ও চেকসাম যাচাই</h2>
+    <p>ISO ফাইলটি ডাউনলোড শেষে টার্মিনালে চেকসাম যাচাই করুন:</p>
+    <CodeBlock label="$" code="sha256sum onuronos-0.9.2-x86_64.iso" />
+
+    <h2>২. বুটেবল USB ড্রাইভ তৈরি</h2>
+    <p>Linux/macOS টার্মিনালে <code class="mono">dd</code> কমান্ড অথবা Rufus/BalenaEtcher ব্যবহার করুন:</p>
+    <CodeBlock label="$" code="sudo dd if=onuronos-0.9.2-x86_64.iso of=/dev/sdX bs=4M status=progress && sync" />
+
+    <h2>৩. BIOS/UEFI থেকে বুট করা</h2>
+    <p>
+      কম্পিউটার রিস্টার্ট দিয়ে বুট মেন্যুতে যান (সাধারণত F12, F11 বা Del চেপে) এবং আপনার USB ড্রাইভ সিলেক্ট করুন।
+    </p>
+
+    <h2>৪. ইনস্টলার রান করা ও প্রথম বুট</h2>
+    <p>
+      লাইভ এনভায়রনমেন্ট চালু হলে ডেস্কটপের <strong>"Install onuronOS"</strong> আইকনে ক্লিক করে নির্দেশিকা পূরণ করুন।
+      ইনস্টলেশন শেষে রিবুট করে স্বয়ংক্রিয়ভাবে বিল্ট-ইন App Store থেকে আপনার পছন্দের অ্যাপস উপভোগ করুন!
+    </p>
+  </main>
+  <Footer />
+</BaseLayout>
