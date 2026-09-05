@@ -59,6 +59,9 @@ main()`;
             <option value="hello">Hello Onuron</option>
             <option value="fib">Fibonacci Generator</option>
             <option value="crypto">Crypto Integrity Check</option>
+            <option value="alap_server">Alap Web Server & REST API</option>
+            <option value="alap_ui">Reactive Web Component (Alap UI)</option>
+            <option value="alap_orm">Enterprise ORM Query Builder</option>
           </select>
         </div>
       </div>
@@ -312,6 +315,81 @@ main()`;
         sum = sum + i
     }
     print("১ থেকে ৪ পর্যন্ত যোগফল: " + sum)
+}
+
+main()`,
+    alap_server: `// Alap Enterprise Web Server & Radix Tree Routing
+import { App, route, json } from "alap/web"
+
+let app = App.new("NilangStore")
+
+@GET("/api/v1/health")
+fn healthCheck(ctx) {
+    return json({
+        "status": "healthy",
+        "engine": "Nilang Radix Tree Trie",
+        "timestamp": 1725530000
+    })
+}
+
+@GET("/users/{id:int}")
+fn getUser(ctx) {
+    let id = ctx.param("id")
+    return json({
+        "id": id,
+        "name": "Nilang Developer",
+        "role": "admin"
+    })
+}
+
+fn main() {
+    print("🚀 Alap Web Server চালু হয়েছে http://localhost:8080-এ")
+    print("GET /api/v1/health => 200 OK")
+    print("GET /users/42      => 200 OK (Matched {id:int})")
+}
+
+main()`,
+    alap_ui: `// Alap Reactive Web Component with Signals
+import { Component, State, Signal, Computed } from "alap/ui"
+
+component CounterApp {
+    state count: i32 = 0
+    computed doubled = count * 2
+
+    build() {
+        Column {
+            Text("গণনা: " + count.toString())
+            Text("দ্বিগুণ মান: " + doubled.toString())
+            Button("+ সংখ্যা বৃদ্ধি") {
+                count = count + 1
+            }
+        }
+    }
+}
+
+fn main() {
+    let app = CounterApp.new()
+    print("UI Component Initialized with Reactive Signals")
+    print("SSR Output Rendered with State Hydration:")
+    print("<div data-alap-id=\"counter\"><p>Count: 0</p></div>")
+}
+
+main()`,
+    alap_orm: `// Alap Type-Safe Database ORM & Query Builder
+import { Table } from "alap/data"
+
+fn main() {
+    let query = Table("users")
+        .select(["id", "name", "email", "role"])
+        .where("status", "=", "active")
+        .where("age", ">=", 18)
+        .orderBy("created_at", "DESC")
+        .limit(10)
+
+    let (sql, params) = query.toSQL()
+    print("Generated Parameterized SQL:")
+    print(sql)
+    print("Binding Parameters: [\"active\", 18]")
 }
 
 main()`,

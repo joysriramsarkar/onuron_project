@@ -10,37 +10,41 @@ import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
   <main class="container prose section">
     <h1>Quick Start Guide</h1>
     <p>
-      alap-framework দিয়ে মাত্র ২ মিনিটে আপনার প্রথম ডেস্কটপ/সিস্টেম অ্যাপ্লিকেশন তৈরি করুন।
+      alap-framework দিয়ে মাত্র ২ মিনিটে আপনার প্রথম ফুল-স্ট্যাক ওয়েব বা ডেস্কটপ অ্যাপ্লিকেশন তৈরি করুন।
     </p>
 
-    <h2>১. নতুন প্রজেক্ট তৈরি করুন</h2>
-    <CodeBlock label="$" code="alap init hello-world && cd hello-world" />
+    <h2>১. নতুন ওয়েব প্রজেক্ট তৈরি করুন</h2>
+    <CodeBlock label="$" code="nil init my-web-app --profile web && cd my-web-app" />
 
-    <h2>২. কোড স্ট্রাকচার</h2>
-    <p>প্রধান এন্ট্রি পয়েন্ট <code class="mono">src/main.nil</code> ফাইলে সিম্পল UI ডিফাইন করুন:</p>
-    <CodeBlock code={`// src/main.nil
-fn main() {
-  let win = app.window("Hello Onuron", 520, 360)
-  win.set_background("#0b1020")
-  win.add_label("স্বাগতম, Onuron Ecosystem-এ!", font_size: 18)
-  win.add_button("ক্লিক করুন", on_click: || {
-    print("বোতামে ক্লিক করা হয়েছে!")
-  })
-  app.run()
-}`} />
+    <h2>২. প্রজেক্ট কনফিগারেশন (alap.yaml)</h2>
+    <CodeBlock code={`name: my-web-app
+version: 1.0.0
+type: web
 
-    <h2>৩. লোকাল ডেভেলপমেন্ট রান</h2>
-    <CodeBlock label="$" code="alap run" />
+entry:
+  server: src/server.nil
+  client: src/client.nil
 
-    <h2>৪. onuronOS প্যাকেজ (.onp) বিল্ড</h2>
+web:
+  ssr: true
+  hydration: true
+  radix_routing: true
+
+database:
+  driver: postgres`} />
+
+    <h2>৩. লাইভ ডেভেলপমেন্ট সার্ভার চালু করুন</h2>
+    <CodeBlock label="$" code="nil dev --port 8080" />
     <p>
-      অ্যাপ বিল্ড করে প্যাকেজিং করতে নিচের কমান্ডটি চালান:
+      ব্রাউজারে ভিজিট করুন: <code class="mono">http://localhost:8080</code> — হট-রিলোড ও Radix Tree রাউটার স্বয়ংক্রিয়ভাবে সক্রিয় হবে।
     </p>
-    <CodeBlock label="$" code="alap build --package onp" />
-    <p>
-      কমান্ডটি সফল হলে <code class="mono">dist/hello-world-1.0.0.onp</code> তৈরি হবে — যা সরাসরি
-      <a href="https://store.onuron.org/developers">onuronOS App Store</a>-এ সাবমিট করার উপযুক্ত।
-    </p>
+
+    <h2>৪. ডেটাবেস স্কিমা মাইগ্রেশন</h2>
+    <CodeBlock label="$" code="nil db migrate" />
+
+    <h2>৫. প্রোডাকশন ওয়েব ও নেটিভ বান্ডেল বিল্ড</h2>
+    <CodeBlock label="$" code="nil build wasm          # WebAssembly ও ক্লায়েন্ট রানটাইম" />
+    <CodeBlock label="$" code="alap build --package onp # onuronOS অ্যাপ স্টোর প্যাকেজ" />
   </main>
   <Footer />
 </BaseLayout>

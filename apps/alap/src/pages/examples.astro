@@ -5,20 +5,30 @@ import Footer from "@onuron/ui/components/Footer.astro";
 import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
 ---
 
-<BaseLayout title="Examples — alap-framework">
+<BaseLayout title="Examples & Showcase — alap-framework">
   <Navbar current="alap" />
   <main class="container section">
     <div class="prose">
       <h1>Examples & Showcase</h1>
       <p>
-        বাস্তব উদাহরণের মাধ্যমে শিখুন কীভাবে alap-framework ব্যবহার করে সম্পূর্ণ কার্যকর অ্যাপস প্রস্তুত করবেন।
+        বাস্তব উদাহরণের মাধ্যমে শিখুন কীভাবে alap-framework ব্যবহার করে এন্টারপ্রাইজ ওয়েব ও সিস্টেম অ্যাপস প্রস্তুত করবেন।
       </p>
     </div>
 
     <div class="grid" style="margin-top: 36px;">
       <FeatureCard
-        title="Todo List App"
-        desc="লোকাল স্টোরেজ, স্টেট ম্যানেজমেন্ট ও ডায়নামিক লিস্ট রেন্ডারিংয়ের পূর্ণাঙ্গ উদাহরণ।"
+        title="Enterprise Full-Stack Web App"
+        desc="Radix Tree রাউটিং, JWT অথেন্টিকেশন, PostgreSQL ORM এবং SSR স্টেট হাইড্রেশনের সম্পূর্ণ উদাহরণ।"
+        href="https://github.com/joysriramsarkar/alap-framework/tree/main/examples/web-app"
+      />
+      <FeatureCard
+        title="Real-Time Collaborative Dashboard"
+        desc="WebSocket ব্রডকাস্টিং, রুম সাবস্ক্রিপশন ও Server-Sent Events (SSE) লাইভ মেট্রিক্স।"
+        href="https://github.com/joysriramsarkar/alap-framework"
+      />
+      <FeatureCard
+        title="Todo List App (Desktop & Web)"
+        desc="লোকাল স্টোরেজ, স্টেট ম্যানেজমেন্ট ও ডায়নামিক লিস্ট রেন্ডারিংয়ের পূর্ণাঙ্গ ক্রস-প্ল্যাটফর্ম উদাহরণ।"
         href="https://github.com/joysriramsarkar/alap-framework/tree/main/examples/todo"
       />
       <FeatureCard

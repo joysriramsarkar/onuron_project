@@ -7,12 +7,12 @@ import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
 import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
 ---
 
-<BaseLayout title="alap-framework — Build Fast, Elegant Apps for Onuron">
+<BaseLayout title="alap-framework — Full-Stack & Cross-Platform Application Framework">
   <Navbar current="alap" />
 
   <Hero
     title="alap-framework"
-    subtitle="onuronOS ও ক্রস-প্ল্যাটফর্মে দ্রুত, আধুনিক ও রিসোর্স-এফিশিয়েন্ট অ্যাপ্লিকেশন বানানোর আধুনিক ফ্রেমওয়ার্ক।"
+    subtitle="ওয়েব, মোবাইল ও onuronOS-এর জন্য এন্টারপ্রাইজ-গ্রেড, ফুল-স্ট্যাক ও মেমরি-সেফ অ্যাপ্লিকেশন ফ্রেমওয়ার্ক।"
   >
     <a class="btn btn-primary" href="/quickstart">Get Started</a>
     <a class="btn btn-ghost" href="https://github.com/joysriramsarkar/alap-framework" target="_blank" rel="noreferrer">
@@ -22,25 +22,58 @@ import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
 
   <main>
     <section class="container" style="max-width: 680px; margin-bottom: 48px;">
-      <CodeBlock label="$" code="alap init my-app && cd my-app && alap run" />
+      <CodeBlock label="$" code="nil init my-web-app --profile web && cd my-web-app && nil dev" />
     </section>
 
     <section class="section container">
-      <h2>ফিচারস</h2>
+      <h2>ওয়েব ও ক্রস-প্ল্যাটফর্ম ফিচারস</h2>
       <div class="grid">
         <FeatureCard
-          title="Instant Scaffolding"
-          desc="একটিমাত্র কমান্ডে সম্পূর্ণ প্রজেক্ট স্ট্রাকচার তৈরি করুন।"
+          title="Radix Tree Routing & Onion Middleware"
+          desc="O(k) কমপ্লেক্সিটিতে প্যারামেট্রিক ও টাইপড কনস্ট্রেইন্ট রাউটিং এবং রিকভারি, CORS, সিকিউরিটি হেডারস পাইপলাইন।"
         />
         <FeatureCard
-          title="Single Packaging"
-          desc=".onp প্যাকেজ আউটপুট — যা সরাসরি onuronOS App Store-এ পাবলিশযোগ্য।"
+          title="Server-Side Rendering (SSR) & Hydration"
+          desc="XSS-সুরক্ষিত সার্ভার রেন্ডারিং এবং window.__NILANG_INITIAL_STATE__ সহ ব্রাউজারে নিমিষে স্টেট হাইড্রেশন।"
         />
         <FeatureCard
-          title="Native nilLang & C Binding"
-          desc="সর্বোচ্চ পারফরম্যান্স ও মেমরি সেফটির জন্য আর্কিটেকচারাল ইন্টিগ্রেশন।"
+          title="Type-Safe ORM & Migrations"
+          desc="PostgreSQL ও SQLite-এর জন্য প্যারামিটারাইজড কুয়েরি বিল্ডার, ট্রানজাকশন ও ভার্সনড স্কিমা মাইগ্রেশন।"
+        />
+        <FeatureCard
+          title="Real-Time WebSocket & SSE"
+          desc="রুম ও ব্রডকাস্টিং সাপোর্ট সহ হাই-পারফরম্যান্স রিয়েলটাইম ড্যাশবোর্ড ও চ্যাট আর্কিটেকচার।"
+        />
+        <FeatureCard
+          title="Enterprise Identity & Auth"
+          desc="বিল্ট-ইন JWT অথেনটিকেশন, ক্রিপ্টোগ্রাফিক সেশন কুকিজ, পাসওয়ার্ড হ্যাশিং ও RBAC পারমিশন চেকিং।"
+        />
+        <FeatureCard
+          title="Single Packaging (.onp & Web)"
+          desc="একই কোডবেস থেকে WebAssembly/JS বান্ডেল এবং onuronOS নেটিভ প্যাকেজ তৈরি।"
         />
       </div>
+    </section>
+
+    <section class="section container" style="max-width: 860px;">
+      <h2>ওয়েব সার্ভিস কোড উদাহরণ</h2>
+      <CodeBlock code={`// server.nil
+import { App, route, json } from "alap/web"
+import { Table } from "alap/data"
+
+let app = App.new("EnterpriseStore")
+
+@GET("/api/v1/users/{id:int}")
+fn getUser(ctx) {
+    let id = ctx.param("id")
+    let user = Table("users").where("id", "=", id).first()
+    return json(user)
+}
+
+fn main() {
+    print("🚀 Server running on http://localhost:8080")
+    app.listen(":8080")
+}`} />
     </section>
   </main>
 
