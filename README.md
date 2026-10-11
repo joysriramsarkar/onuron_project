@@ -1,20 +1,79 @@
-# Onuron Monorepo
-onuron.org · os · alap · nil · docs · store
+# Onuron Central Monorepo
 
-## Setup
-```bash
-pnpm install
-pnpm dev        # সব সাইট একসাথে
-pnpm build      # প্রোডাকশন বিল্ড
-pnpm validate   # app registry ভ্যালিডেশন
+> **onuron.org · os · alap · nil · docs · store**  
+> সম্পূর্ণ উন্মুক্ত ও সার্বভৌম কম্পিউটিং ইকোসিস্টেমের সেন্ট্রাল প্ল্যাটফর্ম, ওয়েব পোর্টাল, ডকুমেন্টেশন এবং অফিশিয়াল অ্যাপ স্টোর রেজিস্ট্রি।
+
+---
+
+## 🌐 ইকোসিস্টেম রিপোজিটরি ম্যাপ (Ecosystem Map)
+
+Onuron ইকোসিস্টেম মূলত একাধিক উচ্চ-দক্ষতাসম্পন্ন ও সমন্বিত প্রজেক্টের সমন্বয়ে গঠিত:
+
+| প্রজেক্ট | বর্ণনা | প্রযুক্তি স্ট্যাক |
+|---|---|---|
+| **`onuronOS`** | স্মার্টফোন ও পিসির জন্য ফ্ল্যাগশিপ অপারেটিং সিস্টেম (`nilinit` PID 1, `NilHAL`, ext4 স্টোরেজ, ডুয়াল অ্যান্ড্রয়েড রানটাইম) | Linux LTS, Rust, C, Shell |
+| **`nilLang`** | মেমরি-নিরাপদ ও আধুনিক সিস্টেম ও অ্যাপ্লিকেশন প্রোগ্রামিং ল্যাঙ্গুয়েজ | Rust, LLVM/Cranelift |
+| **`alap-framework`** | ডিক্লেয়ারেটিভ রিঅ্যাক্টিভ ইউজার ইন্টারফেস ফ্রেমওয়ার্ক ও উইজেট কিট | NilLang, Rust |
+| **`nilos-emulator` (`nilsim`)** | ভার্চুয়াল টাচস্ক্রিন ও সিস্টেম ডেভেলপমেন্ট/টেস্টিং সিমুলেটর | Rust, SDL2 / softbuffer |
+| **`onuron_project`** (This Repo) | সেন্ট্রাল ওয়েব প্ল্যাটফর্ম, মাল্টি-সাইট ডোমেন, ডকুমেন্টেশন ও অ্যাপ স্টোর ফিড | TypeScript, Astro, Turborepo |
+| **অ্যাপ্লিকেশন স্যুট** | ক্যালকুলেটর, ফাইল ম্যানেজার, মিউজিক প্লেয়ার, নোটপ্যাড, পয়েন্ট অব সেল (POS), টার্মিনাল | NilLang, Alap |
+
+---
+
+## 📁 মনোরিপো কাঠামো (Monorepo Structure)
+
+```text
+onuron_project/
+├── apps/
+│   ├── main/          # onuron.org — ব্র্যান্ড পোর্টাল ও ইন্টারেক্টিভ ইকোসিস্টেম ডেমো
+│   ├── os/            # os.onuron.org — onuronOS আর্কিটেকচার, ফিচার ও ডাউনলোড
+│   ├── alap/          # alap.onuron.org — Alap UI ফ্রেমওয়ার্ক ল্যান্ডিং ও গাইড
+│   ├── nil/           # nil.onuron.org — NilLang ভাষা, সিনট্যাক্স ও প্লেগ্রাউন্ড
+│   ├── docs/          # docs.onuron.org — সেন্ট্রালাইজড টেকনিক্যাল ডকুমেন্টেশন (Starlight)
+│   └── store/         # store.onuron.org — অফিসিয়াল অ্যাপ স্টোর ফ্রন্টএন্ড ও REST API ফিড
+├── packages/
+│   ├── ui/            # শেয়ার্ড Astro ডিজাইন সিস্টেম, কম্পোনেন্ট ও কালার টোকেন
+│   └── store-schema/  # App Store Manifest JSON স্কিমা, টাইপ ডেফিনিশন ও ভ্যালিডেটর
+└── package.json
 ```
 
-## Structure
-- `apps/main`: `onuron.org` (ব্র্যান্ড হোমপেজ)
-- `apps/os`: `os.onuron.org` (onuronOS ল্যান্ডিং পেজ)
-- `apps/alap`: `alap.onuron.org` (alap-framework)
-- `apps/nil`: `nil.onuron.org` (nilLang ল্যাঙ্গুয়েজ)
-- `apps/docs`: `docs.onuron.org` (কেন্দ্রীয় ডকুমেন্টেশন - Starlight)
-- `apps/store`: `store.onuron.org` (App Store storefront & OS client API feed)
-- `packages/ui`: শেয়ার্ড Astro কম্পোনেন্ট ও স্টাইল সিস্টেম
-- `packages/store-schema`: App Store Manifest JSON Schema, TS Types ও ভ্যালিডেটর
+---
+
+## 📦 App Store রেজিস্ট্রি (`apps/store`)
+
+অফিসিয়াল অ্যাপ স্টোর ফিড ও প্যাকেজ রেজিস্ট্রি `apps/store/public/registry/apps/`-এ সংরক্ষিত। প্রতিটি অ্যাপ্লিকেশনে ক্রিপ্টোগ্রাফিক ভ্যালিডেশন বাধ্যতামূলক:
+
+- `org.onuron.calculator`: দ্রুতগতির সায়েন্টিফিক ও স্ট্যান্ডার্ড ক্যালকুলেটর।
+- `org.onuron.files`: সম্পূর্ণ ফাইল সিস্টেম ম্যানেজার ও মেটাডেটা ভিউয়ার।
+- `org.onuron.music`: লো-লেটেন্সি অডিও প্লেয়ার ও ব্যাকগ্রাউন্ড সার্ভিস।
+- `org.onuron.notes`: অটোসেভ ও মার্কডাউন সমৃদ্ধ লাইটওয়েট নোটপ্যাড।
+- `org.onuron.pos`: দোকান খাতা ও পয়েন্ট অব সেল ইনভেন্টরি সলিউশন।
+- `org.onuron.terminal`: ফুল-ফিচার্ড সিস্টেম পিটিআই (PTY) টার্মিনাল শেল।
+
+---
+
+## 🚀 লোকাল সেটআপ ও ডেভেলপমেন্ট
+
+```bash
+# ডিপেন্ডেন্সি ইনস্টল
+pnpm install
+
+# সমস্ত পোর্টাল একসাথে লোকালি রান করা
+pnpm dev
+
+# প্রোডাকশন বিল্ড তৈরি
+pnpm build
+
+# অ্যাপ রেজিস্ট্রি ও ম্যানিফেস্ট স্কিমা ভ্যালিডেশন
+pnpm validate
+```
+
+---
+
+## 🔒 সিকিউরিটি ও ভ্যালিডেশন স্ট্যান্ডার্ড
+
+প্রতিটি অ্যাপ্লিকেশনের ম্যানিফেস্টে নিম্নোক্ত শর্তসমূহ কঠোরভাবে মানা হয়:
+1. রিভার্স ডোমেন আইডেন্টিফায়ার (যেমন: `org.onuron.<app>`)।
+2. 64-ক্যারেক্টার দীর্ঘ হেক্সাডেসিমেল SHA-256 ইন্টিগ্রিটি হ্যাশ।
+3. HTTPS রিমোট প্যাকেজ URL বা লোকাল ভ্যালিড পাথ (`.nilax` / `.onp`)।
+4. Ed25519 ক্রিপ্টোগ্রাফিক সাইনিং সমর্থন।

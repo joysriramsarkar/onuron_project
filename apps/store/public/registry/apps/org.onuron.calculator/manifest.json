@@ -1,0 +1,26 @@
+{
+  "id": "org.onuron.calculator",
+  "name": "Onuron Calculator",
+  "summary": "নীলাং ভাষায় তৈরি আধুনিক ক্যালকুলেটর",
+  "description": "ক্যালকুলেটর — নীলাং (NilLang) ও আলাপ (Alap) ফ্রেমওয়ার্কে তৈরি অতি-দ্রুত, রিঅ্যাক্টিভ ও হালকা গাণিতিক অ্যাপ।",
+  "version": "1.0.0",
+  "minOs": "0.9.0",
+  "arch": ["x86_64", "aarch64"],
+  "category": "utilities",
+  "tags": ["calculator", "math", "nillang", "alap"],
+  "license": "MIT",
+  "developer": {
+    "name": "Onuron Team",
+    "email": "dev@onuron.org",
+    "url": "https://onuron.org"
+  },
+  "package": {
+    "url": "https://cdn.onuron.org/packages/org.onuron.calculator-1.0.0.nilax",
+    "size": 3145728,
+    "sha256": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0"
+  },
+  "media": {
+    "icon": "icon.svg",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "org.onuron.pos",
+  "name": "Onuron POS",
+  "summary": "\u09aa\u09af\u09bc\u09c7\u09a8\u09cd\u099f \u0985\u09ab \u09b8\u09c7\u09b2 \u0993 \u0987\u09a8\u09ad\u09c7\u09a8\u09cd\u099f\u09b0\u09bf \u09ae\u09cd\u09af\u09be\u09a8\u09c7\u099c\u09ae\u09c7\u09a8\u09cd\u099f",
+  "description": "Onuron POS \u2014 \u09a8\u09c0\u09b2\u09be\u0982 (NilLang) \u0993 \u0986\u09b2\u09be\u09aa (Alap) \u09ab\u09cd\u09b0\u09c7\u09ae\u0993\u09af\u09bc\u09be\u09b0\u09cd\u0995\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u0985\u09ab\u09b2\u09be\u0987\u09a8-\u09ab\u09be\u09b0\u09cd\u09b8\u09cd\u099f \u0995\u09cd\u09af\u09be\u09b6\u09bf\u09af\u09bc\u09be\u09b0, \u09ac\u09bf\u09b2\u09bf\u0982 \u0993 \u09b8\u09cd\u099f\u0995 \u09ae\u09cd\u09af\u09be\u09a8\u09c7\u099c\u09ae\u09c7\u09a8\u09cd\u099f \u09b8\u09ae\u09be\u09a7\u09be\u09a8\u0964",
+  "version": "1.0.0",
+  "minOs": "0.9.0",
+  "arch": [
+    "x86_64",
+    "aarch64"
+  ],
+  "category": "productivity",
+  "tags": [
+    "pos",
+    "business",
+    "billing",
+    "inventory"
+  ],
+  "license": "MIT",
+  "developer": {
+    "name": "Onuron Team",
+    "email": "dev@onuron.org",
+    "url": "https://onuron.org"
+  },
+  "package": {
+    "url": "https://cdn.onuron.org/packages/org.onuron.pos-1.0.0.nilax",
+    "size": 5242880,
+    "sha256": "cf88e12568c6f3b752d86e21f8cae3ac79cb27dfd38beb951f0aeb5d8d8407cd"
+  },
+  "media": {
+    "icon": "icon.svg",
+    "screenshots": []
+  }
+}

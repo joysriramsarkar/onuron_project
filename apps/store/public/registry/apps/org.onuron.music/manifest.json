@@ -1,0 +1,34 @@
+{
+  "id": "org.onuron.music",
+  "name": "Onuron Music",
+  "summary": "\u09a8\u09c0\u09b2\u09be\u0982 \u09ae\u09bf\u0989\u099c\u09bf\u0995 \u2014 \u09a8\u09c7\u099f\u09bf\u09ad \u0985\u09a1\u09bf\u0993 \u09aa\u09cd\u09b2\u09c7\u09af\u09bc\u09be\u09b0",
+  "description": "\u09a8\u09c0\u09b2\u09be\u0982 \u09ae\u09bf\u0989\u099c\u09bf\u0995 \u2014 \u0985\u09a8\u09c1\u09b0\u09c1\u09a3 \u0993\u098f\u09b8\u09c7\u09b0 \u099c\u09a8\u09cd\u09af \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u09a8\u09c0\u09b2\u09be\u0982 \u09ad\u09be\u09b7\u09be\u09af\u09bc \u09a4\u09c8\u09b0\u09bf \u0986\u09a7\u09c1\u09a8\u09bf\u0995 \u09b9\u09be\u0987-\u09ab\u09be\u0987 \u09ae\u09bf\u0989\u099c\u09bf\u0995 \u0993 \u0985\u09a1\u09bf\u0993 \u09b8\u09cd\u099f\u09cd\u09b0\u09bf\u09ae\u09bf\u0982 \u0985\u09cd\u09af\u09be\u09aa\u0964",
+  "version": "1.0.0",
+  "minOs": "0.9.0",
+  "arch": [
+    "x86_64",
+    "aarch64"
+  ],
+  "category": "media",
+  "tags": [
+    "music",
+    "audio",
+    "streaming",
+    "nillang"
+  ],
+  "license": "MIT",
+  "developer": {
+    "name": "Onuron Team",
+    "email": "dev@onuron.org",
+    "url": "https://onuron.org"
+  },
+  "package": {
+    "url": "https://cdn.onuron.org/packages/org.onuron.music-1.0.0.nilax",
+    "size": 11756428,
+    "sha256": "baa3c6848fb1454441dd38998f059884a8187ff384d285a8353074612ef8d31f"
+  },
+  "media": {
+    "icon": "icon.svg",
+    "screenshots": []
+  }
+}

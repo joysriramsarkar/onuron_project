@@ -1,0 +1,26 @@
+{
+  "id": "org.onuron.terminal",
+  "name": "Onuron Terminal",
+  "summary": "অনুরণ নেটিভ মোবাইল টার্মিনাল",
+  "description": "Onuron Terminal — অনুরুণ ওএসের সম্পূর্ণ ক্ষমতাসম্পন্ন লিনাক্স কমান্ড-লাইন ও সিস্টেম কন্ট্রোল টার্মিনাল।",
+  "version": "1.0.0",
+  "minOs": "0.9.0",
+  "arch": ["x86_64", "aarch64"],
+  "category": "development",
+  "tags": ["terminal", "shell", "bash", "cli"],
+  "license": "GPL-3.0",
+  "developer": {
+    "name": "Onuron Team",
+    "email": "dev@onuron.org",
+    "url": "https://onuron.org"
+  },
+  "package": {
+    "url": "https://cdn.onuron.org/packages/org.onuron.terminal-1.0.0.nilax",
+    "size": 3523205,
+    "sha256": "d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0123456"
+  },
+  "media": {
+    "icon": "icon.svg",
+    "screenshots": []
+  }
+}
