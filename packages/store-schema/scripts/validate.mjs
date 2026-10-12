@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import zlib from "node:zlib";
 
 function findRoot(dir) {
   let d = dir;
@@ -16,6 +17,7 @@ const STORE_PUBLIC = path.join(findRoot(process.cwd()), "apps/store/public");
 const CATS = ["productivity", "utilities", "media", "games", "development", "communication", "education", "security"];
 const ARCHES = ["x86_64", "aarch64", "riscv64"];
 const PACKAGE_EXTENSIONS = [".nilax", ".onp"];
+const RELEASE_STAGES = ["reference", "preview", "stable"];
 const SEMVER_RE = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const TRUSTED_KEYS_FILE = path.join(import.meta.dirname, "..", "trusted-keys.json");
 const DOWNLOAD_TIMEOUT_MS = 15000;
@@ -81,6 +83,135 @@ function placeholderReason(sha256) {
     if (run >= 10) return "sequential hex pattern (e.g. \"a1b2c3d4...\")";
   }
   return null;
+}
+
+// ---------------------------------------------------------------------------
+// Minimal tar reader (no external dependency)
+//
+// `.nilax`/`.onp` packages are uncompressed tar archives. We read the archive
+// so the release gate can confirm the *packed* manifest describes the same app
+// (id, version, entry point, permissions) as the published release manifest,
+// instead of trusting the wrapper alone.
+// ---------------------------------------------------------------------------
+
+function cstr(buf) {
+  const end = buf.indexOf(0);
+  return buf.subarray(0, end === -1 ? buf.length : end).toString("utf8");
+}
+
+function readTar(buf) {
+  const entries = new Map();
+  let off = 0;
+  let longName = null;
+  while (off + 512 <= buf.length) {
+    const header = buf.subarray(off, off + 512);
+    off += 512;
+    if (header.every((b) => b === 0)) break; // end-of-archive marker
+    const size = parseInt(cstr(header.subarray(124, 136)).trim(), 8) || 0;
+    const type = String.fromCharCode(header[156] || 0x30);
+    const prefix = cstr(header.subarray(345, 500));
+    const base = cstr(header.subarray(0, 100));
+    const dataStart = off;
+    off += Math.ceil(size / 512) * 512;
+    if (dataStart + size > buf.length) throw new Error("truncated tar entry");
+    if (type === "x" || type === "g") continue; // PAX metadata
+    if (type === "L") {
+      longName = cstr(buf.subarray(dataStart, dataStart + size)).replace(/\0+$/, "");
+      continue;
+    }
+    const name = longName ?? (prefix ? `${prefix}/${base}` : base);
+    longName = null;
+    if (!name) continue;
+    entries.set(name.replace(/^\.\//, ""), buf.subarray(dataStart, dataStart + size));
+  }
+  return entries;
+}
+
+// `.nilax` universal bundles are ZIP archives (`.onp` packages are tar). Read
+// the central directory so entry sizes are authoritative even when the local
+// header uses a data descriptor.
+function readZip(buf) {
+  let eocd = -1;
+  const minPos = Math.max(0, buf.length - 65557);
+  for (let i = buf.length - 22; i >= minPos; i--) {
+    if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd === -1) throw new Error("not a ZIP archive");
+  const count = buf.readUInt16LE(eocd + 10);
+  let off = buf.readUInt32LE(eocd + 16);
+  const entries = new Map();
+  for (let i = 0; i < count; i++) {
+    if (buf.readUInt32LE(off) !== 0x02014b50) throw new Error("corrupt ZIP central directory");
+    const method = buf.readUInt16LE(off + 10);
+    const compSize = buf.readUInt32LE(off + 20);
+    const nameLen = buf.readUInt16LE(off + 28);
+    const extraLen = buf.readUInt16LE(off + 30);
+    const commentLen = buf.readUInt16LE(off + 32);
+    const localOff = buf.readUInt32LE(off + 42);
+    const name = buf.subarray(off + 46, off + 46 + nameLen).toString("utf8");
+    off += 46 + nameLen + extraLen + commentLen;
+    const lNameLen = buf.readUInt16LE(localOff + 26);
+    const lExtraLen = buf.readUInt16LE(localOff + 28);
+    const dataStart = localOff + 30 + lNameLen + lExtraLen;
+    const raw = buf.subarray(dataStart, dataStart + compSize);
+    const data = method === 0 ? raw : method === 8 ? zlib.inflateRawSync(raw) : null;
+    if (data === null) throw new Error(`unsupported ZIP compression method ${method}`);
+    entries.set(name.replace(/^\.\//, ""), data);
+  }
+  return entries;
+}
+
+function readArchive(buf) {
+  if (buf.length >= 4 && buf.readUInt32LE(0) === 0x04034b50) return readZip(buf);
+  return readTar(buf);
+}
+
+// verifyArchive cross-checks the packed manifest against the release manifest.
+function verifyArchive(app, m, buf) {
+  let entries;
+  try {
+    entries = readArchive(buf);
+  } catch (e) {
+    err(app, `package archive unreadable: ${e.message}`);
+    return;
+  }
+  const mfBuf = entries.get("manifest.json");
+  if (!mfBuf) {
+    err(app, "package archive has no manifest.json — not a valid package");
+    return;
+  }
+  let inner;
+  try {
+    inner = JSON.parse(mfBuf.toString("utf8"));
+  } catch {
+    err(app, "package archive manifest.json is not valid JSON");
+    return;
+  }
+
+  const innerId = inner.app_name ?? inner.id;
+  const innerVer = inner.app_version ?? inner.version;
+  if (innerId !== m.id) err(app, `packed app id "${innerId}" does not match manifest id "${m.id}"`);
+  if (innerVer !== m.version) err(app, `packed app version "${innerVer}" does not match manifest version "${m.version}"`);
+
+  const declared = Array.isArray(m.permissions) ? m.permissions : [];
+  for (const p of inner.permissions ?? []) {
+    if (!declared.includes(p)) {
+      err(app, `packed app requests permission "${p}" not declared in manifest.permissions`);
+    }
+  }
+
+  let entry = inner.entry_bytecode ?? inner.entry;
+  if (!entry && innerId) {
+    const guess = `bin/${innerId}`; // nilpkg (.onp) layout
+    if (entries.has(guess)) entry = guess;
+  }
+  if (!entry) {
+    err(app, "packed manifest declares no entry point (entry_bytecode)");
+  } else if (!entries.has(entry)) {
+    err(app, `packed entry point "${entry}" is missing from the archive`);
+  } else if (entries.get(entry).length === 0) {
+    err(app, `packed entry point "${entry}" is empty`);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -166,12 +297,11 @@ async function verifyPackage(app, m) {
       res = await fetch(m.package.url, { signal: ctrl.signal, redirect: "follow" });
       clearTimeout(timer);
     } catch (e) {
-      // CDN may not be deployed yet — warn, don't fail.
-      warn(app, `package URL unreachable (${m.package.url}): ${e.message} — skipping download verification`);
+      err(app, `package URL unreachable (${m.package.url}): ${e.message} — a published remote package must be downloadable`);
       return;
     }
     if (!res.ok) {
-      warn(app, `package URL returned HTTP ${res.status} — skipping download verification`);
+      err(app, `package URL returned HTTP ${res.status} (${m.package.url})`);
       return;
     }
     buf = Buffer.from(await res.arrayBuffer());
@@ -187,6 +317,7 @@ async function verifyPackage(app, m) {
     err(app, `sha256 mismatch: manifest says ${m.package.sha256}, actual ${actual}`);
   }
   if (m.package.signature) verifySignature(app, m, buf);
+  verifyArchive(app, m, buf);
 }
 
 // ---------------------------------------------------------------------------
@@ -240,8 +371,31 @@ for (const dir of fs.readdirSync(REG)) {
       err(dir, "package.path must be a relative path inside apps/store/public");
     }
   }
-  if (m.package?.signature !== undefined && !m.package?.signer) {
-    err(dir, "package.signature present but package.signer is missing");
+  // --- signature is mandatory for every published package --------------------
+  // A package with no verifiable publisher identity must never reach the
+  // registry. Both halves are required: the signature and the key id it names.
+  if (!m.package?.signature) {
+    err(dir, "package.signature is required — every published package must be signed");
+  } else if (Buffer.from(m.package.signature, "base64").length !== 64) {
+    err(dir, "package.signature must be a base64-encoded Ed25519 signature (64 bytes)");
+  }
+  if (!m.package?.signer) {
+    err(dir, "package.signer is required — it names the trusted publisher key");
+  }
+
+  // --- declared permissions (cross-checked against the packed manifest) ------
+  if (m.permissions !== undefined) {
+    if (!Array.isArray(m.permissions) || m.permissions.some((p) => typeof p !== "string")) {
+      err(dir, "permissions must be an array of strings");
+    }
+  }
+
+  // --- release stage ---------------------------------------------------------
+  // Published apps are labelled honestly. "reference" marks the built-in
+  // reference/developer-preview apps that demonstrate the platform rather than
+  // shipping as finished products.
+  if (m.releaseStage !== undefined && !RELEASE_STAGES.includes(m.releaseStage)) {
+    err(dir, `releaseStage must be one of ${RELEASE_STAGES.join(", ")}`);
   }
 
   if (!CATS.includes(m.category)) err(dir, "bad category");
@@ -277,8 +431,7 @@ if (errors.length) {
 }
 
 if (VERIFY) {
-  const skipped = manifests.length - verifiedCount;
-  console.log(`✅ Registry valid (${verifiedCount} packages verified, ${skipped} skipped)`);
+  console.log(`✅ Registry valid (${verifiedCount}/${manifests.length} packages verified)`);
 } else {
   console.log("✅ Registry valid");
 }

@@ -8,6 +8,15 @@ export type Category =
   | "education"
   | "security";
 
+/**
+ * Honest release label for a published app.
+ * - `reference` — built-in reference / developer-preview app used to
+ *   demonstrate the platform, not a finished product.
+ * - `preview`   — feature-complete enough to try, still changing.
+ * - `stable`    — production-ready, covered by the end-to-end release gate.
+ */
+export type ReleaseStage = "reference" | "preview" | "stable";
+
 export interface AppManifest {
   id: string;
   name: string;
@@ -19,6 +28,17 @@ export interface AppManifest {
   category: Category;
   tags?: string[];
   license?: string;
+  /**
+   * Honest release label. Reference apps are built-in demo apps; they are not
+   * presented as finished products. Defaults to `stable` when omitted.
+   */
+  releaseStage?: ReleaseStage;
+  /**
+   * Capabilities the published app is allowed to request (e.g. `stdout`,
+   * `storage.read`). The release gate requires this to be a superset of the
+   * capabilities found in the packed package manifest.
+   */
+  permissions?: string[];
   developer: {
     name: string;
     email?: string;
@@ -37,15 +57,16 @@ export interface AppManifest {
     sha256: string;
     /**
      * Base64-encoded Ed25519 signature over the raw package bytes.
-     * Verified against the trusted publisher key identified by `signer`
-     * when the validator runs with `--verify`.
+     * Mandatory for every published package: the release gate rejects an
+     * unsigned entry. Verified against the trusted publisher key named by
+     * `signer`.
      */
-    signature?: string;
+    signature: string;
     /**
      * Identifier of the trusted key in `packages/store-schema/trusted-keys.json`
-     * used to verify `signature`. Required when `signature` is present.
+     * used to verify `signature`. Mandatory for every published package.
      */
-    signer?: string;
+    signer: string;
   };
   media: {
     icon: string;

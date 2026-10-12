@@ -8,7 +8,9 @@
   "arch": ["x86_64", "aarch64"],
   "category": "development",
   "tags": ["terminal", "shell", "bash", "cli"],
-  "license": "GPL-3.0",
+  "license": "AGPL-3.0",
+  "releaseStage": "reference",
+  "permissions": ["stdout"],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",

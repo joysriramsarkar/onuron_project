@@ -37,6 +37,11 @@ if (!app) {
           <span class="badge" style="background: rgba(91, 140, 255, 0.15); color: var(--accent);">
             {app.category}
           </span>
+          {app.releaseStage === "reference" && (
+            <span class="badge badge-amber" title="Reference / developer-preview app">
+              Reference App
+            </span>
+          )}
           {app.tags?.map((t) => <span class="badge">#{t}</span>)}
         </div>
       </div>
@@ -78,7 +83,10 @@ if (!app) {
               <tr><td>নূন্যতম ওএস</td><td class="mono">onuronOS ≥ {app.minOs}</td></tr>
               <tr><td>আর্কিটেকচার</td><td class="mono">{app.arch.join(", ")}</td></tr>
               <tr><td>প্যাকেজ সাইজ</td><td>{formatBytes(app.package.size)}</td></tr>
-              <tr><td>লাইসেন্স</td><td>{app.license ?? "MIT"}</td></tr>
+              <tr><td>রিলিজ স্টেজ</td><td>{app.releaseStage === "reference" ? "Reference / Developer Preview" : app.releaseStage ?? "stable"}</td></tr>
+              <tr><td>অনুমতি</td><td class="mono small">{(app.permissions ?? []).join(", ") || "—"}</td></tr>
+              <tr><td>সিগনেচার</td><td class="mono small">{app.package.signer ? `Ed25519 (${app.package.signer})` : "—"}</td></tr>
+              <tr><td>লাইসেন্স</td><td>{app.license ?? "AGPL-3.0"}</td></tr>
               <tr><td>ডেভেলপার</td><td>{app.developer.name}</td></tr>
               {
                 app.developer.url && (

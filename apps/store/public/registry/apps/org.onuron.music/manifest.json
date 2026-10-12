@@ -16,7 +16,9 @@
     "streaming",
     "nillang"
   ],
-  "license": "MIT",
+  "license": "AGPL-3.0",
+  "releaseStage": "reference",
+  "permissions": ["stdout"],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",

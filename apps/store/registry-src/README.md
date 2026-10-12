@@ -4,6 +4,13 @@ These are the **reference NilLang sources** for the apps published in the Onuron
 Store registry (`apps/store/public/registry/apps/`). They are kept here so every
 published package is reproducible from source, not just an opaque binary blob.
 
+> These apps are **Reference Apps / Developer Preview**. Their manifests carry
+> `"releaseStage": "reference"`. They demonstrate the platform end to end
+> (package format, signing, install, launch) rather than shipping as finished
+> products. A single one of them (e.g. Calculator or Notes) is meant to be
+> raised to a truly interactive, persistent reference app first; the rest
+> follow the same pattern afterwards.
+
 Layout mirrors a standard NilLang project:
 
 ```
@@ -54,10 +61,17 @@ Paste the printed signature into the manifest as `package.signature` and set
 
 ```sh
 pnpm --filter @onuron/store-schema validate          # schema + format checks
-pnpm --filter @onuron/store-schema validate:verify   # + size, SHA-256, signature
+pnpm --filter @onuron/store-schema validate:verify   # + size, SHA-256, signature, archive
 ```
 
 `validate:verify` reads each package from its committed `package.path` (inside
 `apps/store/public`), so it verifies the exact bytes that will be served without
-depending on the CDN being deployed. When `package.path` is absent it falls back
-to downloading `package.url`.
+depending on the CDN being deployed. The release gate is strict:
+
+- `package.signature` and `package.signer` are **mandatory**. An unsigned entry
+  fails validation.
+- The archive is opened and its packed `manifest.json` is compared with the
+  published manifest: id, version, entry point and permissions must match.
+- When `package.path` is absent the package is downloaded from `package.url`.
+  An unreachable URL or a non-2xx response is a **failure**, not a skip — a
+  published remote package must be downloadable and verifiable.

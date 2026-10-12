@@ -26,6 +26,8 @@ import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
   "category": "utilities",
   "tags": ["calculator", "math", "tools"],
   "license": "MIT",
+  "releaseStage": "preview",
+  "permissions": ["stdout"],
   "developer": {
     "name": "Your Name / Organization",
     "email": "dev@example.com",
@@ -51,6 +53,9 @@ import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
       <li><strong>আইকন</strong>: ন্যূনতম ৫১২x৫১২ ভিউবক্সের ক্লিয়ার ভেক্টর SVG ফরম্যাটে আইকন দিতে হবে।</li>
       <li><strong>HTTPS URL</strong>: প্যাকেজ ডাউনলোড লিংক অবশ্যই নিরাপদ HTTPS হতে হবে।</li>
       <li><strong>Content Policy</strong>: অ্যাপে কোনো ম্যালওয়্যার বা অনুমতিহীন টেলিমেট্রি থাকতে পারবে না (<a href="/policy/content">Content Policy পড়ুন</a>)।</li>
+      <li><strong>স্বাক্ষর বাধ্যতামূলক</strong>: প্রতিটি প্রকাশিত প্যাকেজে <code class="mono">package.signature</code> ও <code class="mono">package.signer</code> দুটোই থাকতে হবে। স্বাক্ষরহীন এন্ট্রি release gate প্রত্যাখ্যান করে।</li>
+      <li><strong>প্যাকেজ মিল</strong>: archive-এর ভিতরের <code class="mono">manifest.json</code>-এর id, version, entry point ও permissions অবশ্যই প্রকাশিত manifest-এর সাথে মিলবে।</li>
+      <li><strong>বাস্তব bytes যাচাই</strong>: release gate প্যাকেজের প্রকৃত size, SHA-256 ও Ed25519 স্বাক্ষর যাচাই করে। remote URL অপ্রাপ্য হলে সেটি ব্যর্থ verification, বাদ দেওয়া হয় না।</li>
     </ul>
 
     <div style="margin-top: 24px;">

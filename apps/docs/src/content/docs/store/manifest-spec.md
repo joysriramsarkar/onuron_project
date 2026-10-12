@@ -15,10 +15,14 @@ Onuron App Store এ প্রতিটি অ্যাপ্লিকেশন�
 | `summary` | `string` | হ্যাঁ | অ্যাপের এক লাইনের সংক্ষিপ্ত বিবরণ (১০ থেকে ১২০ অক্ষর) |
 | `description` | `string` | হ্যাঁ | অ্যাপের পূর্ণাঙ্গ বিবরণ |
 | `category` | `string` | হ্যাঁ | অনুমোদিত ক্যাটাগরি তালিকা থেকে একটি |
-| `license` | `string` | হ্যাঁ | ওপেন-সোর্স লাইসেন্স (যেমন `MIT`, `GPL-3.0`, `Apache-2.0`) |
+| `license` | `string` | হ্যাঁ | ওপেন-সোর্স লাইসেন্স (যেমন `AGPL-3.0`, `MIT`, `Apache-2.0`) |
+| `releaseStage` | `string` | না | প্রকাশনার সৎ লেবেল: `reference`, `preview` বা `stable` (ডিফল্ট `stable`) |
+| `permissions` | `string[]` | না | অ্যাপ যে capability চায়; প্যাকেজের ভিতরের manifest-এর superset হতে হবে |
 | `developer` | `object` | হ্যাঁ | `name` এবং `website` ফিল্ড সহ অবজেক্ট |
-| `package` | `object` | হ্যাঁ | `arch`, `url`, `sha256` ফিল্ড সহ অবজেক্ট |
+| `package` | `object` | হ্যাঁ | `url`, `size`, `sha256`, `signature`, `signer` (ও ঐচ্ছিক `path`) ফিল্ড সহ অবজেক্ট |
 | `media` | `object` | হ্যাঁ | `iconUrl` এবং `screenshots` অ্যারে |
+
+> **বাধ্যতামূলক:** প্রতিটি প্রকাশিত প্যাকেজে `package.signature` ও `package.signer` থাকতে হবে। Release gate archive-এর ভিতরের `manifest.json`-এর id, version, entry point ও permissions প্রকাশিত manifest-এর সাথে মিলিয়ে দেখে; মিল না থাকলে, বা remote URL অপ্রাপ্য হলে, verification ব্যর্থ হয়।
 
 ---
 

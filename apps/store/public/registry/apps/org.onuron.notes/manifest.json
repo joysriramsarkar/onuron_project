@@ -8,7 +8,9 @@
   "arch": ["x86_64", "aarch64"],
   "category": "productivity",
   "tags": ["notes", "markdown", "offline"],
-  "license": "MIT",
+  "license": "AGPL-3.0",
+  "releaseStage": "reference",
+  "permissions": ["stdout"],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",

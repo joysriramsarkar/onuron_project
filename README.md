@@ -42,13 +42,14 @@ onuron_project/
 ## 📦 App Store রেজিস্ট্রি (`apps/store`)
 
 অফিসিয়াল অ্যাপ স্টোর ফিড ও প্যাকেজ রেজিস্ট্রি `apps/store/public/registry/apps/`-এ সংরক্ষিত। প্রতিটি অ্যাপ্লিকেশনে ক্রিপ্টোগ্রাফিক ভ্যালিডেশন বাধ্যতামূলক:
+> **Note:** All apps below are **Reference / Developer Preview** (`releaseStage: "reference"`) — they demonstrate the platform path (build → sign → install → launch), not finished consumer products.
 
 - `org.onuron.calculator`: দ্রুতগতির সায়েন্টিফিক ও স্ট্যান্ডার্ড ক্যালকুলেটর।
 - `org.onuron.files`: সম্পূর্ণ ফাইল সিস্টেম ম্যানেজার ও মেটাডেটা ভিউয়ার।
 - `org.onuron.music`: লো-লেটেন্সি অডিও প্লেয়ার ও ব্যাকগ্রাউন্ড সার্ভিস।
 - `org.onuron.notes`: অটোসেভ ও মার্কডাউন সমৃদ্ধ লাইটওয়েট নোটপ্যাড।
 - `org.onuron.pos`: দোকান খাতা ও পয়েন্ট অব সেল ইনভেন্টরি সলিউশন।
-- `org.onuron.terminal`: ফুল-ফিচার্ড সিস্টেম পিটিআই (PTY) টার্মিনাল শেল।
+- `org.onuron.terminal`: রেফারেন্স-লেভেল টার্মিনাল শেল (Onuron OS-এর `nilshell`-এর অংশ; আলাদা repo নেই)।
 
 ---
 

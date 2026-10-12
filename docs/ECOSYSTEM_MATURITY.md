@@ -1,300 +1,206 @@
 # Ecosystem Maturity Map
 
 **Last Updated:** 2026-10-12
+**Status:** Single source of truth for component maturity across the
+nilLang / Onuron ecosystem.
 
 ---
 
-## Overview
+## How to read this map
 
-This document maps all repositories in the NilLang/Onuron ecosystem, their
-maturity levels, and their relationships.
+Every component is classified honestly and backed by **Evidence** (a concrete
+source file and the test or workflow that exercises it). "A directory exists"
+is **not** evidence of maturity.
 
----
+| Field | Meaning |
+|-------|---------|
+| **Implementation status** | `Production`, `Functional Prototype`, `Experimental`, `Stub / Simulated`, or `Not Implemented` |
+| **Evidence** | Specific source path + the passing test / CI workflow that exercises it |
+| **Limitations** | What does **not** work yet |
+| **Hardware validation** | `QEMU`, `host-only`, or `physical-device tested` |
+| **Release gate** | The checks that must pass before a release |
 
-## Maturity Levels
+### Maturity levels
 
 | Level | Description |
 |-------|-------------|
 | **Production** | Stable, well-tested, ready for real applications |
-| **Functional Prototype** | Core features work, but incomplete; not production-ready |
-| **Experimental** | Early development; features may change or be removed |
-| **Stub** | Placeholder or minimal implementation; not functional |
+| **Functional Prototype** | Core paths work and are tested, but the component is incomplete |
+| **Experimental** | Early development; interfaces and features may change |
+| **Stub / Simulated** | Placeholder or clearly-labelled simulated behaviour |
+| **Not Implemented** | Component does not exist yet |
+
+### Hardware-validation levels
+
+| Level | Meaning |
+|-------|---------|
+| **Host-only** | Runs on a developer machine; no OS image |
+| **QEMU** | Verified on our QEMU reference targets |
+| **Physical-device tested** | Verified on real hardware with reproducible evidence |
+
+> **No component is currently `physical-device tested`.** Onuron OS is developed
+> against QEMU. See `onuronOS/docs/reference-board.md` for the bring-up path.
 
 ---
 
-## Repository Map
+## Component status
 
-### 1. nilLang (Go)
+### 1. nilLang (Go) — canonical language
 
-| Attribute | Value |
-|-----------|-------|
-| **Maturity** | Production |
+| Field | Value |
+|-------|-------|
+| **Implementation status** | Production |
 | **Language** | Go |
-| **Purpose** | Canonical NilLang language implementation |
+| **Role** | Canonical NilLang implementation; the authority other runtimes target |
+| **Evidence** | Cross-engine conformance suite `nilLang/tests/crossruntime/crossruntime_test.go` (evaluator + bytecode VM, 21 programs); capability fix + tests `nilLang/pkg/capability/capability_test.go`; canonical spec `nilLang/docs/spec/LANGUAGE_SPEC_CANONICAL.md`; CI green on `693da64` |
+| **Limitations** | The automated conformance suite covers the two **Go** engines. The Rust subset and Alap are **not** automatically compared yet (manual verification only). Some features (`try`/`catch`, generic traits, full effect checking) remain incomplete |
+| **Hardware validation** | Host-only (plus WASM target) |
+| **Release gate** | CI + Lint green; cross-engine conformance passes; canonical spec updated with any contract change |
 
-**What Works:**
-- ✅ 3 execution engines (evaluator, VM, AOT/LLVM)
-- ✅ Full type checker with diagnostics
-- ✅ Complete standard library
-- ✅ Cross-engine conformance tests (200+ cases)
-- ✅ WASM target
-- ✅ Mobile runtime (Android, iOS, HarmonyOS)
-- ✅ Package manager (nilpkg)
-- ✅ LSP server
-- ✅ Alap UI framework (`pkg/alap/ui`)
-- ✅ Reactive signals and state management
-- ✅ Capabilities system (`requires`, `pure`, `unsafe`)
-- ✅ Structs, enums, traits, generics
-- ✅ Error handling (`Result<T,E>`, `?T`)
-- ✅ Concurrency (`async`/`await`, `task`, channels)
+### 2. onuronOS — operating system
 
-**What's Stubbed:**
-- ❌ `try`/`catch` error handling
-- ❌ Generic traits (partially implemented)
-- ❌ Compile-time effect checking beyond `pure`
-
-**Planned:**
-- AST → typed HIR → MIR as the only backend path
-- Static methods (`Type::new()`)
-- Full effect system
-
----
-
-### 2. onuronOS
-
-| Attribute | Value |
-|-----------|-------|
-| **Maturity** | Functional Prototype |
+| Field | Value |
+|-------|-------|
+| **Implementation status** | Functional Prototype |
 | **Language** | Rust, Go, C |
-| **Purpose** | Linux-based mobile operating system |
+| **Role** | Independent Linux-based mobile OS (nilinit → NilHAL → nilrt → NilLang/Alap/NilUI) |
+| **Evidence** | Two-phase QEMU persistence test `onuronOS/build/qemu-persistence-test.py` (write `/data` → reboot same disk → read back, byte-exact), green in Linux/QEMU CI; app lifecycle `runtime/nilrt/tests/lifecycle.rs`; permission policy `runtime/nilrt/src/permissions.rs`; signed updates `services/nilupd`; shell `/proc`,`/sys` + honest not-detected reporting `shell/` (`cargo test -p nilshell` 28 passed); simulated-screen registry `shell/src/simulated.rs` + `docs/maturity.toml` + `build/gen-maturity.py` |
+| **Limitations** | Recovery boot flow and IPC authorization are not yet fully exercised under injected failure; package rollback across a simulated power cut is partially covered; GPU/audio/camera have no real backend (honestly reported as not detected); no physical device |
+| **Hardware validation** | QEMU x86_64 (primary) and aarch64 `-M virt` (secondary) |
+| **Release gate** | `linux-qemu.yml` (x86_64 + aarch64), `security-audit.yml`, `code-quality.yml` (maturity drift check) all green; QEMU boot **and** persistence must pass |
 
-**What Works:**
-- ✅ QEMU-based development environment
-- ✅ nilinit (PID 1 / service supervision)
-- ✅ NilHAL (hardware abstraction boundary)
-- ✅ runtime/nillang (NilLang runtime — see below)
-- ✅ .nilax package format
-- ✅ nilpkg package manager
-- ✅ SoftBus distributed layer
-- ✅ SELinux + seccomp + namespaces sandboxing
+### 3. runtime/nillang (Rust) — native NilLang subset
 
-**What's Stubbed:**
-- ⚠️ runtime/nillang — parser + JSON bytecode + basic VM only
-- ❌ Real hardware support (QEMU only)
-- ❌ DRM/KMS, touch, storage, power, networking
-- ❌ Audio backend
-- ❌ GPU backend
-- ❌ Camera/media infrastructure
-
-**Planned:**
-- Reference hardware bring-up
-- One native app end-to-end
-- DRM/KMS, touch, storage, power, networking
-- Android compatibility layer
-
----
-
-### 3. runtime/nillang (Rust)
-
-| Attribute | Value |
-|-----------|-------|
-| **Maturity** | Functional Prototype |
+| Field | Value |
+|-------|-------|
+| **Implementation status** | Functional Prototype (deliberate subset) |
 | **Language** | Rust |
-| **Purpose** | Native NilLang runtime for Onuron OS |
+| **Role** | Native NilLang runtime for UI-app definitions inside Onuron OS |
+| **Evidence** | Parser + JSON bytecode serialization + basic VM + struct/app/state/scene handling (`onuronOS/runtime/nillang/`) |
+| **Limitations** | **Not** a drop-in replacement for nilLang. No general expression evaluation, control flow, function calls, standard library, error handling, traits/enums/modules, multi-app support, or real render pipeline. Verified **manually** against the subset |
+| **Hardware validation** | QEMU |
+| **Release gate** | The supported subset must pass a **feature-tagged** conformance run against the canonical expected output (tracked in Roadmap Phase B) |
 
-**What Works:**
-- ✅ Parser for basic NilLang syntax
-- ✅ JSON bytecode serialization
-- ✅ Basic VM for app/state management
-- ✅ Struct and app definitions
-- ✅ State get/set operations
-- ✅ Scene rendering (XML strings)
-- ✅ Event dispatch (hardcoded patterns)
+### 4. alap-framework (Go) — UI framework
 
-**What's Stubbed:**
-- ❌ Expression evaluation
-- ❌ Control flow execution
-- ❌ Function calls
-- ❌ Error handling
-- ❌ Standard library
-- ❌ Traits, enums, modules
-- ❌ Multi-app support
-- ❌ Real rendering pipeline
-
-**Note:** This is NOT a drop-in replacement for nilLang. It runs a subset of
-NilLang syntax focused on UI app definitions.
-
----
-
-### 4. alap-framework (Go)
-
-| Attribute | Value |
-|-----------|-------|
-| **Maturity** | Experimental |
+| Field | Value |
+|-------|-------|
+| **Implementation status** | Experimental (early-alpha) |
 | **Language** | Go |
-| **Purpose** | Early-alpha Alap UI framework prototype |
+| **Role** | Independent UI framework prototype; **not** the canonical implementation |
+| **Evidence** | Compiler (lexer/parser/AST) + NABC VM + UI engine + platform adapters + web server + ORM + NilPM; relationship documented in `alap-framework/RELATIONSHIP.md`; CI green |
+| **Limitations** | No type checker, error handling, concurrency, or capability system; limited standard library. Maintains its **own** compiler/VM today, which must converge on canonical nilLang |
+| **Hardware validation** | Host-only |
+| **Release gate** | CI green **and** the nilLang-integration path (Roadmap Phase B) must run the shared example apps |
 
-**What Works:**
-- ✅ Basic compiler (lexer, parser, AST)
-- ✅ Basic VM (NABC bytecode)
-- ✅ UI engine (layout, render, state, animation, widgets)
-- ✅ Platform adapters (Android, iOS, Linux, Onuron)
-- ✅ Web server (HTTP, WebSocket, SSE, SSR, middleware)
-- ✅ ORM and migrations
-- ✅ Package manager (NilPM)
-- ✅ LSP server
+### 5. nilos-emulator (Go) — development emulator
 
-**What's Stubbed:**
-- ❌ Type checker
-- ❌ Error handling
-- ❌ Concurrency
-- ❌ Capabilities
-- ❌ Limited standard library
-
-**Note:** This is NOT the canonical implementation. nilLang is. See
-`alap-framework/RELATIONSHIP.md` for details.
-
-**Planned:**
-- Import nilLang packages instead of separate compiler/VM
-- Merge into nilLang as UI framework packages
-
----
-
-### 5. nilos-emulator (Go)
-
-| Attribute | Value |
-|-----------|-------|
-| **Maturity** | Functional Prototype |
+| Field | Value |
+|-------|-------|
+| **Implementation status** | Functional Prototype |
 | **Language** | Go |
-| **Purpose** | Development tool with MockVM for NilLang apps |
+| **Role** | Development tool; runs NilLang apps against a MockVM |
+| **Evidence** | MockVM + NilHost protocol + UI tree patching + lifecycle + DAP/LSP + VFS + sandbox; cross-platform sandbox/VFS containment tests `internal/vfs/vfs_test.go`, `internal/sandbox/guard.go`; CI green on ubuntu + windows + macos |
+| **Limitations** | No real hardware emulation and no full GPU path; uses MockVM, so it is **not** a production runtime |
+| **Hardware validation** | Host-only |
+| **Release gate** | CI green on all three OSes; must run the canonical-compiler-built reference app (Roadmap Phase D) |
 
-**What Works:**
-- ✅ Emulator with MockVM
-- ✅ NilHost Protocol implementation
-- ✅ UI tree patching
-- ✅ HAL emulation
-- ✅ Lifecycle management
-- ✅ DAP (Debug Adapter Protocol)
-- ✅ LSP server
-- ✅ VFS (virtual file system)
-- ✅ QEMU bridge
-- ✅ Device profiles (phone, tablet, desktop, POS)
-- ✅ Recording and playback
-- ✅ Sandbox with limits
+### 6. onuron_project — store, docs, ecosystem meta
 
-**What's Stubbed:**
-- ❌ Real hardware emulation
-- ❌ Full GPU acceleration
-- ❌ Real camera/sensors
-
-**Planned:**
-- More device profiles
-- Better performance
-- Full hardware emulation
-
----
-
-### 6. terminal
-
-| Attribute | Value |
-|-----------|-------|
-| **Maturity** | Stub |
-| **Language** | — |
-| **Purpose** | Terminal application |
-
-**What Works:**
-- ❌ Not yet implemented
-
-**Planned:**
-- Terminal emulator for Onuron OS
-- Integration with nilshell
-
----
-
-### 7. onuron_project
-
-| Attribute | Value |
-|-----------|-------|
-| **Maturity** | Functional Prototype |
+| Field | Value |
+|-------|-------|
+| **Implementation status** | Functional Prototype |
 | **Language** | TypeScript, Astro |
-| **Purpose** | Web presence and documentation |
+| **Role** | Web presence, documentation, and App Store registry/gate |
+| **Evidence** | Store validator `packages/store-schema/scripts/validate.mjs` (`validate` + `validate:verify`), signing helper `scripts/sign-package.mjs`, trusted key `trusted-keys.json`, signed packages under `apps/store/public/packages/`, reproducible sources under `apps/store/registry-src/`, gate `onuron_project/.github/workflows/app-registry-gate.yml` |
+| **Limitations** | Published apps are **Reference / Developer Preview** (`releaseStage: "reference"`) — logic demos, not finished interactive apps. No store backend, real submissions, or payments |
+| **Hardware validation** | N/A (host tooling) |
+| **Release gate** | `validate:verify` must pass: mandatory signature/signer, exact bytes (size + SHA-256), Ed25519 verification against `trusted-keys.json`, and archive↔manifest id/version/entry/permissions match |
 
-**What Works:**
-- ✅ Documentation site (Astro/Starlight)
-- ✅ App store frontend
-- ✅ UI component library
-- ✅ Store schema
+### 7. Terminal
 
-**What's Stubbed:**
-- ❌ Backend services
-- ❌ Real app submissions
-- ❌ Payment processing
-
-**Planned:**
-- Full app store backend
-- Developer portal
-- Community features
+| Field | Value |
+|-------|-------|
+| **Implementation status** | Functional Prototype (reference-level) |
+| **Language** | Rust (part of Onuron OS) |
+| **Role** | Terminal shipped inside **`nilshell`** |
+| **Evidence** | `onuronOS/shell/` command dispatch + `cargo test -p nilshell` (28 passed) |
+| **Limitations** | **There is no separate terminal repository.** It is a reference-level shell, not yet a full terminal emulator with complete capability/permission enforcement and error reporting |
+| **Hardware validation** | QEMU |
+| **Release gate** | Included in the `onuronOS` release gate |
 
 ---
 
-## Relationship Diagram
+## Relationship diagram
 
 ```text
                     ┌─────────────────┐
-                    │   nilLang (Go)  │
+                    │   nilLang (Go)  │  ← canonical
                     │   Production    │
-                    │   Canonical     │
                     └────────┬────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              │              │              │
-              ▼              ▼              ▼
-    ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-    │  onuronOS   │  │alap-framework│  │nilos-emulator│
-    │  Functional │  │ Experimental │  │  Functional  │
-    │  Prototype  │  │  Early-alpha │  │  Prototype   │
-    └──────┬──────┘  └─────────────┘  └─────────────┘
-           │
-           ▼
-    ┌─────────────┐
-    │runtime/     │
-    │nillang(Rust)│
-    │  Prototype  │
-    └─────────────┘
+                             │  (others target compatibility)
+          ┌──────────────────┼──────────────────┐
+          ▼                  ▼                  ▼
+  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+  │  onuronOS   │    │alap-framework│    │nilos-emulator│
+  │ Functional  │    │ Experimental │    │  Functional  │
+  │ Prototype   │    │  Early-alpha │    │  Prototype   │
+  └──────┬──────┘    └─────────────┘    └─────────────┘
+         │
+         ▼
+  ┌──────────────────┐
+  │ runtime/nillang  │  ← Rust subset, embedded in OS
+  │     (subset)     │
+  └──────────────────┘
+         │
+         ▼
+  ┌─────────────┐
+  │ nilshell    │  ← terminal lives here (no separate repo)
+  │  (in-OS)    │
+  └─────────────┘
 ```
 
 ---
 
-## Summary Table
+## Summary table
 
-| Repository | Maturity | Language | Purpose |
-|------------|----------|----------|---------|
-| nilLang | Production | Go | Canonical language implementation |
-| onuronOS | Functional Prototype | Rust/Go/C | Mobile operating system |
-| runtime/nillang | Functional Prototype | Rust | Native NilLang runtime |
-| alap-framework | Experimental | Go | Early-alpha UI framework |
-| nilos-emulator | Functional Prototype | Go | Development emulator |
-| terminal | Stub | — | Terminal application |
-| onuron_project | Functional Prototype | TypeScript | Web presence |
+| Component | Status | Language | Hardware validation |
+|-----------|--------|----------|---------------------|
+| nilLang | Production | Go | Host-only |
+| onuronOS | Functional Prototype | Rust/Go/C | QEMU (x86_64 + aarch64) |
+| runtime/nillang | Functional Prototype (subset) | Rust | QEMU |
+| alap-framework | Experimental | Go | Host-only |
+| nilos-emulator | Functional Prototype | Go | Host-only |
+| onuron_project | Functional Prototype | TypeScript | N/A |
+| Terminal (in `nilshell`) | Functional Prototype | Rust | QEMU |
 
 ---
 
-## Key Decisions
+## Key decisions
 
-1. **nilLang is the canonical implementation** — all other implementations
-   should target compatibility with it
-2. **alap-framework should import nilLang** — not maintain a separate compiler/VM
-3. **runtime/nillang is a subset** — not a drop-in replacement for nilLang
-4. **nilos-emulator uses MockVM** — for development only, not production
+1. **nilLang (Go) is the canonical implementation** — all other runtimes target
+   compatibility with it.
+2. **runtime/nillang is a deliberate subset**, not a drop-in replacement. It is
+   grown only to run a specific, testable UI-app subset.
+3. **alap-framework converges on nilLang** — stop growing its separate
+   compiler/VM; integrate the canonical compiler and runtime step by step.
+4. **nilos-emulator uses MockVM** — development only, not a production runtime.
+5. **Published store apps are Reference / Developer Preview** until a single app
+   passes the full end-to-end release gate.
+6. **Every published package is signed**; the gate never treats an unavailable
+   remote package as success.
 
 ---
 
 ## References
 
-- [nilLang Repository](../nilLang/)
-- [nilLang Language Specification](../nilLang/docs/spec/LANGUAGE_SPEC.md)
+- [Roadmap & release gates](./ROADMAP.md)
+- [Licensing policy](./LICENSING.md)
+- [nilLang](../nilLang/)
 - [nilLang Canonical Spec](../nilLang/docs/spec/LANGUAGE_SPEC_CANONICAL.md)
-- [OnuronOS Project](../onuronOS/)
+- [Onuron OS Project](../onuronOS/)
+- [Onuron OS improvement plan](../onuronOS/docs/improvement-plan.md)
+- [Onuron OS reference board](../onuronOS/docs/reference-board.md)
 - [Alap Framework](../alap-framework/)
 - [Alap Relationship](../alap-framework/RELATIONSHIP.md)
 - [nilos-emulator](../nilos-emulator/)

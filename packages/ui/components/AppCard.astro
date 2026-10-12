@@ -46,6 +46,9 @@ const catColor = categoryColors[app.category] ?? "blue";
     <div class="app-meta">
       <span class={`badge badge-${catColor}`}>{app.category}</span>
       <span class="badge">v{app.version}</span>
+      {app.releaseStage === "reference" && (
+        <span class="badge badge-amber" title="Reference / developer-preview app">Reference</span>
+      )}
       {app.package?.type && (
         <span class="badge badge-teal">.{app.package.type}</span>
       )}
