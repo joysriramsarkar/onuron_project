@@ -1,0 +1,31 @@
+﻿{
+    "name":  "org.onuron.files",
+    "version":  "2.0.1",
+    "author":  "Onuron Team",
+    "description":  "Onuron Files — file browser and manager for Onuron OS storage.",
+    "entry":  "src/main.nil",
+    "capabilities":  [
+                         "stdout"
+                     ],
+    "targets":  [
+                    "onuron"
+                ],
+    "resources":  [
+
+                  ],
+    "dependencies":  {
+
+                     },
+    "build":  {
+                  "output_dir":  "build",
+                  "optimize":  true,
+                  "debug":  false
+              },
+    "metadata":  {
+                     "category":  "utilities"
+                 },
+    "scripts":  {
+                    "start":  "nil run",
+                    "build":  "nil build"
+                }
+}

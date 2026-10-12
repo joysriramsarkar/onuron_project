@@ -11,3 +11,7 @@ Thumbs.db
 .vercel/
 .wrangler/
 release-bundles/
+
+# Signing material — private keys must never be committed
+*.pem
+*-signing-key.json

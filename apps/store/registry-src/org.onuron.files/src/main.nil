@@ -1,0 +1,36 @@
+// Onuron Files — virtual filesystem listing core.
+//
+// The reference core models a directory listing as data and formats byte sizes
+// for display. The native build binds this to real filesystem access through
+// the Filesystem capability.
+
+puts("╔══════════════════════════════════════╗");
+puts("║             Onuron Files             ║");
+puts("╚══════════════════════════════════════╝");
+puts("");
+
+let files = [
+    { "name": "README.md", "kind": "text", "size": 1200 },
+    { "name": "photo.jpg", "kind": "image", "size": 204800 },
+    { "name": "report.pdf", "kind": "document", "size": 98304 }
+];
+
+let human = fn(bytes) {
+    if (bytes >= 1048576) {
+        return "" + (bytes / 1048576) + " MB";
+    }
+    if (bytes >= 1024) {
+        return "" + (bytes / 1024) + " KB";
+    }
+    return "" + bytes + " B";
+};
+
+puts("📁 /storage/home (" + len(files) + " items):");
+let i = 0;
+while (i < len(files)) {
+    let f = files[i];
+    puts("  " + f["name"] + "  [" + f["kind"] + "]  " + human(f["size"]));
+    let i = i + 1;
+}
+puts("");
+puts("✅ Directory listing complete");

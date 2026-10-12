@@ -15,9 +15,12 @@
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://cdn.onuron.org/packages/org.onuron.notes-1.2.0.onp",
-    "size": 4521984,
-    "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+    "url": "https://store.onuron.org/packages/org.onuron.notes-1.2.0.nilax",
+    "path": "packages/org.onuron.notes-1.2.0.nilax",
+    "size": 1747,
+    "sha256": "393a7a0d6343820b01e7402eb2c822be3e9c608489245628bb29ca90088bb67f",
+    "signature": "5vIcrJtsLnPbJbgAvwPS966OiJL89qdx3W1P5SLITpAqPl/hy/8rE+B388t/zQO8wZ3YqwaVP1zmfAYaeWY+Bg==",
+    "signer": "onuron-team"
   },
   "media": {
     "icon": "icon.svg",

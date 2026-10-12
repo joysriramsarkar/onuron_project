@@ -7,6 +7,8 @@
     ".": "./src/types.ts"
   },
   "scripts": {
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs",
+    "validate:verify": "node scripts/validate.mjs --verify",
+    "sign": "node scripts/sign-package.mjs"
   }
 }

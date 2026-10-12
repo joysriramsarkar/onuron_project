@@ -1,0 +1,42 @@
+// Onuron Terminal — command dispatcher core.
+//
+// A small reference shell: commands are dispatched over a fixed script. The
+// native build binds this to nilshell's real /proc and sysfs-backed commands;
+// here the dispatcher is the pure, testable core.
+
+puts("╔══════════════════════════════════════╗");
+puts("║           Onuron Terminal            ║");
+puts("╚══════════════════════════════════════╝");
+puts("");
+
+let dispatch = fn(cmd) {
+    if (cmd == "help") {
+        return "available: help, version, mem, clear";
+    }
+    if (cmd == "version") {
+        return "OnuronOS 1.0.0 (reference terminal core)";
+    }
+    if (cmd == "mem") {
+        return "meminfo: not available in the reference core";
+    }
+    if (cmd == "clear") {
+        return "";
+    }
+    return "unknown command: " + cmd;
+};
+
+let script = ["version", "help", "mem", "reboot"];
+let prompt = "onuron:~$ ";
+
+let i = 0;
+while (i < len(script)) {
+    let cmd = script[i];
+    puts(prompt + cmd);
+    let out = dispatch(cmd);
+    if (out != "") {
+        puts("  " + out);
+    }
+    let i = i + 1;
+}
+puts("");
+puts("✅ Session complete");

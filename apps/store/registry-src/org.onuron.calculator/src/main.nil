@@ -1,0 +1,35 @@
+// Onuron Calculator — reference NilLang implementation.
+//
+// Pure language core: arithmetic helpers over declared widths, with a guard for
+// division by zero. This is the logic the Alap UI layer binds to.
+
+let add = fn(a, b) {
+    return a + b;
+};
+
+let sub = fn(a, b) {
+    return a - b;
+};
+
+let mul = fn(a, b) {
+    return a * b;
+};
+
+let div = fn(a, b) {
+    if (b == 0) {
+        return 0;
+    }
+    return a / b;
+};
+
+puts("╔══════════════════════════════════════╗");
+puts("║           Onuron Calculator          ║");
+puts("╚══════════════════════════════════════╝");
+puts("");
+puts("  12 + 30 = \(add(12, 30))");
+puts("  12 - 30 = \(sub(12, 30))");
+puts("  12 * 30 = \(mul(12, 30))");
+puts("  12 / 4  = \(div(12, 4))");
+puts("  12 / 0  = \(div(12, 0))  (division by zero guarded)");
+puts("");
+puts("✅ Calculation complete");

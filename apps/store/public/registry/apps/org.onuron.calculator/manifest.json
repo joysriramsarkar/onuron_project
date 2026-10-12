@@ -15,9 +15,12 @@
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://cdn.onuron.org/packages/org.onuron.calculator-1.0.0.nilax",
-    "size": 3145728,
-    "sha256": "a1b2c3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef0"
+    "url": "https://store.onuron.org/packages/org.onuron.calculator-1.0.0.nilax",
+    "path": "packages/org.onuron.calculator-1.0.0.nilax",
+    "size": 1421,
+    "sha256": "877f100ecc18e4970bd81887d2fda2d355fb1e45ae4bfca83962cf1bb14325f8",
+    "signature": "/R26rHfus/69pvaw4evLpJXWXNkmlGUDwWxHgiHJqmEUlFXOi6MXEinGS447IrPBMydQL2Oftk7JadEdoTlXDQ==",
+    "signer": "onuron-team"
   },
   "media": {
     "icon": "icon.svg",

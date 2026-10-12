@@ -1,0 +1,31 @@
+﻿{
+    "name":  "org.onuron.music",
+    "version":  "1.0.0",
+    "author":  "Onuron Team",
+    "description":  "Onuron Music — local music library player with queue and playlists.",
+    "entry":  "src/main.nil",
+    "capabilities":  [
+                         "stdout"
+                     ],
+    "targets":  [
+                    "onuron"
+                ],
+    "resources":  [
+
+                  ],
+    "dependencies":  {
+
+                     },
+    "build":  {
+                  "output_dir":  "build",
+                  "optimize":  true,
+                  "debug":  false
+              },
+    "metadata":  {
+                     "category":  "media"
+                 },
+    "scripts":  {
+                    "start":  "nil run",
+                    "build":  "nil build"
+                }
+}

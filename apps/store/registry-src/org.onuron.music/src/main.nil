@@ -1,0 +1,36 @@
+// Onuron Music — playback queue core.
+//
+// Pure language core that builds a queue from a track list and renders
+// track durations. The Alap UI layer renders this and the Audio capability
+// drives the actual playback.
+
+puts("╔══════════════════════════════════════╗");
+puts("║             Onuron Music             ║");
+puts("╚══════════════════════════════════════╝");
+puts("");
+
+let tracks = [
+    { "title": "Aar Kono Din", "artist": "Anupam Roy", "duration": 245 },
+    { "title": "Nirbashito", "artist": "Prithwi", "duration": 212 },
+    { "title": "Ekhon Onek Raat", "artist": "Anjan Dutt", "duration": 301 }
+];
+
+let mmss = fn(seconds) {
+    let m = seconds / 60;
+    let s = seconds - (m * 60);
+    let ss = if (s < 10) { "0" + s } else { "" + s };
+    return "" + m + ":" + ss;
+};
+
+puts("🎵 Queue (" + len(tracks) + " tracks):");
+let total = 0;
+let i = 0;
+while (i < len(tracks)) {
+    let t = tracks[i];
+    puts("  " + (i + 1) + ". " + t["title"] + " — " + t["artist"] + "  " + mmss(t["duration"]));
+    let total = total + t["duration"];
+    let i = i + 1;
+}
+puts("");
+puts("▶ Total runtime: " + mmss(total));
+puts("✅ Playback queue ready");

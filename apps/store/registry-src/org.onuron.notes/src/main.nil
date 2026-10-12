@@ -1,0 +1,40 @@
+// Onuron Notes — offline-first note list core.
+//
+// Pure data model: create and toggle notes, then render the list. The Alap UI
+// layer binds these functions to widgets and persists the array to disk.
+
+puts("╔══════════════════════════════════════╗");
+puts("║             Onuron Notes             ║");
+puts("╚══════════════════════════════════════╝");
+puts("");
+
+let createNote = fn(id, title) {
+    return { "id": id, "title": title, "done": false };
+};
+
+let toggle = fn(note) {
+    return { "id": note["id"], "title": note["title"], "done": !note["done"] };
+};
+
+let notes = [
+    createNote(1, "Buy groceries"),
+    createNote(2, "Read the NilLang spec"),
+    createNote(3, "Ship the store pipeline")
+];
+
+// Mark the second note as done, without mutating the original array.
+let updated = [notes[0], toggle(notes[1]), notes[2]];
+
+let renderNote = fn(note) {
+    let mark = if (note["done"]) { "[x]" } else { "[ ]" };
+    return "  " + mark + " " + note["title"];
+};
+
+puts("📝 Notebook (" + len(updated) + " notes):");
+let i = 0;
+while (i < len(updated)) {
+    puts(renderNote(updated[i]));
+    let i = i + 1;
+}
+puts("");
+puts("✅ Notes stored locally (offline-first)");

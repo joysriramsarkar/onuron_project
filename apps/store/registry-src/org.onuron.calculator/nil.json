@@ -1,0 +1,23 @@
+{
+  "name": "org.onuron.calculator",
+  "version": "1.0.0",
+  "author": "Onuron Team",
+  "description": "Onuron Calculator — fast, reactive, minimal arithmetic app in NilLang/Alap.",
+  "entry": "src/main.nil",
+  "capabilities": ["stdout"],
+  "targets": ["onuron"],
+  "resources": [],
+  "dependencies": {},
+  "build": {
+    "output_dir": "build",
+    "optimize": true,
+    "debug": false
+  },
+  "metadata": {
+    "category": "utilities"
+  },
+  "scripts": {
+    "start": "nil run",
+    "build": "nil build"
+  }
+}

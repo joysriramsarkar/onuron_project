@@ -26,9 +26,26 @@ export interface AppManifest {
   };
   package: {
     url: string;
+    /**
+     * Repository-relative path (inside `apps/store/public`) to the committed
+     * package artifact. When present the validator verifies these exact bytes
+     * offline instead of downloading `url`, so CI never depends on the CDN
+     * being deployed.
+     */
+    path?: string;
     size: number;
     sha256: string;
+    /**
+     * Base64-encoded Ed25519 signature over the raw package bytes.
+     * Verified against the trusted publisher key identified by `signer`
+     * when the validator runs with `--verify`.
+     */
     signature?: string;
+    /**
+     * Identifier of the trusted key in `packages/store-schema/trusted-keys.json`
+     * used to verify `signature`. Required when `signature` is present.
+     */
+    signer?: string;
   };
   media: {
     icon: string;

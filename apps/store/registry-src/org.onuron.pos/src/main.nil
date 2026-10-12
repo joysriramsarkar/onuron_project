@@ -1,0 +1,38 @@
+// Onuron POS — point-of-sale order core.
+//
+// Pure business logic: line totals, subtotal, tax and grand total. This mirrors
+// the conformance-tested POS calculations in nilLang's pkg/alap/pos.
+
+puts("╔══════════════════════════════════════╗");
+puts("║               Onuron POS             ║");
+puts("╚══════════════════════════════════════╝");
+puts("");
+
+let items = [
+    { "name": "Rice 5kg", "price": 320, "qty": 2 },
+    { "name": "Oil 1L", "price": 185, "qty": 1 },
+    { "name": "Salt 1kg", "price": 40, "qty": 3 }
+];
+
+let TAX_PERCENT = 5;
+
+puts("🧾 Receipt");
+let subtotal = 0;
+let i = 0;
+while (i < len(items)) {
+    let it = items[i];
+    let line = it["price"] * it["qty"];
+    puts("  " + it["name"] + " x" + it["qty"] + "  = " + line);
+    let subtotal = subtotal + line;
+    let i = i + 1;
+}
+
+let tax = subtotal * TAX_PERCENT / 100;
+let total = subtotal + tax;
+
+puts("");
+puts("  Subtotal : " + subtotal);
+puts("  Tax (" + TAX_PERCENT + "%) : " + tax);
+puts("  TOTAL    : " + total);
+puts("");
+puts("✅ Order complete");

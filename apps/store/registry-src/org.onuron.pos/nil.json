@@ -1,0 +1,31 @@
+﻿{
+    "name":  "org.onuron.pos",
+    "version":  "1.0.0",
+    "author":  "Onuron Team",
+    "description":  "Onuron POS — point-of-sale terminal for retail with receipt printing.",
+    "entry":  "src/main.nil",
+    "capabilities":  [
+                         "stdout"
+                     ],
+    "targets":  [
+                    "onuron"
+                ],
+    "resources":  [
+
+                  ],
+    "dependencies":  {
+
+                     },
+    "build":  {
+                  "output_dir":  "build",
+                  "optimize":  true,
+                  "debug":  false
+              },
+    "metadata":  {
+                     "category":  "productivity"
+                 },
+    "scripts":  {
+                    "start":  "nil run",
+                    "build":  "nil build"
+                }
+}

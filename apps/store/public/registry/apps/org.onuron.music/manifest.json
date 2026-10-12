@@ -23,9 +23,12 @@
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://cdn.onuron.org/packages/org.onuron.music-1.0.0.nilax",
-    "size": 11756428,
-    "sha256": "baa3c6848fb1454441dd38998f059884a8187ff384d285a8353074612ef8d31f"
+    "url": "https://store.onuron.org/packages/org.onuron.music-1.0.0.nilax",
+    "path": "packages/org.onuron.music-1.0.0.nilax",
+    "size": 1794,
+    "sha256": "d0641e24339f7665fa49f68fb5544d13bafd35a3328bcb0abd078b1778514881",
+    "signature": "mr/z/DtC+CVYFmaEEZHMtMIT8Y/x2LU7y2fSaBcP/TrpjOjWjRMV1ZfcBr3nn/9NMiHI3GqDOgSuyKW68dHUCg==",
+    "signer": "onuron-team"
   },
   "media": {
     "icon": "icon.svg",

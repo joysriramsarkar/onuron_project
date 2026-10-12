@@ -1,0 +1,7 @@
+[
+  {
+    "id": "onuron-team",
+    "key": "2GP8Kmmby3M8Yhl57O/H5pWL59jWxiDmx8hkc5qryd0=",
+    "note": "Onuron Team store signing key (raw 32-byte Ed25519 public key, base64). The private half is held by the maintainer and MUST live in a secret manager — never in this repository. Rotate by generating a new keypair with `node scripts/sign-package.mjs --generate-keypair`, adding the public half here under a new id, and re-signing published packages."
+  }
+]

@@ -77,3 +77,42 @@ pnpm validate
 2. 64-ক্যারেক্টার দীর্ঘ হেক্সাডেসিমেল SHA-256 ইন্টিগ্রিটি হ্যাশ।
 3. HTTPS রিমোট প্যাকেজ URL বা লোকাল ভ্যালিড পাথ (`.nilax` / `.onp`)।
 4. Ed25519 ক্রিপ্টোগ্রাফিক সাইনিং সমর্থন।
+
+---
+
+## 🔐 Package Verification Pipeline
+
+Every app in the store registry is protected by a two-stage verification pipeline, all implemented with Node.js built-ins (no external dependencies):
+
+**Stage 1 — Format validation** (`pnpm validate`):
+Checks manifest structure, full semver for `version`/`minOs`, categories, architecture, HTTPS URLs, package format (`.nilax`/`.onp`), 64-hex checksum, and icon/media assets. **Placeholder checksums are a hard error** (all-zeros, repeated blocks, sequential hex like `a1b2c3d4...`, or hashes of common test strings such as `"abc"`/`"test"`) — a store entry must stand for a real, verifiable artifact.
+
+**Stage 2 — Cryptographic verification** (`pnpm validate:verify`):
+For each app, verifies the package bytes against the manifest:
+- **SHA-256** matches `package.sha256`
+- **File size** matches `package.size`
+- **Ed25519 signature** (when present) verifies against the trusted key identified by `package.signer` in `packages/store-schema/trusted-keys.json`
+
+Artifacts are committed under `apps/store/public/packages/` and referenced from the
+manifest's `package.path`. Verification reads those exact bytes, so CI is
+deterministic and never depends on the CDN being deployed. When `package.path` is
+absent the validator falls back to downloading `package.url`; an unreachable URL
+is then reported as a warning rather than an error.
+
+### Signing a package
+
+```bash
+# Generate an Ed25519 keypair (keep the private key in a secret manager,
+# publish only the public half in trusted-keys.json)
+node packages/store-schema/scripts/sign-package.mjs --generate-keypair
+
+# Sign a package → base64 signature for the manifest's package.signature field
+node packages/store-schema/scripts/sign-package.mjs path/to/app-1.0.0.nilax <private-key>
+
+# Full verification run
+pnpm --filter @onuron/store-schema validate:verify
+```
+
+Reproducible app sources for the published packages live in
+`apps/store/registry-src/` — see its [README](./apps/store/registry-src/README.md)
+for the build-and-sign walkthrough.

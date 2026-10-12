@@ -4,6 +4,13 @@ on:
   pull_request:
     paths:
       - "apps/store/public/registry/**"
+      - "apps/store/public/packages/**"
+      - "packages/store-schema/**"
+  push:
+    branches: [main]
+    paths:
+      - "apps/store/public/registry/**"
+      - "apps/store/public/packages/**"
       - "packages/store-schema/**"
   workflow_dispatch:
 
@@ -30,10 +37,17 @@ jobs:
           pnpm approve-builds --all
 
       - name: Run Strict Manifest Validator
+        id: validate
         run: |
           pnpm --filter @onuron/store-schema validate
 
+      - name: Verify Package Integrity & Signatures
+        id: verify
+        run: |
+          pnpm --filter @onuron/store-schema validate:verify
+
       - name: Verify Registry App JSON API Build
+        id: build
         run: |
           pnpm --filter @onuron/site-store build
 
@@ -41,8 +55,16 @@ jobs:
         if: always()
         run: |
           echo "### 🛒 Onuron App Store Submission Verification" >> $GITHUB_STEP_SUMMARY
-          echo "Status: **PASSED**" >> $GITHUB_STEP_SUMMARY
-          echo "- Manifest schema validation passed." >> $GITHUB_STEP_SUMMARY
-          echo "- Category, arch & semver format verified." >> $GITHUB_STEP_SUMMARY
-          echo "- Icon SVG & media assets confirmed present." >> $GITHUB_STEP_SUMMARY
-          echo "- Static API feed generated successfully." >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.validate.outcome }}" = "success" ] && [ "${{ steps.verify.outcome }}" = "success" ] && [ "${{ steps.build.outcome }}" = "success" ]; then
+            echo "Status: **PASSED**" >> $GITHUB_STEP_SUMMARY
+            echo "- Manifest schema validation passed." >> $GITHUB_STEP_SUMMARY
+            echo "- Category, arch & semver format verified." >> $GITHUB_STEP_SUMMARY
+            echo "- Icon SVG & media assets confirmed present." >> $GITHUB_STEP_SUMMARY
+            echo "- Package bytes verified: SHA-256, byte size and Ed25519 signature match the trusted publisher key." >> $GITHUB_STEP_SUMMARY
+            echo "- Static API feed generated successfully." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Status: **FAILED**" >> $GITHUB_STEP_SUMMARY
+            echo "- Manifest validation outcome: ${{ steps.validate.outcome }}" >> $GITHUB_STEP_SUMMARY
+            echo "- Package verification outcome: ${{ steps.verify.outcome }}" >> $GITHUB_STEP_SUMMARY
+            echo "- API build outcome: ${{ steps.build.outcome }}" >> $GITHUB_STEP_SUMMARY
+          fi

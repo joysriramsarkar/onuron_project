@@ -1,0 +1,31 @@
+﻿{
+    "name":  "org.onuron.terminal",
+    "version":  "1.0.0",
+    "author":  "Onuron Team",
+    "description":  "Onuron Terminal — full-featured system terminal shell.",
+    "entry":  "src/main.nil",
+    "capabilities":  [
+                         "stdout"
+                     ],
+    "targets":  [
+                    "onuron"
+                ],
+    "resources":  [
+
+                  ],
+    "dependencies":  {
+
+                     },
+    "build":  {
+                  "output_dir":  "build",
+                  "optimize":  true,
+                  "debug":  false
+              },
+    "metadata":  {
+                     "category":  "development"
+                 },
+    "scripts":  {
+                    "start":  "nil run",
+                    "build":  "nil build"
+                }
+}
