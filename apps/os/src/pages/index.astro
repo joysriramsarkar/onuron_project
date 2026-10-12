@@ -7,67 +7,167 @@ import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
 import StoreBadge from "@onuron/ui/components/StoreBadge.astro";
 ---
 
-<BaseLayout title="onuronOS — সার্বভৌম ও নিরাপদ মোবাইল এবং ডেস্কটপ অপারেটিং সিস্টেম">
+<BaseLayout title="onuronOS — সার্বভৌম ও উন্মুক্ত লিনাক্স মোবাইল অপারেটিং সিস্টেম">
   <Navbar current="onuronOS" />
 
   <Hero
     title="onuronOS"
-    subtitle="স্মার্টফোন ও পার্সোনাল কম্পিউটারের জন্য সম্পূর্ণ স্বাধীন, মেমরি-নিরাপদ ও আধুনিক লিনাক্স-ভিত্তিক অপারেটিং সিস্টেম — নিজস্ব nilinit, NilHAL এবং বিল্ট-ইন App Store সহ।"
+    subtitle="স্মার্টফোনের জন্য ১০০% Rust-নির্মিত nilinit (PID 1), NilHAL টাচস্ক্রিন কম্পোজিটর, 120Hz ডিসপ্লে এবং কন্টেইনারাইজড অ্যান্ড্রয়েড কম্প্যাটিবিলিটি সহ সম্পূর্ণ স্বাধীন মোবাইল ওএস।"
+    eyebrow="onuronOS Mobile v1.0 · Linux LTS · 100% Rust PID 1 nilinit"
   >
-    <a class="btn btn-primary" href="/download">Download System Image</a>
-    <a class="btn btn-ghost" href="/features">এক্সপ্লোর করুন ফিচারসমূহ</a>
+    <a class="btn btn-primary btn-glow" href="/download">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+      </svg>
+      মোবাইল ফাস্টবুট রিলিজ
+    </a>
+    <a class="btn btn-ghost" href="/features">মোবাইল ফিচারস →</a>
     <StoreBadge href="https://store.onuron.org" />
   </Hero>
 
+  <!-- Divider -->
+  <div class="divider"></div>
+
   <main>
-    <section class="section container">
-      <div style="text-align: center; max-width: 720px; margin: 0 auto 36px auto;">
-        <h2>পরবর্তী প্রজন্মের উন্মুক্ত অপারেটিং আর্কিটেকচার</h2>
-        <p class="muted">
-          বিগ টেক কোম্পানির মনোপলি ভেঙে সম্পূর্ণ সার্বভৌম ও স্বাধীন কম্পিউটিং অভিজ্ঞতা নিশ্চিত করতে onuronOS সাজানো হয়েছে আধুনিক প্রযুক্তি স্ট্যাক দিয়ে।
+    <!-- Stats -->
+    <section class="section-sm container">
+      <div class="stats-grid gsap-stagger">
+        <div class="stat-item">
+          <div class="stat-number" data-count="100" data-suffix="%">100%</div>
+          <div class="stat-label">Rust-নির্মিত PID 1 Init</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="60" data-suffix=" FPS">60 FPS</div>
+          <div class="stat-label">NilHAL ডিসপ্লে আউটপুট</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="6">6</div>
+          <div class="stat-label">বিল্ট-ইন অ্যাপ স্যুট</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="0">0</div>
+          <div class="stat-label">টেলিমেট্রি · ট্র্যাকার</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section container spotlight-container">
+      <div style="text-align: center; max-width: 700px; margin: 0 auto 64px auto;">
+        <p class="section-eyebrow reveal">Architecture</p>
+        <h2 class="anim-heading">পরবর্তী প্রজন্মের উন্মুক্ত আর্কিটেকচার</h2>
+        <p class="muted reveal" data-delay="2">
+          বিগ টেক-এর মনোপলি ভেঙে সম্পূর্ণ সার্বভৌম কম্পিউটিং অভিজ্ঞতা নিশ্চিত করতে onuronOS সাজানো হয়েছে আধুনিক টেক স্ট্যাক দিয়ে।
         </p>
       </div>
 
-      <div class="grid">
+      <div class="grid gsap-stagger">
         <FeatureCard
           title="nilinit (Rust PID 1)"
-          desc="মেমরি-নিরাপদ ইনিশিয়ালাইজার — কোনো ক্র্যাশ বা ডেডলক ছাড়াই মিলি-সেকেন্ডে বুট ও প্যারালাল সার্ভিস লঞ্চ।"
+          desc="মেমরি-নিরাপদ সিস্টেম ইনিশিয়ালাইজার — কয়েকশো মিলিসেকেন্ডে প্যারালাল বুট, সকেট অ্যাক্টিভেশন ও ডিক্লেয়ারেটিভ টার্গেট রেজিস্ট্রি।"
+          icon="⚡"
+          color="blue"
+          href="/features#nilinit"
         />
         <FeatureCard
-          title="NilHAL & Multi-touch"
-          desc="ডিভাইস-নিরপেক্ষ হার্ডওয়্যার লেয়ার — DRM/KMS ডিসপ্লে ও নিখুঁত লিনাক্স evdev ক্যাপাসিটিভ টাচ পাইপলাইন।"
+          title="NilHAL"
+          desc="DRM/KMS ডিসপ্লে, লিনাক্স evdev মাল্টি-টাচ পাইপলাইন, ALSA লো-লেটেন্সি অডিও এবং পাওয়ার ম্যানেজমেন্ট।"
+          icon="🔩"
+          color="teal"
+          href="/features#nilhal"
         />
         <FeatureCard
           title="Dual Android Bridge"
-          desc="S25 NDK-হস্টেড ফার্স্ট পার্টি রানটাইম এবং Waydroid কন্টেইনারের মাধ্যমে অ্যান্ড্রয়েড অ্যাপস ব্যবহারের সুবিধা।"
+          desc="Track B (S25 NDK রানটাইম) ও Track C (Waydroid/AOSP কন্টেইনার) — উভয় ট্র্যাকে নির্বিঘ্নে অ্যান্ড্রয়েড অ্যাপস চালানো।"
+          icon="🤝"
+          color="purple"
+          href="/features#android-bridge"
         />
         <FeatureCard
           title=".nilax App Store"
-          desc="ক্রিপ্টোগ্রাফিক Ed25519 সাইনিং ও SHA-256 ইন্টিগ্রিটি যাচাইকৃত প্যাকেজ — জিরো ম্যালওয়্যার ঝুঁকি।"
+          desc="Ed25519 সাইনিং ও SHA-256 ইন্টিগ্রিটি যাচাইকৃত প্যাকেজ ফরম্যাট — জিরো ম্যালওয়্যার ও ব্লোটওয়্যার।"
+          icon="📦"
+          color="teal"
+          href="https://store.onuron.org"
         />
         <FeatureCard
           title="NilLang + Alap UI"
-          desc="নেটিভ ডিক্লেয়ারেটিভ রিঅ্যাক্টিভ ফ্রেমওয়ার্ক — মাখনের মতো মসৃণ 60 FPS ইউজার ইন্টারফেস।"
+          desc="নেটিভ রিঅ্যাক্টিভ ফ্রেমওয়ার্ক — মাখনের মতো মসৃণ 60 FPS ইউজার ইন্টারফেস ও কম্পোনেন্ট আর্কিটেকচার।"
+          icon="🎨"
+          color="purple"
+          href="https://alap.onuron.org"
         />
         <FeatureCard
-          title="nilos-emulator (nilsim)"
-          desc="হাতে ডিভাইস না থাকলেও ভার্চুয়াল ডিভাইসে যেকোনো অ্যাপ টেস্ট করার পূর্ণাঙ্গ ডেভেলপমেন্ট সিমুলেটর।"
+          title="nilos-emulator"
+          desc="ভার্চুয়াল টাচস্ক্রিন ডিভাইসে অ্যাপ পরীক্ষা করার পূর্ণাঙ্গ `nilsim` স্টুডিও — হার্ডওয়্যার ছাড়াই।"
+          icon="🖥️"
+          color="blue"
+          href="https://github.com/joysriramsarkar/nilos-emulator"
         />
       </div>
     </section>
 
-    <section class="section container" style="background: var(--bg-soft); border-radius: var(--radius); border: 1px solid var(--border); padding: 48px; margin-bottom: 60px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;">
-        <div>
-          <h2>অনুরণ অ্যাপ স্যুট ইতিমধ্যেই প্রস্তুত</h2>
-          <p class="muted" style="margin: 0; max-width: 580px;">
-            ক্যালকুলেটর, নোটপ্যাড, ফাইল ম্যানেজার, মিউজিক প্লেয়ার, টার্মিনাল এবং পয়েন্ট অব সেল (POS) — দৈনন্দিন জীবনের সমস্ত টুলস উন্মুক্ত ও বিজ্ঞাপণমুক্ত।
+    <!-- CTA Banner -->
+    <section class="section-sm container">
+      <div class="cta-banner reveal-scale">
+        <div class="cta-glow-1" aria-hidden="true"></div>
+        <div class="cta-glow-2" aria-hidden="true"></div>
+        <div class="cta-content">
+          <p class="section-eyebrow" style="justify-content: center;">App Ecosystem</p>
+          <h2>৬টি ফার্স্ট-পার্টি অ্যাপ প্রস্তুত</h2>
+          <p class="muted">
+            ক্যালকুলেটর, নোটপ্যাড, ফাইল ম্যানেজার, মিউজিক প্লেয়ার, টার্মিনাল এবং POS (দোকান খাতা) — সম্পূর্ণ বিজ্ঞাপণমুক্ত ও উন্মুক্ত।
           </p>
+          <a class="btn btn-primary" href="https://store.onuron.org">App Store এক্সপ্লোর করুন →</a>
         </div>
-        <a class="btn btn-primary" href="https://store.onuron.org">App Store দেখুন →</a>
       </div>
     </section>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<style>
+  .cta-banner {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(14,22,50,0.9) 0%, rgba(10,16,35,0.85) 100%);
+    border: 1px solid rgba(79,139,249,0.3);
+    border-radius: 28px;
+    padding: 72px 48px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+  }
+  .cta-glow-1, .cta-glow-2 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .cta-glow-1 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(79,139,249,0.2) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation: floatOrb 15s ease-in-out infinite;
+  }
+  .cta-glow-2 {
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(157,92,255,0.15) 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+    animation: floatOrb 18s ease-in-out infinite reverse;
+  }
+  .cta-content { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+  .cta-content h2 { margin-bottom: 16px; }
+  .cta-content p  { margin-bottom: 32px; }
+  .cta-content .section-eyebrow { margin-bottom: 16px; }
+
+  @keyframes floatOrb {
+    0%, 100% { transform: translate(0,0); }
+    50%       { transform: translate(20px, -20px); }
+  }
+
+  @media (max-width: 640px) {
+    .cta-banner { padding: 48px 28px; }
+  }
+</style>

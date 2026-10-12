@@ -7,73 +7,154 @@ import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
 import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
 ---
 
-<BaseLayout title="alap-framework — Full-Stack & Cross-Platform Application Framework">
+<BaseLayout
+  title="alap-framework — ফুল-স্ট্যাক ও ক্রস-প্ল্যাটফর্ম অ্যাপ্লিকেশন ফ্রেমওয়ার্ক"
+  description="alap-framework: ডেস্কটপ, মোবাইল ও ওয়েবের জন্য এন্টারপ্রাইজ-গ্রেড, ফুল-স্ট্যাক, মেমোরি-সেফ ও 60 FPS রিয়্যাক্টিভ অ্যাপ্লিকেশন ফ্রেমওয়ার্ক।"
+>
   <Navbar current="alap" />
+
+  <!-- Ambient Glow -->
+  <div class="ambient-glow ambient-teal" style="top: -60px; left: 10%;" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-purple" style="top: 280px; right: 5%;" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-blue" style="top: 800px; left: 15%;" aria-hidden="true"></div>
 
   <Hero
     title="alap-framework"
-    subtitle="ওয়েব, মোবাইল ও onuronOS-এর জন্য এন্টারপ্রাইজ-গ্রেড, ফুল-স্ট্যাক ও মেমরি-সেফ অ্যাপ্লিকেশন ফ্রেমওয়ার্ক।"
+    subtitle="ওয়েব, মোবাইল ও onuronOS-এর জন্য এন্টারপ্রাইজ-গ্রেড, ফুল-স্ট্যাক ও মেমোরি-সেফ রিয়্যাক্টিভ অ্যাপ্লিকেশন ফ্রেমওয়ার্ক।"
+    eyebrow="alap-framework v1.0 · Full-Stack · Reactive GUI & Web"
   >
-    <a class="btn btn-primary" href="/quickstart">Get Started</a>
+    <a class="btn btn-primary btn-glow" href="/quickstart">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+      কুইকস্টার্ট গাইড
+    </a>
     <a class="btn btn-ghost" href="https://github.com/joysriramsarkar/alap-framework" target="_blank" rel="noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+      </svg>
       GitHub ↗
     </a>
   </Hero>
 
-  <main>
-    <section class="container" style="max-width: 680px; margin-bottom: 48px;">
-      <CodeBlock label="$" code="nil init my-web-app --profile web && cd my-web-app && nil dev" />
+  <div class="divider"></div>
+
+  <main style="position: relative; z-index: 1;">
+    <!-- STATS -->
+    <section class="section-sm container">
+      <div class="stats-grid gsap-stagger">
+        <div class="stat-item">
+          <div class="stat-number" data-count="60" data-suffix=" FPS">60 FPS</div>
+          <div class="stat-label">স্মুথ হার্ডওয়্যার অ্যাক্সিলারেটেড রেন্ডারিং</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="10" data-suffix=" MB">&lt; ১০ MB</div>
+          <div class="stat-label">স্ট্যান্ডঅ্যালোন নেটিভ বাইনারি সাইজ</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">O(k)</div>
+          <div class="stat-label">Radix-Tree হাই-স্পিড রাউটার</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">.nilax</div>
+          <div class="stat-label">১-ক্লিকে অ্যাপ স্টোর বান্ডলিং</div>
+        </div>
+      </div>
     </section>
 
+    <!-- QUICKSTART CLI -->
+    <section class="section-sm container" style="max-width: 780px;">
+      <div class="glass-panel" style="padding: 28px 24px; border-radius: 18px; text-align: center;">
+        <span class="badge" style="background: rgba(16,229,178,0.15); color: var(--accent-2); margin-bottom: 12px; display: inline-block;">
+          ১-কমান্ডে নতুন অ্যাপ তৈরি
+        </span>
+        <h3 style="margin: 0 0 16px; font-size: 1.3rem;">প্রোজেক্ট ইনিশিয়ালাইজ করুন:</h3>
+        <CodeBlock label="$" code="nil init my-web-app --profile web && cd my-web-app && nil dev" />
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
     <section class="section container">
-      <h2>ওয়েব ও ক্রস-প্ল্যাটফর্ম ফিচারস</h2>
-      <div class="grid">
+      <div style="text-align: center; max-width: 700px; margin: 0 auto 56px auto;">
+        <p class="section-eyebrow reveal">Features</p>
+        <h2 class="anim-heading">ওয়েব ও ক্রস-প্ল্যাটফর্ম সক্ষমতা</h2>
+        <p class="muted">
+          ব্যাকএন্ড সার্ভিস থেকে শুরু করে ফ্রন্টএন্ড জিইউআই — সবই তৈরি হয় একক, সুন্দর আর্কিটেকচারে।
+        </p>
+      </div>
+
+      <div class="grid gsap-stagger">
         <FeatureCard
           title="Radix Tree Routing & Onion Middleware"
           desc="O(k) কমপ্লেক্সিটিতে প্যারামেট্রিক ও টাইপড কনস্ট্রেইন্ট রাউটিং এবং রিকভারি, CORS, সিকিউরিটি হেডারস পাইপলাইন।"
+          icon="⚡"
+          color="teal"
+          href="/quickstart"
         />
         <FeatureCard
           title="Server-Side Rendering (SSR) & Hydration"
-          desc="XSS-সুরক্ষিত সার্ভার রেন্ডারিং এবং window.__NILANG_INITIAL_STATE__ সহ ব্রাউজারে নিমিষে স্টেট হাইড্রেশন।"
+          desc="XSS-সুরক্ষিত সার্ভার রেন্ডারিং এবং ব্রাউজারে নিমিষে স্টেট হাইড্রেশন।"
+          icon="🌐"
+          color="blue"
+          href="/quickstart"
         />
         <FeatureCard
           title="Type-Safe ORM & Migrations"
           desc="PostgreSQL ও SQLite-এর জন্য প্যারামিটারাইজড কুয়েরি বিল্ডার, ট্রানজাকশন ও ভার্সনড স্কিমা মাইগ্রেশন।"
+          icon="🗄️"
+          color="purple"
+          href="/quickstart"
         />
         <FeatureCard
           title="Real-Time WebSocket & SSE"
           desc="রুম ও ব্রডকাস্টিং সাপোর্ট সহ হাই-পারফরম্যান্স রিয়েলটাইম ড্যাশবোর্ড ও চ্যাট আর্কিটেকচার।"
+          icon="📡"
+          color="teal"
+          href="/quickstart"
         />
         <FeatureCard
           title="Enterprise Identity & Auth"
           desc="বিল্ট-ইন JWT অথেনটিকেশন, ক্রিপ্টোগ্রাফিক সেশন কুকিজ, পাসওয়ার্ড হ্যাশিং ও RBAC পারমিশন চেকিং।"
+          icon="🔑"
+          color="blue"
+          href="/quickstart"
         />
         <FeatureCard
-          title="Single Packaging (.onp & Web)"
-          desc="একই কোডবেস থেকে WebAssembly/JS বান্ডেল এবং onuronOS নেটিভ প্যাকেজ তৈরি।"
+          title="Single Packaging (.nilax & Web)"
+          desc="একই কোডবেস থেকে WebAssembly/JS বান্ডেল এবং onuronOS নেটিভ ভেরিফাইড প্যাকেজ তৈরি।"
+          icon="📦"
+          color="purple"
+          href="https://store.onuron.org"
         />
       </div>
     </section>
 
+    <!-- CODE SNIPPET SHOWCASE -->
     <section class="section container" style="max-width: 860px;">
-      <h2>ওয়েব সার্ভিস কোড উদাহরণ</h2>
-      <CodeBlock code={`// server.nil
+      <div style="text-align: center; margin-bottom: 32px;">
+        <p class="section-eyebrow reveal">Developer Experience</p>
+        <h2 class="anim-heading">ফুল-স্ট্যাক ওয়েব সার্ভিস উদাহরণ</h2>
+      </div>
+
+      <div class="glass-card" style="padding: 24px; border-radius: 20px;">
+        <CodeBlock code={`// server.nil — alap ওয়েব সার্ভিস
 import { App, route, json } from "alap/web"
 import { Table } from "alap/data"
 
-let app = App.new("EnterpriseStore")
+let app = App.new("OnuronStore")
 
-@GET("/api/v1/users/{id:int}")
-fn getUser(ctx) {
+@GET("/api/v1/apps/{id:str}")
+fn getAppDetails(ctx) {
     let id = ctx.param("id")
-    let user = Table("users").where("id", "=", id).first()
-    return json(user)
+    let record = Table("apps").where("id", "=", id).first()
+    return json(record)
 }
 
 fn main() {
     print("🚀 Server running on http://localhost:8080")
     app.listen(":8080")
 }`} />
+      </div>
     </section>
   </main>
 

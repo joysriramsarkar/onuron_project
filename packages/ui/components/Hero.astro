@@ -2,15 +2,209 @@
 export interface Props {
   title: string;
   subtitle?: string;
+  eyebrow?: string;
 }
 
-const { title, subtitle } = Astro.props;
+const { title, subtitle, eyebrow } = Astro.props;
 ---
 
-<section class="hero container">
-  <h1>{title}</h1>
-  {subtitle && <p>{subtitle}</p>}
-  <div class="actions">
-    <slot />
+<section class="hero">
+  <!-- Three.js particle canvas -->
+  <canvas id="hero-particles" class="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- Floating ambient orbs -->
+  <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+
+  <div class="container hero-content">
+    {eyebrow && (
+      <div class="announce-pill">
+        <span class="pill-dot"></span>
+        <span>{eyebrow}</span>
+        <span class="pill-arrow">→</span>
+      </div>
+    )}
+
+    <h1 class="hero-title">{title}</h1>
+
+    {subtitle && (
+      <p class="hero-lead">{subtitle}</p>
+    )}
+
+    <div class="hero-actions">
+      <slot />
+    </div>
   </div>
 </section>
+
+<script>
+  // ── Three.js Particle Network ──
+  const canvas = document.getElementById("hero-particles") as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+
+    let W = 0, H = 0;
+    const resize = () => {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    };
+
+    const PARTICLE_COUNT = 80;
+    type Pt = { x: number; y: number; vx: number; vy: number; r: number; alpha: number };
+    const pts: Pt[] = [];
+
+    const reset = (p: Pt) => {
+      p.x = Math.random() * W;
+      p.y = Math.random() * H;
+      p.vx = (Math.random() - 0.5) * 0.35;
+      p.vy = (Math.random() - 0.5) * 0.35;
+      p.r  = Math.random() * 1.6 + 0.4;
+      p.alpha = Math.random() * 0.5 + 0.2;
+    };
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p: Pt = { x:0, y:0, vx:0, vy:0, r:0, alpha:0 };
+      reset(p);
+      pts.push(p);
+    }
+
+    let mouse = { x: W / 2, y: H / 2 };
+    canvas.parentElement?.addEventListener("mousemove", (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+
+    const BLUE   = "79,139,249";
+    const TEAL   = "16,229,178";
+    const PURPLE = "157,92,255";
+    const colors = [BLUE, TEAL, PURPLE];
+
+    let raf = 0;
+    const draw = () => {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, W, H);
+
+      pts.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > W || p.y < 0 || p.y > H) reset(p);
+
+        // Subtle mouse attraction
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 160) {
+          p.vx += dx / dist * 0.008;
+          p.vy += dy / dist * 0.008;
+        }
+        // Speed clamp
+        const speed = Math.sqrt(p.vx*p.vx + p.vy*p.vy);
+        if (speed > 1.0) { p.vx = p.vx/speed; p.vy = p.vy/speed; }
+
+        const c = colors[i % 3];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(${c},${p.alpha})`;
+        ctx.fill();
+      });
+
+      // Draw connections
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i+1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x;
+          const dy = pts[i].y - pts[j].y;
+          const d  = Math.sqrt(dx*dx + dy*dy);
+          if (d < 120) {
+            const alpha = (1 - d/120) * 0.18;
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = `rgba(79,139,249,${alpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      raf = requestAnimationFrame(draw);
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+    draw();
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 140px 0 100px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: floatOrb linear infinite;
+  }
+  .hero-orb-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(79,139,249,0.22) 0%, transparent 70%);
+    top: -200px; left: -150px;
+    animation-duration: 18s;
+  }
+  .hero-orb-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(157,92,255,0.18) 0%, transparent 70%);
+    top: 0; right: -100px;
+    animation-duration: 22s;
+    animation-delay: -6s;
+  }
+  .hero-orb-3 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(16,229,178,0.14) 0%, transparent 70%);
+    bottom: -100px; left: 30%;
+    animation-duration: 16s;
+    animation-delay: -3s;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+
+  @keyframes floatOrb {
+    0%   { transform: translate(0px, 0px) scale(1);    opacity: 0.7; }
+    25%  { transform: translate(20px, -30px) scale(1.05); opacity: 0.9; }
+    50%  { transform: translate(-10px, 20px) scale(0.97); opacity: 0.7; }
+    75%  { transform: translate(15px, 10px) scale(1.03); opacity: 0.85; }
+    100% { transform: translate(0px, 0px) scale(1);    opacity: 0.7; }
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 90px 0 70px; min-height: auto; }
+    .hero-orb-1, .hero-orb-2 { width: 300px; height: 300px; }
+  }
+  @media (max-width: 480px) {
+    .hero { padding: 60px 0 50px; }
+  }
+</style>

@@ -26,22 +26,21 @@ import { ECOSYSTEM_URLS } from "@onuron/ui/utils/links";
         </div>
 
         <h1 class="hero-title">
-          সার্বভৌম কম্পিউটিংয়ের নতুন যুগ
-          <span class="gradient-text hero-subtitle-gradient">OS, প্রোগ্রামিং ল্যাঙ্গুয়েজ ও অ্যাপ ফ্রেমওয়ার্ক</span>
+          সার্বভৌম মোবাইল কম্পিউটিংয়ের নতুন যুগ
+          <span class="gradient-text hero-subtitle-gradient">onuronOS মোবাইল, nilLang ও alap-framework</span>
         </h1>
 
         <p class="hero-lead">
-          <strong>onuronOS</strong>, <strong>nilLang</strong> এবং <strong>alap-framework</strong> — সম্পূর্ণ ওপেন-সোর্স, উচ্চ-পারফরম্যান্স এবং কোনো ট্র্যাকিং বা ব্লটওয়্যার মুক্ত এক অনন্য কম্পিউটিং প্ল্যাটফর্ম।
+          <strong>onuronOS</strong> — স্মার্টফোনের জন্য 100% Rust-নির্মিত স্বাধীন মোবাইল অপারেটিং সিস্টেম (nilinit PID 1, NilHAL টাচস্ক্রিন কম্পোজিটর ও অ্যান্ড্রয়েড কম্প্যাটিবিলিটি), এবং এর সহযোগী <strong>nilLang</strong> ও <strong>alap-framework</strong>।
         </p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary btn-glow" href={`${ECOSYSTEM_URLS.os}/download`}>
+          <a class="btn btn-primary btn-glow" href={ECOSYSTEM_URLS.os}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
             </svg>
-            onuronOS ডাউনলোড করুন
+            onuronOS মোবাইল এক্সপ্লোর
           </a>
 
           <a class="btn btn-ghost glass-btn" href={ECOSYSTEM_URLS.store}>
@@ -191,18 +190,18 @@ onuron-store-daemon --port=4325 --verified-only &amp;
               <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
           </div>
-          <div class="pillar-badge">CORE OPERATING SYSTEM</div>
+          <div class="pillar-badge">CORE MOBILE OPERATING SYSTEM</div>
           <h3 class="pillar-title">onuronOS</h3>
           <p class="pillar-desc">
-            হালকা, নিরাপদ এবং আধুনিক মাইক্রোকার্নেল-ভিত্তিক অপারেটিং সিস্টেম। শূন্য টেলিমেট্রি এবং নিজস্ব ভেরিফাইড অ্যাপ স্টোর সহ।
+            স্মার্টফোনের জন্য হালকা, নিরাপদ ও সম্পূর্ণ স্বাধীন লিনাক্স-ভিত্তিক মোবাইল ওএস। 100% Rust ইউজারস্পেস ও শূন্য গুগল ট্র্যাকিং।
           </p>
           <ul class="pillar-list">
-            <li>✓ মেমরি আইসোলেশন ও কনটেইনারাইজড অ্যাপ প্রটেকশন</li>
-            <li>✓ আল্ট্রা-লাইট রিসোর্স খরচ (১ জিবি র‍্যামেই স্বাচ্ছন্দ্যে চলে)</li>
-            <li>✓ সরাসরি <code>onuron://</code> প্রোটোকল ও ক্রিপ্টো চেকসাম ভ্যালিডেশন</li>
+            <li>✓ 100% Rust <code>nilinit</code> (PID 1) ও কয়েকশো মিলিসেকেন্ডে ফাস্ট বুট</li>
+            <li>✓ DRM/KMS 120Hz/60Hz সরাসরি টাচস্ক্রিন কম্পোজিটর ও জেসচার</li>
+            <li>✓ ডুয়েল অ্যান্ড্রয়েড ব্রিজ (Waydroid ও S25 NDK হোস্ট রানটাইম)</li>
           </ul>
           <a class="pillar-link" href={ECOSYSTEM_URLS.os}>
-            <span>onuronOS ফিচারস ও ডাউনলোড</span>
+            <span>onuronOS ফিচারস ও আর্কিটেকচার</span>
             <span class="arrow">→</span>
           </a>
         </div>
@@ -270,8 +269,8 @@ onuron-store-daemon --port=4325 --verified-only &amp;
         <div class="arch-layer" data-layer="store">
           <div class="arch-badge">LAYER 5</div>
           <div class="arch-info">
-            <h4>Onuron App Store & Verified Registry</h4>
-            <p>Git-চালিত উন্মুক্ত রেজিস্ট্রি ও ক্রিপ্টোগ্রাফিকালি ভেরিফাইড <code>.onp</code> প্যাকেজ ফিড।</p>
+            <h4>Onuron Mobile Store & Verified Registry</h4>
+            <p>Git-চালিত উন্মুক্ত মোবাইল রেজিস্ট্রি ও ক্রিপ্টোগ্রাফিকালি ভেরিফাইড <code>.nilax</code> প্যাকেজ ফিড।</p>
           </div>
           <div class="arch-tag">store.onuron.org</div>
         </div>
@@ -281,8 +280,8 @@ onuron-store-daemon --port=4325 --verified-only &amp;
         <div class="arch-layer" data-layer="alap">
           <div class="arch-badge">LAYER 4</div>
           <div class="arch-info">
-            <h4>alap-framework (UI & Runtime Engine)</h4>
-            <p>ডেস্কটপ উইজেট, রিয়্যাক্টিভ স্টেট এবং গ্লাস-ইউআই রেন্ডারার।</p>
+            <h4>alap-framework (Mobile UI & Runtime Engine)</h4>
+            <p>টাচস্ক্রিন জেসচার, রিঅ্যাক্টিভ মোবাইল উইজেট এবং 120Hz গ্লাস-ইউআই রেন্ডারার।</p>
           </div>
           <div class="arch-tag">alap.onuron.org</div>
         </div>
@@ -292,8 +291,8 @@ onuron-store-daemon --port=4325 --verified-only &amp;
         <div class="arch-layer" data-layer="nil">
           <div class="arch-badge">LAYER 3</div>
           <div class="arch-info">
-            <h4>nilLang Native Systems Engine</h4>
-            <p>জিরো-কস্ট অ্যাবস্ট্রাকশন, মেমরি সেফটি ও দ্রুত কম্পাইলেশন ল্যাঙ্গুয়েজ।</p>
+            <h4>nilLang Native Systems Engine & VM</h4>
+            <p>জিরো-কস্ট অ্যাবস্ট্রাকশন, মেমরি সেফটি ও দ্রুত কম্পাইলেশন ল্যাঙ্গুয়েজ ও রানটাইম।</p>
           </div>
           <div class="arch-tag">nil.onuron.org</div>
         </div>
@@ -303,8 +302,8 @@ onuron-store-daemon --port=4325 --verified-only &amp;
         <div class="arch-layer" data-layer="os">
           <div class="arch-badge">LAYER 2</div>
           <div class="arch-info">
-            <h4>onuronOS Security Microkernel</h4>
-            <p>হালকা মাইক্রোকার্নেল, হার্ডওয়্যার আইসোলেশন ও সরাসরি সিস্টেম সার্ভিস।</p>
+            <h4>onuronOS Mobile Microkernel & Rust PID 1 nilinit</h4>
+            <p>100% Rust PID 1, NilHAL টাচস্ক্রিন/অডিও লেয়ার ও কন্টেইনারাইজড অ্যান্ড্রয়েড কম্প্যাটিবিলিটি।</p>
           </div>
           <div class="arch-tag">os.onuron.org</div>
         </div>
@@ -314,10 +313,10 @@ onuron-store-daemon --port=4325 --verified-only &amp;
         <div class="arch-layer arch-layer-hardware" data-layer="hw">
           <div class="arch-badge">LAYER 1</div>
           <div class="arch-info">
-            <h4>Hardware Architecture</h4>
-            <p>x86_64, aarch64 (ARM64), এবং RISC-V আর্কিটেকচারের জন্য নেটিভ অপটিমাইজড।</p>
+            <h4>Mobile Hardware & Device Tree (DTB)</h4>
+            <p>OnePlus 6T (Snapdragon 845), Galaxy S25 Hosted Lab, এবং QEMU ARM64/x86_64 টাচ সিমুলেটর।</p>
           </div>
-          <div class="arch-tag">Bare Metal</div>
+          <div class="arch-tag">Mobile Target</div>
         </div>
       </div>
     </section>
@@ -848,6 +847,85 @@ onuron-store-daemon --port=4325 --verified-only &amp;
       margin-left: 0;
       justify-content: center;
     }
+  }
+
+  /* ── LIGHT MODE COMPREHENSIVE OVERRIDES ── */
+  :global([data-theme="light"]) .hero-title {
+    color: #0f172a;
+  }
+  :global([data-theme="light"]) .hero-lead {
+    color: #334155;
+  }
+  :global([data-theme="light"]) .glass-btn {
+    background: #ffffff;
+    border-color: rgba(203, 213, 225, 0.95);
+    color: #0f172a;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  }
+  :global([data-theme="light"]) .glass-btn:hover {
+    background: #f8fafc;
+    border-color: #2563eb;
+    color: #2563eb;
+  }
+  :global([data-theme="light"]) .arch-stack {
+    background: #ffffff;
+    border-color: rgba(226, 232, 240, 0.95);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  }
+  :global([data-theme="light"]) .arch-layer {
+    background: #ffffff;
+    border-color: rgba(226, 232, 240, 0.95);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+  }
+  :global([data-theme="light"]) .arch-layer:hover {
+    background: #f8faff;
+    border-color: #2563eb;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+  }
+  :global([data-theme="light"]) .arch-layer h4 {
+    color: #0f172a !important;
+  }
+  :global([data-theme="light"]) .arch-layer p {
+    color: #475569 !important;
+  }
+  :global([data-theme="light"]) .arch-layer-hardware {
+    background: #f8fafc;
+    border: 1px dashed rgba(203, 213, 225, 0.95);
+  }
+  :global([data-theme="light"]) .tilt-card {
+    background: #ffffff;
+    border-color: rgba(226, 232, 240, 0.95);
+    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05);
+  }
+  :global([data-theme="light"]) .tilt-card:hover {
+    background: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 16px 40px rgba(37, 99, 235, 0.12);
+  }
+  :global([data-theme="light"]) .pillar-title {
+    color: #0f172a !important;
+  }
+  :global([data-theme="light"]) .pillar-desc {
+    color: #475569 !important;
+  }
+  :global([data-theme="light"]) .pillar-list {
+    color: #334155 !important;
+  }
+  :global([data-theme="light"]) .pillar-link {
+    color: #2563eb !important;
+  }
+  :global([data-theme="light"]) .terminal-showcase {
+    box-shadow: 0 24px 60px -15px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.9);
+  }
+  :global([data-theme="light"]) .cli-box {
+    background: #ffffff;
+    border-color: rgba(226, 232, 240, 0.95);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  }
+  :global([data-theme="light"]) .cli-command-bar {
+    background: #0f172a;
+    color: #f8fafc;
+    border-color: rgba(56, 78, 145, 0.4);
   }
 </style>
 

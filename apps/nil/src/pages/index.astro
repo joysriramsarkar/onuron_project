@@ -7,56 +7,180 @@ import CodeBlock from "@onuron/ui/components/CodeBlock.astro";
 import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
 ---
 
-<BaseLayout title="nilLang — Simple. Fast. Yours.">
+<BaseLayout
+  title="nilLang — আধুনিক, মেমোরি-নিরাপদ ও দ্রুত প্রোগ্রামিং ভাষা"
+  description="nilLang: জিরো-ওভারহেড, গারবেজ কালেক্টর মুক্ত, মেমোরি-নিরাপদ এবং onuronOS ও ওয়েবের জন্য অপ্টিমাইজড আধুনিক প্রোগ্রামিং ভাষা।"
+>
   <Navbar current="nilLang" />
+
+  <!-- Ambient Glow -->
+  <div class="ambient-glow ambient-purple" style="top: -60px; left: 10%;" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-blue" style="top: 280px; right: 5%;" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-teal" style="top: 750px; left: 15%;" aria-hidden="true"></div>
 
   <Hero
     title="nilLang"
-    subtitle="সরল সিনট্যাক্স, মেমোরি সেফটি ও আধুনিক কম্পিউটিংয়ের জন্য তৈরি সাধারণ প্রোগ্রামিং ল্যাঙ্গুয়েজ।"
+    subtitle="সরল মানব-পাঠ্য সিনট্যাক্স, কম্পাইল-টাইম মেমোরি সেফটি এবং জিরো-কস্ট অ্যাবস্ট্রাকশন সহ নতুন প্রজন্মের সিস্টেমস ও অ্যাপ ল্যাঙ্গুয়েজ।"
+    eyebrow="nilLang v1.0 · Zero-Overhead · Native & WebAssembly"
   >
-    <a class="btn btn-primary" href="/playground">Try in Playground</a>
-    <a class="btn btn-ghost" href="/syntax">Syntax Guide</a>
+    <a class="btn btn-primary btn-glow" href="/playground">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+      ব্রাউজার প্লেগ্রাউন্ড
+    </a>
+    <a class="btn btn-ghost" href="/syntax">সিনট্যাক্স গাইড পড়ুন →</a>
     <a class="btn btn-ghost" href="https://github.com/joysriramsarkar/nilLang" target="_blank" rel="noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+      </svg>
       GitHub ↗
     </a>
   </Hero>
 
-  <main>
-    <section class="container" style="max-width: 680px; margin-bottom: 48px;">
-      <CodeBlock
-        code={`// nilLang উদাহরণ
-fn greet(name: str) -> str {
-  return "হ্যালো, " + name + "! স্বাগতম nilLang-এ।"
+  <div class="divider"></div>
+
+  <main style="position: relative; z-index: 1;">
+    <!-- STATS -->
+    <section class="section-sm container">
+      <div class="stats-grid gsap-stagger">
+        <div class="stat-item">
+          <div class="stat-number" data-count="0" data-suffix=" ms">0 ms</div>
+          <div class="stat-label">GC Pause (Zero Garbage Collector)</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="100" data-suffix="%">100%</div>
+          <div class="stat-label">কম্পাইল-টাইম মেমোরি নিরাপত্তা</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">&lt; ৫০ms</div>
+          <div class="stat-label">ইনস্ট্যান্ট ইনক্রিমেন্টাল বিল্ড</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">Wasm</div>
+          <div class="stat-label">নেটিভ ও ওয়েব বাইনারি টার্গেট</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CODE SHOWCASE WITH LIVE PLAY LINK -->
+    <section class="section container" style="max-width: 860px;">
+      <div style="text-align: center; margin-bottom: 32px;">
+        <p class="section-eyebrow reveal">Syntax Preview</p>
+        <h2 class="anim-heading">সহজ ও শক্তিশালী সিনট্যাক্স</h2>
+      </div>
+
+      <div class="glass-card" style="padding: 24px; border-radius: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div style="display: flex; gap: 8px;">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <a class="btn btn-primary small" href="/playground">প্লেগ্রাউন্ডে রান করুন ⚡</a>
+        </div>
+        <CodeBlock
+          code={`// nilLang: মেমরি-নিরাপদ ও আধুনিক সিস্টেম কোড
+import { Crypto, System } from "onuron/core"
+
+fn calculateChecksum(data: str) -> str {
+    let hash = Crypto.sha256(data)
+    return hash.slice(0, 16)
 }
 
 fn main() {
-  let message = greet("Onuron")
-  print(message)
-}`}
-      />
+    let version = System.version()
+    print("🚀 onuronOS Core v" + version)
+    
+    let token = calculateChecksum("sovereign-computing")
+    print("🔒 System Token: " + token)
+}
+
+main()`}
+        />
+      </div>
     </section>
 
+    <!-- FEATURES GRID -->
     <section class="section container">
-      <h2>কেন nilLang?</h2>
-      <div class="grid">
+      <div style="text-align: center; max-width: 700px; margin: 0 auto 56px auto;">
+        <p class="section-eyebrow reveal">Core Features</p>
+        <h2 class="anim-heading">কেন nilLang অনন্য?</h2>
+        <p class="muted">
+          C++ এর তীব্র পারফরম্যান্স, Rust এর কঠোর নিরাপত্তা এবং Python এর সহজ পাঠযোগ্যতার অপূর্ব সমন্বয়।
+        </p>
+      </div>
+
+      <div class="grid gsap-stagger">
         <FeatureCard
           title="Clean & Readable"
-          desc="অনাবশ্যক বয়লারপ্লেট মুক্ত পরিচ্ছন্ন কোডিং সিনট্যাক্স।"
+          desc="অনাবশ্যক বয়লারপ্লেট মুক্ত পরিচ্ছন্ন কোডিং সিনট্যাক্স — প্রথম দিন থেকেই যে কেউ সহজে শিখতে পারে।"
+          icon="✨"
+          color="blue"
           href="/syntax"
         />
         <FeatureCard
-          title="Zero Overhead"
-          desc="নেটিভ মেশিন কোড এবং WebAssembly উভয় ফরম্যাটেই হাই-স্পিড কম্পাইলেশন।"
+          title="Zero Overhead Memory Safety"
+          desc="কোনো ভারী রানটাইম বা GC পজ ছাড়াই কম্পাইল সময়েই পয়েন্টার ও বাফার ওভারফ্লো প্রতিরোধ।"
+          icon="🛡️"
+          color="teal"
+          href="/syntax"
+        />
+        <FeatureCard
+          title="Dual Target (Native & Wasm)"
+          desc="একই কোডবেস থেকে বেয়ার মেটাল x86/ARM নেটিভ বাইনারি এবং ব্রাউজার WebAssembly জেনারেশন।"
+          icon="⚡"
+          color="purple"
           href="/playground"
         />
         <FeatureCard
-          title="Designed for Onuron"
-          desc="onuronOS ও alap-framework-এর সাথে হারমনিয়াস ফার্স্ট-পার্টি সাপোর্ট।"
+          title="First-Class onuronOS Integration"
+          desc="onuronOS কার্নেল এপিআই, alap-framework উইজেট ও .nilax প্যাকেজিং এর জন্য প্রথম শ্রেণীর সাপোর্ট।"
+          icon="🪐"
+          color="blue"
           href="https://docs.onuron.org"
         />
+        <FeatureCard
+          title="Instant Compilation"
+          desc="দ্রুততম এলএলভিএম/সি-ট্রান্সপাইল পাইপলাইন — কোড এডিট করার সাথে সাথে সাব-সেকেন্ডে এক্সিকিউট।"
+          icon="🚀"
+          color="teal"
+          href="/playground"
+        />
+        <FeatureCard
+          title="Batteries Included"
+          desc="বিল্ট-ইন প্যাকেজ ম্যানেজার, লিন্টার, টেস্টার এবং ইন্টারেক্টিভ REPL ডিফল্টভাবে অন্তর্ভুক্ত।"
+          icon="📦"
+          color="purple"
+          href="https://github.com/joysriramsarkar/nilLang"
+        />
+      </div>
+    </section>
+
+    <!-- CLI QUICK INSTALL -->
+    <section class="section-sm container" style="text-align: center;">
+      <div class="cli-box glass-panel" style="max-width: 750px; margin: 0 auto; padding: 40px 32px; border-radius: 20px;">
+        <h3 style="margin: 0 0 12px; font-size: 1.6rem;">nilLang টুলচেন ইনস্টল করুন</h3>
+        <p class="muted small" style="margin-bottom: 20px;">আপনার সিস্টেমে কম্পাইলার ও স্ট্যান্ডার্ড লাইব্রেরি সেটআপ করতে টার্মিনালে রান করুন:</p>
+        <CodeBlock label="$" code="curl -fsSL https://get.onuron.org/nil | sh" />
+        <div style="margin-top: 24px;">
+          <a class="btn btn-ghost" href="/playground">ব্রাউজারে ট্রাই করুন (নো ইনস্টল) →</a>
+        </div>
       </div>
     </section>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<style>
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+</style>

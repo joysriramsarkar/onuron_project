@@ -2,76 +2,253 @@
 import BaseLayout from "@onuron/ui/components/BaseLayout.astro";
 import Navbar from "@onuron/ui/components/Navbar.astro";
 import Footer from "@onuron/ui/components/Footer.astro";
+import FeatureCard from "@onuron/ui/components/FeatureCard.astro";
 ---
 
 <BaseLayout title="Features — onuronOS">
   <Navbar current="onuronOS" />
-  <main class="container prose section">
-    <h1>onuronOS Features</h1>
-    <p>
-      onuronOS কে গ্রাউন্ড আপ থেকে তৈরি করা হয়েছে আধুনিক, সার্বভৌম এবং স্বাধীন মোবাইল ও ডেস্কটপ কম্পিউটিংয়ের নতুন স্ট্যান্ডার্ড স্থাপনের লক্ষ্যে।
-    </p>
 
-    <h2>কোর আর্কিটেকচার ও সিস্টেম উপাদান</h2>
-    <ul>
-      <li><strong>Linux LTS কার্নেল ও মডুলার বুটস্ট্র্যাপ</strong> — আধুনিক Alpine-ভিত্তিক 6.12+ LTS কার্নেল, অপ্টিমাইজড ইনিটর‍্যামএফএস (initramfs), মডুলার <code class="mono">modloop</code> ড্রাইভার ইনজেকশন এবং বাস্তব ext4 পারসিস্টেন্ট স্টোরেজ।</li>
-      <li><strong>nilinit (100% Rust PID 1 Init System)</strong> — মেমরি-নিরাপদ সিস্টেম ইনিশিয়ালাইজার; ডিক্লেয়ারেটিভ টার্গেট রেজিস্ট্রি (<code class="mono">boot.target</code>, <code class="mono">multi-user.target</code>, <code class="mono">graphical.target</code>), সুপার ফাস্ট সমান্তরাল সার্ভিস এক্সিকিউশন ও সকেট অ্যাক্টিভেশন।</li>
-      <li><strong>NilHAL (Hardware Abstraction Layer)</strong> — সমন্বিত হার্ডওয়্যার ইন্টারফেস:
-        <ul>
-          <li><strong>Display</strong>: DRM/KMS এবং লিনিয়ার ফ্রেমবাফার রেন্ডারিং।</li>
-          <li><strong>Touch & Input</strong>: লিনাক্স <code class="mono">evdev</code> মাল্টি-টাচ পাইপলাইন, ডাইনামিক কো-অর্ডিনেট স্কেলিং ও টাচ জেসচার ট্র্যাকিং।</li>
-          <li><strong>Audio</strong>: ALSA ও TinyALSA নির্ভর লো-লেটেন্সি সাউন্ড ইঞ্জিন।</li>
-          <li><strong>Power & Sensors</strong>: ব্যাটারি হেলথ মনিটরিং ও পাওয়ার স্টেট ম্যানেজমেন্ট।</li>
-        </ul>
-      </li>
-      <li><strong>দ্বৈত রানটাইম ও অ্যান্ড্রয়েড ব্রিজ (Dual-Track Architecture)</strong>:
-        <ul>
-          <li><strong>Track B (S25 NDK-Hosted Runtime)</strong>: মোবাইল ডিভাইসে অ্যান্ড্রয়েড সাবস্ট্রুমেন্টের ওপর সরাসরি আল্ট্রা-ফাস্ট নেটিভ এক্সিকিউশন।</li>
-          <li><strong>Track C (Waydroid / AOSP Container)</strong>: অনুরণ প্ল্যাটফর্মে নির্বিঘ্নে প্লে-স্টোর ও জনপ্রিয় অ্যান্ড্রয়েড অ্যাপস চালনার কন্টেইনার সাপোর্ট।</li>
-        </ul>
-      </li>
-      <li><strong>ক্রিপ্টোগ্রাফিকালি সুরক্ষিত <code class="mono">.nilax</code> প্যাকেজ ফরম্যাট</strong> — প্রতিটি অ্যাপ প্যাকেজে SHA-256 ইন্টিগ্রিটি হ্যাশ এবং Ed25519 ক্রিপ্টোগ্রাফিক সিগনেচার যাচাই।</li>
-      <li><strong>বিল্ট-ইন App Store ইকোসিস্টেম</strong> — সেন্ট্রালাইজড রেজিস্ট্রি ফিড (<code class="mono">store.onuron.org/api/v1</code>) থেকে ওয়ান-ক্লিক ইনস্টলেশন ও ডিপ-লিঙ্ক আপডেট।</li>
-      <li><strong>NilLang ও Alap Framework নেটিভ ইউজার ইন্টারফেস</strong> — ডিক্লেয়ারেটিভ রিঅ্যাক্টিভ ইউআই, ফ্লুইড 60 FPS অ্যানিমেশন এবং স্মৃতি-দক্ষ কম্পোনেন্ট আর্কিটেকচার।</li>
-      <li><strong>জিরো টেলিমেট্রি ও সম্পূর্ণ স্বাধীনতা</strong> — কোনো ট্র্যাকিং নেই, কোনো নজরদারি নেই, ব্যবহারকারীর তথ্যে সম্পূর্ণ ব্যবহারকারীর নিজের মালিকানা।</li>
-    </ul>
+  <!-- Page Hero (minimal, no particle canvas) -->
+  <section class="page-hero">
+    <div class="page-hero-orb" aria-hidden="true"></div>
+    <div class="container page-hero-content">
+      <p class="section-eyebrow" style="justify-content:center">onuronOS Features</p>
+      <h1 class="gradient-text-blue">সম্পূর্ণ আর্কিটেকচার বিবরণ</h1>
+      <p class="muted" style="max-width:620px;margin:0 auto;font-size:1.1rem;line-height:1.65">
+        Linux LTS কার্নেল থেকে Rust-ভিত্তিক nilinit, NilHAL, দ্বৈত অ্যান্ড্রয়েড ব্রিজ এবং সম্পূর্ণ অ্যাপ ইকোসিস্টেম।
+      </p>
+    </div>
+  </section>
 
-    <h2>ইকোসিস্টেমের প্রথম-সারির অ্যাপস স্যুট (Pre-installed Apps)</h2>
-    <div class="grid" style="margin: 24px 0;">
-      <div class="card">
-        <h3>🧮 Calculator</h3>
-        <p class="small muted">সায়েন্টিফিক হিসাব ও এক্সপ্রেশন ইভ্যালুয়েশন সাপোর্ট সহ দ্রুতগতির ক্যালকুলেটর।</p>
-      </div>
-      <div class="card">
-        <h3>📁 File Manager</h3>
-        <p class="small muted">ext4 ও অ্যান্ড্রয়েড স্টোরেজ এক্সপ্লোরার, মেটাডেটা ভিউয়ার ও সুরক্ষিত ফাইল অপারেশন।</p>
-      </div>
-      <div class="card">
-        <h3>🎵 Music Player</h3>
-        <p class="small muted">লো-লেটেন্সি অডিও প্লেব্যাক, প্লেলিস্ট সাপোর্ট এবং ব্যাকগ্রাউন্ড প্লেয়ার সার্ভিস।</p>
-      </div>
-      <div class="card">
-        <h3>📝 Notes</h3>
-        <p class="small muted">অটোসেভ এবং মার্কডাউন প্রিভিউ সাপোর্ট সহ ব্যক্তিগত নোটপ্যাড।</p>
-      </div>
-      <div class="card">
-        <h3>💳 POS (দোকান খাতা)</h3>
-        <p class="small muted">ছোট-বড় ব্যবসার জন্য ইনভেন্টরি, বারকোড স্ক্যানিং ও ডিজিটাল বিলিং অ্যাপ।</p>
-      </div>
-      <div class="card">
-        <h3>💻 Terminal</h3>
-        <p class="small muted">ফুল-ফিচার্ড পিটিআই (PTY) কনসোল, শেল অ্যাক্সেস ও ডেভেলপার প্যাকেজ টুলকিট।</p>
+  <div class="divider"></div>
+
+  <main class="container section">
+
+    <!-- Section 1: Core Architecture -->
+    <div class="feat-section reveal">
+      <p class="section-eyebrow">Core Layer</p>
+      <h2 class="anim-heading">কার্নেল ও বুটস্ট্র্যাপ পাইপলাইন</h2>
+      <p class="muted" style="max-width:600px;margin-bottom:40px">
+        Linux LTS 6.12+ এর উপর অপ্টিমাইজড Alpine-ভিত্তিক বুটস্ট্র্যাপ, মডুলার <code>modloop</code> ড্রাইভার ইনজেকশন এবং বাস্তব ext4 পারসিস্টেন্ট স্টোরেজ।
+      </p>
+
+      <!-- Architecture diagram -->
+      <div class="arch-diagram glass-card reveal" data-delay="2">
+        <div class="arch-layer arch-app">
+          <span class="arch-label">App Layer</span>
+          <div class="arch-items">
+            <span class="arch-chip chip-blue">Calculator</span>
+            <span class="arch-chip chip-teal">Files</span>
+            <span class="arch-chip chip-purple">Music</span>
+            <span class="arch-chip chip-blue">Notes</span>
+            <span class="arch-chip chip-teal">Terminal</span>
+            <span class="arch-chip chip-purple">POS</span>
+          </div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true">↕ NilLang + Alap Framework</div>
+        <div class="arch-layer arch-ui">
+          <span class="arch-label">Android Bridge</span>
+          <div class="arch-items">
+            <span class="arch-chip chip-teal">Track B (S25 NDK Runtime)</span>
+            <span class="arch-chip chip-purple">Track C (Waydroid/AOSP)</span>
+          </div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true">↕ Hardware Interface</div>
+        <div class="arch-layer arch-hal">
+          <span class="arch-label">NilHAL</span>
+          <div class="arch-items">
+            <span class="arch-chip chip-blue">Display (DRM/KMS)</span>
+            <span class="arch-chip chip-teal">Touch (evdev)</span>
+            <span class="arch-chip chip-purple">Audio (ALSA)</span>
+            <span class="arch-chip chip-blue">Power</span>
+          </div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true">↕ System Bootstrap</div>
+        <div class="arch-layer arch-init">
+          <span class="arch-label">nilinit (Rust PID 1)</span>
+          <div class="arch-items">
+            <span class="arch-chip chip-teal">boot.target</span>
+            <span class="arch-chip chip-blue">multi-user.target</span>
+            <span class="arch-chip chip-purple">graphical.target</span>
+          </div>
+        </div>
+        <div class="arch-arrow" aria-hidden="true">↕ Kernel</div>
+        <div class="arch-layer arch-kernel">
+          <span class="arch-label">Linux LTS 6.12+</span>
+          <div class="arch-items">
+            <span class="arch-chip chip-blue">Initramfs</span>
+            <span class="arch-chip chip-teal">modloop.squashfs</span>
+            <span class="arch-chip chip-purple">ext4 Persistent Storage</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <h2>হার্ডওয়্যার প্রয়োজনীয়তা (System Requirements)</h2>
-    <table class="meta">
-      <tr><td>প্রসেসর</td><td>64-bit Quad Core (x86_64 / ARM64 v8.2+)</td></tr>
-      <tr><td>র‍্যাম (RAM)</td><td>ন্যূনতম 1 GB (2 GB বা তদূর্ধ্ব রেকমেন্ডেড)</td></tr>
-      <tr><td>স্টোরেজ</td><td>ন্যূনতম 4 GB ফ্রি স্টোরেজ (ext4 / UFS / eMMC)</td></tr>
-      <tr><td>ডিসপ্লে</td><td>720p / 1080p ক্যাপাসিটিভ মাল্টি-টাচ অথবা সাধারণ মনিটর</td></tr>
-      <tr><td>ভার্চুয়াল টেস্ট</td><td>QEMU (KVM) অথবা nilos-emulator (nilsim) স্টুডিও</td></tr>
-    </table>
+    <!-- Section 2: Core features grid -->
+    <div class="feat-section" style="margin-top:80px">
+      <p class="section-eyebrow reveal">System Components</p>
+      <h2 class="anim-heading reveal">মূল সিস্টেম উপাদান</h2>
+      <div class="grid gsap-stagger" style="margin-top:40px">
+        <FeatureCard title="nilinit (Rust PID 1)" desc="ডিক্লেয়ারেটিভ টার্গেট রেজিস্ট্রি, সকেট অ্যাক্টিভেশন ও ওয়াচডগ সহ প্যারালাল সার্ভিস লঞ্চ — কয়েকশো মিলিসেকেন্ডে সম্পূর্ণ বুট।" icon="⚡" color="blue" />
+        <FeatureCard title="NilHAL — Display" desc="DRM/KMS ও লিনিয়ার ফ্রেমবাফার পাইপলাইনের মাধ্যমে 60 FPS জিরো-টিয়ারিং গ্রাফিক্স আউটপুট।" icon="🖥️" color="teal" />
+        <FeatureCard title="NilHAL — Touch" desc="লিনাক্স evdev মাল্টি-টাচ ড্রাইভার — র' এক্সিস স্কেলিং, মাল্টি-ফিঙ্গার জেসচার ও টাচ ইনপুট পাইপলাইন।" icon="👆" color="purple" />
+        <FeatureCard title="NilHAL — Audio" desc="ALSA ও TinyALSA ব্যাকএন্ডের মাধ্যমে মিনিমাল লেটেন্সিতে অডিও প্লেব্যাক ও ক্যাপচার।" icon="🎵" color="teal" />
+        <FeatureCard title="Track B (S25 NDK)" desc="মোবাইল হার্ডওয়্যারের উপর সরাসরি NilLang/Alap এক্সিকিউশন — শূন্য ওভারহেড, আসল হার্ডওয়্যার গতি।" icon="🚀" color="blue" />
+        <FeatureCard title="Track C (Waydroid)" desc="LXC কন্টেইনারে সম্পূর্ণ AOSP রান — যেকোনো অ্যান্ড্রয়েড APK উইন্ডো আকারে চালানোর সুবিধা।" icon="🤖" color="purple" />
+      </div>
+    </div>
+
+    <!-- Section 3: App Suite -->
+    <div class="feat-section" style="margin-top:80px">
+      <p class="section-eyebrow reveal">First-party Apps</p>
+      <h2 class="anim-heading reveal">ইকোসিস্টেম অ্যাপ স্যুট</h2>
+      <div class="app-suite-grid gsap-stagger" style="margin-top:40px">
+        {[
+          { icon: "🧮", name: "Calculator", desc: "সায়েন্টিফিক ও স্ট্যান্ডার্ড ক্যালকুলেটর", color: "blue" },
+          { icon: "📁", name: "File Manager", desc: "ext4 স্টোরেজ ও মেটাডেটা ভিউয়ার", color: "teal" },
+          { icon: "🎵", name: "Music Player", desc: "লো-লেটেন্সি অডিও, ব্যাকগ্রাউন্ড সার্ভিস", color: "purple" },
+          { icon: "📝", name: "Notes", desc: "অটোসেভ ও মার্কডাউন প্রিভিউ", color: "blue" },
+          { icon: "💳", name: "POS (দোকান খাতা)", desc: "ইনভেন্টরি, বারকোড ও ডিজিটাল বিলিং", color: "teal" },
+          { icon: "💻", name: "Terminal", desc: "ফুল PTY কনসোল, শেল অ্যাক্সেস", color: "purple" },
+        ].map((app) => (
+          <div class={`app-suite-card glass-card`}>
+            <div class={`app-suite-icon icon-${app.color}`}>{app.icon}</div>
+            <h3 class="app-suite-name">{app.name}</h3>
+            <p class="muted small app-suite-desc">{app.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Section 4: System Requirements -->
+    <div class="feat-section reveal" style="margin-top:80px">
+      <p class="section-eyebrow">Compatibility</p>
+      <h2 class="anim-heading">সিস্টেম প্রয়োজনীয়তা</h2>
+      <div class="glass-card" style="margin-top:32px;padding:36px;max-width:680px">
+        <table class="meta">
+          <tr><td>প্রসেসর</td><td>64-bit Quad Core — <code>x86_64</code> / <code>aarch64</code> (ARM64 v8.2+)</td></tr>
+          <tr><td>র‍্যাম</td><td>ন্যূনতম 1 GB &nbsp;(2 GB+ রেকমেন্ডেড)</td></tr>
+          <tr><td>স্টোরেজ</td><td>ন্যূনতম 4 GB ext4 / UFS / eMMC</td></tr>
+          <tr><td>ডিসপ্লে</td><td>720p+ ক্যাপাসিটিভ মাল্টি-টাচ অথবা সাধারণ মনিটর</td></tr>
+          <tr><td>এমুলেটর</td><td>QEMU (KVM) অথবা <code>nilos-emulator</code> (<code>nilsim</code>)</td></tr>
+        </table>
+      </div>
+    </div>
+
   </main>
+
   <Footer />
 </BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    padding: 100px 0 72px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .page-hero-orb {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    background: radial-gradient(circle, rgba(79,139,249,0.2) 0%, transparent 70%);
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    animation: pulse 8s ease-in-out infinite;
+  }
+  .page-hero-content { position: relative; z-index: 1; }
+  .page-hero h1 { margin: 12px 0 20px; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    50%       { opacity: 1;   transform: translateX(-50%) scale(1.1); }
+  }
+
+  .feat-section { padding-bottom: 16px; }
+
+  /* Architecture diagram */
+  .arch-diagram {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    overflow: hidden;
+  }
+  .arch-layer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(14,22,50,0.5);
+    border: 1px solid rgba(42,60,115,0.3);
+    flex-wrap: wrap;
+  }
+  .arch-label {
+    color: var(--text-bright);
+    font-weight: 700;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    min-width: 180px;
+  }
+  .arch-items { display: flex; gap: 8px; flex-wrap: wrap; }
+  .arch-chip {
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .chip-blue   { background: rgba(79,139,249,0.1); border-color: rgba(79,139,249,0.3); color: #93c5fd; }
+  .chip-teal   { background: rgba(16,229,178,0.08); border-color: rgba(16,229,178,0.3); color: #6ee7b7; }
+  .chip-purple { background: rgba(157,92,255,0.08); border-color: rgba(157,92,255,0.3); color: #c4b5fd; }
+
+  .arch-arrow {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    padding: 6px 0;
+    letter-spacing: 0.05em;
+    font-family: var(--mono);
+  }
+
+  /* App Suite Grid */
+  .app-suite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .app-suite-card {
+    padding: 28px 24px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .app-suite-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(79,139,249,0.4);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(79,139,249,0.15);
+  }
+  .app-suite-icon {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+    display: block;
+    width: 60px; height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px auto;
+    border: 1px solid;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .app-suite-card:hover .app-suite-icon { transform: scale(1.15) rotate(-5deg); }
+  .icon-blue   { background: rgba(79,139,249,0.1); border-color: rgba(79,139,249,0.25); }
+  .icon-teal   { background: rgba(16,229,178,0.08); border-color: rgba(16,229,178,0.25); }
+  .icon-purple { background: rgba(157,92,255,0.08); border-color: rgba(157,92,255,0.25); }
+  .app-suite-name { font-size: 0.95rem; margin-bottom: 6px; }
+  .app-suite-desc { margin: 0; line-height: 1.5; }
+</style>

@@ -3,12 +3,73 @@ export interface Props {
   title: string;
   desc: string;
   href?: string;
+  icon?: string;
+  color?: "blue" | "teal" | "purple" | "rose";
 }
 
-const { title, desc, href } = Astro.props;
+const { title, desc, href = "#", icon = "✦", color = "blue" } = Astro.props;
+
+const colorMap = {
+  blue:   { bg: "rgba(79,139,249,0.1)",  border: "rgba(79,139,249,0.2)",  glow: "rgba(79,139,249,0.4)",  text: "#93c5fd" },
+  teal:   { bg: "rgba(16,229,178,0.08)", border: "rgba(16,229,178,0.2)",  glow: "rgba(16,229,178,0.4)",  text: "#6ee7b7" },
+  purple: { bg: "rgba(157,92,255,0.08)", border: "rgba(157,92,255,0.2)",  glow: "rgba(157,92,255,0.4)",  text: "#c4b5fd" },
+  rose:   { bg: "rgba(244,63,94,0.08)",  border: "rgba(244,63,94,0.2)",   glow: "rgba(244,63,94,0.4)",   text: "#fda4af" },
+};
+const c = colorMap[color];
 ---
 
-<a class="card" href={href ?? "#"}>
-  <h3>{title}</h3>
-  <p class="muted small" style="margin: 0;">{desc}</p>
+<a
+  class="motion-card feature-card-link"
+  href={href}
+  style={`--fc-bg:${c.bg};--fc-border:${c.border};--fc-glow:${c.glow};--fc-text:${c.text}`}
+>
+  <div class="feature-icon" style={`background:${c.bg};border-color:${c.border}`}>
+    <span style={`color:${c.text};font-size:1.4rem;line-height:1`}>{icon}</span>
+  </div>
+  <h3 class="feature-title">{title}</h3>
+  <p class="muted small feature-desc">{desc}</p>
+
+  <!-- Bottom arrow -->
+  <div class="feature-arrow">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"/>
+    </svg>
+  </div>
 </a>
+
+<style>
+  .feature-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .feature-card-link:hover {
+    text-decoration: none;
+    border-color: var(--fc-border) !important;
+    box-shadow: 0 30px 70px -15px rgba(0,0,0,0.7), 0 0 40px var(--fc-glow) !important;
+  }
+  .feature-card-link:hover .feature-icon {
+    border-color: var(--fc-border) !important;
+    box-shadow: 0 0 24px var(--fc-glow) !important;
+  }
+  .feature-title {
+    color: var(--text-bright);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    transition: color 0.2s ease;
+  }
+  .feature-desc { margin: 0; line-height: 1.65; }
+  .feature-arrow {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    color: var(--fc-text);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .feature-card-link:hover .feature-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

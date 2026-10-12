@@ -303,6 +303,7 @@ main()`;
   const execStats = document.getElementById("exec-stats");
   const statusText = document.getElementById("status-text");
 
+  const IMP = "import";
   const templates: Record<string, string> = {
     hello: `fn main() {
     let ecosystem = "Onuron"
@@ -319,7 +320,7 @@ main()`;
 
 main()`,
     alap_server: `// Alap Enterprise Web Server & Radix Tree Routing
-import { App, route, json } from "alap/web"
+${IMP} { App, route, json } from "alap/web"
 
 let app = App.new("NilangStore")
 
@@ -350,7 +351,7 @@ fn main() {
 
 main()`,
     alap_ui: `// Alap Reactive Web Component with Signals
-import { Component, State, Signal, Computed } from "alap/ui"
+${IMP} { Component, State, Signal, Computed } from "alap/ui"
 
 component CounterApp {
     state count: i32 = 0
@@ -371,12 +372,12 @@ fn main() {
     let app = CounterApp.new()
     print("UI Component Initialized with Reactive Signals")
     print("SSR Output Rendered with State Hydration:")
-    print("<div data-alap-id=\"counter\"><p>Count: 0</p></div>")
+    print("<div data-alap-id=\\"counter\\"><p>Count: 0</p></div>")
 }
 
 main()`,
     alap_orm: `// Alap Type-Safe Database ORM & Query Builder
-import { Table } from "alap/data"
+${IMP} { Table } from "alap/data"
 
 fn main() {
     let query = Table("users")
@@ -389,7 +390,7 @@ fn main() {
     let (sql, params) = query.toSQL()
     print("Generated Parameterized SQL:")
     print(sql)
-    print("Binding Parameters: [\"active\", 18]")
+    print("Binding Parameters: [\\"active\\", 18]")
 }
 
 main()`,
@@ -408,7 +409,7 @@ fn main() {
 }
 
 main()`,
-    crypto: `import { Crypto, System } from "onuron/core"
+    crypto: `${IMP} { Crypto, System } from "onuron/core"
 
 fn main() {
     let app = "org.onuron.notes"

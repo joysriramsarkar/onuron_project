@@ -3,37 +3,152 @@ import { ECOSYSTEM_URLS } from "../utils/links";
 ---
 
 <footer class="footer">
-  <div class="container footer-grid">
-    <div>
-      <p class="brand">
-        <span class="brand-dot">◉</span> onuron
-      </p>
-      <p class="muted small">
-        Open-source ecosystem — operating system, programming language & framework.
-      </p>
+  <!-- Floating background orbs -->
+  <div class="footer-orb footer-orb-1" aria-hidden="true"></div>
+  <div class="footer-orb footer-orb-2" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <div class="footer-brand-logo">
+          <div class="brand-orb-sm" aria-hidden="true"></div>
+          <span class="footer-brand-name">onuron</span>
+        </div>
+        <p class="footer-brand-desc">
+          গ্রাউন্ড আপ থেকে নির্মিত একটি সম্পূর্ণ সার্বভৌম কম্পিউটিং ইকোসিস্টেম — অপারেটিং সিস্টেম, প্রোগ্রামিং ভাষা ও UI ফ্রেমওয়ার্ক।
+        </p>
+        <div class="footer-social">
+          <a href="https://github.com/joysriramsarkar" target="_blank" rel="noreferrer" class="social-link" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div>
+        <h4>Projects</h4>
+        <a href={ECOSYSTEM_URLS.os}>onuronOS</a>
+        <a href={ECOSYSTEM_URLS.alap}>alap-framework</a>
+        <a href={ECOSYSTEM_URLS.nil}>nilLang</a>
+        <a href="https://github.com/joysriramsarkar/nilos-emulator" target="_blank" rel="noreferrer">nilos-emulator ↗</a>
+        <a href="https://github.com/joysriramsarkar" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4>Resources</h4>
+        <a href={ECOSYSTEM_URLS.store}>App Store</a>
+        <a href={ECOSYSTEM_URLS.docs}>Documentation</a>
+        <a href={`${ECOSYSTEM_URLS.store}/developers`}>Developer Portal</a>
+        <a href={`${ECOSYSTEM_URLS.os}/download`}>Download OS</a>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4>Legal</h4>
+        <a href={`${ECOSYSTEM_URLS.main}/privacy`}>Privacy Policy</a>
+        <a href={`${ECOSYSTEM_URLS.main}/terms`}>Terms of Service</a>
+        <a href={`${ECOSYSTEM_URLS.store}/policy/content`}>Content Policy</a>
+        <a href={`${ECOSYSTEM_URLS.store}/policy/dmca`}>DMCA</a>
+      </div>
     </div>
-    <div>
-      <h4>Projects</h4>
-      <a href={ECOSYSTEM_URLS.os}>onuronOS</a>
-      <a href={ECOSYSTEM_URLS.alap}>alap-framework</a>
-      <a href={ECOSYSTEM_URLS.nil}>nilLang</a>
-      <a href="https://github.com/joysriramsarkar" target="_blank" rel="noreferrer">GitHub ↗</a>
+
+    <!-- Footer bottom bar -->
+    <div class="footer-bottom">
+      <p class="dim small">© {new Date().getFullYear()} Onuron Ecosystem. Built with passion for open, sovereign computing.</p>
+      <div class="footer-bottom-links">
+        <a href={`${ECOSYSTEM_URLS.main}/privacy`}>Privacy</a>
+        <a href={`${ECOSYSTEM_URLS.main}/terms`}>Terms</a>
+        <a href="https://github.com/joysriramsarkar" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
     </div>
-    <div>
-      <h4>Resources</h4>
-      <a href={ECOSYSTEM_URLS.store}>App Store</a>
-      <a href={ECOSYSTEM_URLS.docs}>Documentation</a>
-      <a href={`${ECOSYSTEM_URLS.store}/developers`}>Developer Portal</a>
-    </div>
-    <div>
-      <h4>Legal</h4>
-      <a href={`${ECOSYSTEM_URLS.main}/privacy`}>Privacy Policy</a>
-      <a href={`${ECOSYSTEM_URLS.main}/terms`}>Terms of Service</a>
-      <a href={`${ECOSYSTEM_URLS.store}/policy/content`}>Content Policy</a>
-      <a href={`${ECOSYSTEM_URLS.store}/policy/dmca`}>DMCA</a>
-    </div>
-  </div>
-  <div class="container muted small" style="margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);">
-    © {new Date().getFullYear()} Onuron Ecosystem. Built with passion for open-source computing.
   </div>
 </footer>
+
+<style>
+  .footer { position: relative; }
+
+  .footer-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 0;
+  }
+  .footer-orb-1 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(79,139,249,0.2) 0%, transparent 70%);
+    bottom: -100px; right: -100px;
+    animation: floatOrb 20s ease-in-out infinite;
+  }
+  .footer-orb-2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(157,92,255,0.18) 0%, transparent 70%);
+    top: 0; left: 0;
+    animation: floatOrb 25s ease-in-out infinite reverse;
+  }
+
+  .footer > .container { position: relative; z-index: 1; }
+
+  .footer-brand { display: flex; flex-direction: column; gap: 16px; }
+  .footer-brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--heading);
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.04em;
+    color: var(--text-bright);
+  }
+  .brand-orb-sm {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f8bf9, #9d5cff, #10e5b2);
+    background-size: 200%;
+    animation: gradientFlow 4s ease-in-out infinite, orbSpin 5s linear infinite;
+    box-shadow: 0 0 16px rgba(79,139,249,0.5);
+    flex-shrink: 0;
+  }
+  .footer-brand-name { color: var(--text-bright); }
+
+  .footer-social { display: flex; gap: 12px; margin-top: 4px; }
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(14, 22, 50, 0.8);
+    border: 1px solid rgba(42, 60, 115, 0.5);
+    color: var(--muted) !important;
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
+  }
+  .social-link:hover {
+    background: rgba(79, 139, 249, 0.12) !important;
+    border-color: rgba(79, 139, 249, 0.4) !important;
+    color: var(--accent) !important;
+    transform: translateY(-2px) !important;
+  }
+
+  @keyframes floatOrb {
+    0%, 100% { transform: translate(0, 0); }
+    33%       { transform: translate(20px, -20px); }
+    66%       { transform: translate(-10px, 10px); }
+  }
+
+  @media (max-width: 1024px) {
+    .footer-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; flex-direction: row; align-items: flex-start; gap: 24px; }
+    .footer-brand-desc { flex: 1; }
+  }
+  @media (max-width: 640px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; flex-direction: column; }
+  }
+</style>

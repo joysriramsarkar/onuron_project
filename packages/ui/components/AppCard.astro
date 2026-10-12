@@ -7,6 +7,18 @@ export interface Props {
 }
 
 const { app } = Astro.props;
+
+const categoryColors: Record<string, string> = {
+  utilities:   "blue",
+  productivity: "teal",
+  media:       "purple",
+  development: "rose",
+  games:       "amber",
+  communication: "teal",
+  education:   "blue",
+  security:    "purple",
+};
+const catColor = categoryColors[app.category] ?? "blue";
 ---
 
 <a
@@ -14,13 +26,87 @@ const { app } = Astro.props;
   href={`${ECOSYSTEM_URLS.store}/apps/${app.id}`}
   data-search={`${app.name} ${app.summary} ${app.category} ${(app.tags ?? []).join(" ")}`.toLowerCase()}
 >
-  <img class="app-icon" src={app.media.iconUrl} alt={`${app.name} icon`} width="60" height="60" />
-  <div>
-    <h3>{app.name}</h3>
-    <p class="muted small" style="margin: 0 0 10px;">{app.summary}</p>
-    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-      <span class="badge">{app.category}</span>
+  <!-- Icon -->
+  <div class="app-icon-wrap">
+    <img
+      class="app-icon"
+      src={app.media.iconUrl}
+      alt={`${app.name} icon`}
+      width="64"
+      height="64"
+      loading="lazy"
+    />
+    <div class="app-icon-glow" aria-hidden="true"></div>
+  </div>
+
+  <!-- Info -->
+  <div class="app-info">
+    <h3 class="app-name">{app.name}</h3>
+    <p class="muted small app-summary">{app.summary}</p>
+    <div class="app-meta">
+      <span class={`badge badge-${catColor}`}>{app.category}</span>
       <span class="badge">v{app.version}</span>
+      {app.package?.type && (
+        <span class="badge badge-teal">.{app.package.type}</span>
+      )}
     </div>
   </div>
+
+  <!-- Install arrow -->
+  <div class="app-arrow" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+  </div>
 </a>
+
+<style>
+  .app-card {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px;
+    position: relative;
+  }
+  .app-icon-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+  .app-icon {
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease;
+    display: block;
+  }
+  .app-icon-glow {
+    position: absolute;
+    inset: -4px;
+    border-radius: 22px;
+    background: radial-gradient(circle, rgba(79,139,249,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .card:hover .app-icon { transform: scale(1.1) rotate(-4deg); box-shadow: 0 10px 32px rgba(79,139,249,0.3); }
+  .card:hover .app-icon-glow { opacity: 1; }
+
+  .app-info { flex: 1; min-width: 0; }
+  .app-name  { font-size: 1rem; margin-bottom: 6px; color: var(--text-bright); }
+  .app-summary { margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .app-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .app-arrow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover .app-arrow { opacity: 1; transform: translateY(0); }
+</style>

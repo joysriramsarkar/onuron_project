@@ -13,36 +13,53 @@ const apps = loadApps();
   <Navbar current="App Store" />
 
   <Hero
-    title="onuronOS App Store"
-    subtitle="ভেরিফাইড ও ক্রিপ্টোগ্রাফিকালি সাইন-করা অ্যাপ্লিকেশন — আপনার onuronOS ডিভাইসের জন্য প্রস্তুত।"
+    title="App Store"
+    subtitle="ভেরিফাইড ও ক্রিপ্টোগ্রাফিকালি Ed25519-সাইন করা অ্যাপ্লিকেশন — আপনার onuronOS ডিভাইসের জন্য সম্পূর্ণ নিরাপদ ও যাচাইকৃত।"
+    eyebrow="✦ 6+ Apps Available · .nilax Format · Verified & Signed"
   >
-    <a class="btn btn-primary" href="/apps">Browse All Apps</a>
+    <a class="btn btn-primary btn-glow" href="/apps">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      সব Apps দেখুন
+    </a>
     <a class="btn btn-ghost" href="/developers">Developer Portal</a>
   </Hero>
 
+  <div class="divider"></div>
+
   <main>
+    <!-- Featured Apps -->
     <section class="section container">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+      <div class="flex-between" style="margin-bottom:40px;flex-wrap:wrap;gap:16px">
         <div>
-          <h2>Featured Apps</h2>
-          <p class="muted small" style="margin: 0;">সর্বাধিক ডাউনলোডকৃত ও প্রথম-সারির অ্যাপস</p>
+          <p class="section-eyebrow">Registry</p>
+          <h2 class="anim-heading" style="margin-bottom:6px">Featured Apps</h2>
+          <p class="muted small" style="margin:0">ক্রিপ্টোগ্রাফিক যাচাইকৃত ফার্স্ট-পার্টি অ্যাপ্লিকেশন</p>
         </div>
         <a href="/apps" class="btn btn-ghost small">সবগুলো দেখুন →</a>
       </div>
-      <div class="grid">
+
+      <div class="grid gsap-stagger">
         {apps.map((app) => <AppCard app={app} />)}
       </div>
     </section>
 
-    <section class="section container" style="background: var(--bg-soft); border-radius: var(--radius); border: 1px solid var(--border); padding: 48px; margin-bottom: 60px;">
-      <div style="max-width: 680px; margin: 0 auto; text-align: center;">
-        <h2>আপনি কি একজন অ্যাপ ডেভেলপার?</h2>
-        <p class="muted">
-          alap-framework অথবা যেকোনো টুলকিট ব্যবহার করে আপনার অ্যাপ তৈরি করুন এবং onuronOS অ্যাপ রেজিস্ট্রি-তে যুক্ত করুন।
-        </p>
-        <div style="display: flex; gap: 14px; justify-content: center; margin-top: 24px; flex-wrap: wrap;">
-          <a class="btn btn-primary" href="/developers">ডেভেলপার গাইড পড়ুন</a>
-          <a class="btn btn-ghost" href="/developers/submit">অ্যাপ সাবমিট করুন</a>
+    <!-- Developer CTA -->
+    <section class="section-sm container">
+      <div class="dev-cta-card glass-card reveal-scale">
+        <div class="dev-cta-orb-1" aria-hidden="true"></div>
+        <div class="dev-cta-orb-2" aria-hidden="true"></div>
+        <div class="dev-cta-inner">
+          <div class="dev-cta-icon">👨‍💻</div>
+          <h2>আপনি কি একজন অ্যাপ ডেভেলপার?</h2>
+          <p class="muted">
+            alap-framework অথবা যেকোনো টুলকিট ব্যবহার করে আপনার অ্যাপ তৈরি করুন এবং onuronOS অ্যাপ রেজিস্ট্রি-তে যুক্ত করুন।
+          </p>
+          <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+            <a class="btn btn-primary" href="/developers">ডেভেলপার গাইড পড়ুন</a>
+            <a class="btn btn-ghost" href="/developers/submit">অ্যাপ সাবমিট করুন</a>
+          </div>
         </div>
       </div>
     </section>
@@ -50,3 +67,56 @@ const apps = loadApps();
 
   <Footer />
 </BaseLayout>
+
+<style>
+  .dev-cta-card {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 48px;
+    text-align: center;
+    border-radius: 28px;
+    margin-bottom: 60px;
+  }
+  .dev-cta-orb-1, .dev-cta-orb-2 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+  }
+  .dev-cta-orb-1 {
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(79,139,249,0.2) 0%, transparent 70%);
+    top: -100px; left: -80px;
+    animation: devOrbFloat 16s ease-in-out infinite;
+  }
+  .dev-cta-orb-2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(16,229,178,0.15) 0%, transparent 70%);
+    bottom: -80px; right: -60px;
+    animation: devOrbFloat 20s ease-in-out infinite reverse;
+  }
+  .dev-cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .dev-cta-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+    animation: float 4s ease-in-out infinite;
+  }
+  .dev-cta-inner h2 { margin-bottom: 16px; }
+  .dev-cta-inner p  { margin-bottom: 24px; }
+
+  @keyframes devOrbFloat {
+    0%, 100% { transform: translate(0, 0); }
+    33%       { transform: translate(20px, -25px); }
+    66%       { transform: translate(-15px, 15px); }
+  }
+
+  @media (max-width: 640px) {
+    .dev-cta-card { padding: 48px 24px; }
+  }
+</style>
