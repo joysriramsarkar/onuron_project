@@ -116,3 +116,12 @@ pnpm --filter @onuron/store-schema validate:verify
 Reproducible app sources for the published packages live in
 `apps/store/registry-src/` — see its [README](./apps/store/registry-src/README.md)
 for the build-and-sign walkthrough.
+
+---
+
+## 📜 License
+
+The Onuron ecosystem monorepo is licensed under the
+[GNU Affero General Public License v3.0 (AGPL-3.0)](./LICENSE), matching
+[nilLang](https://github.com/joysriramsarkar/nilLang).
+
