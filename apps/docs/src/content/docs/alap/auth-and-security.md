@@ -1,44 +1,92 @@
 ---
-title: Authentication & Security Architecture
-description: JWT, Signed Cookies, Password Hashing, CSRF, and RBAC in Alap.
+title: অথেনটিকেশন ও সিকিউরিটি
+description: alap-framework-এর auth প্যাকেজ (JWT, password hashing) এবং web middleware নিরাপত্তা।
 ---
 
-# Authentication & Security Architecture
+alap-framework `auth` প্যাকেজে মৌলিক অথেনটিকেশন হেল্পার এবং `web/middleware`-এ
+নিরাপত্তা মিডলওয়্যার দেয়।
 
-এন্টারপ্রাইজ ওয়েব সিস্টেমের অন্যতম পূর্বশর্ত আইডেন্টিটি এবং অ্যাক্সেস কন্ট্রোল। Alap ফ্রেমওয়ার্কে রয়েছে নেটিভ সিকিউরিটি স্যুট।
+> **সীমাবদ্ধতা:** `auth` একটি প্রাথমিক (early-alpha) সেট। এতে session store,
+> refresh-token rotation বা সম্পূর্ণ RBAC ইঞ্জিন নেই — প্রয়োজনে অ্যাপ নিজে তৈরি করবে।
 
 ---
 
-## ১. JSON Web Tokens (JWT)
+## ১. JWT (`auth`)
 
-HS256 অ্যালগরিদম ভিত্তিক টোকেন তৈরি ও ভ্যালিডেশন:
+```go
+claims := auth.Claims{ /* sub, roles, exp ... */ }
+token, err := auth.SignJWT(claims, "SECRET_KEY")
 
-```nil
-import { GenerateJWT, VerifyJWT } from "alap/security"
+parsed, err := auth.VerifyJWT(token, "SECRET_KEY")
+```
 
-let token = GenerateJWT({
-    sub: "user-42",
-    roles: ["admin", "editor"],
-    exp: time.now() + 3600
-}, "SECRET_KEY")
+`SignJWT(claims, secret)` টোকেন তৈরি করে; `VerifyJWT(token, secret)` যাচাই করে ও
+`*Claims` ফেরায়; ব্যর্থ হলে error।
 
-let claims = VerifyJWT(token, "SECRET_KEY")
+> HMAC secret কখনো সোর্সে হার্ডকোড করবেন না; env/secret-manager ব্যবহার করুন।
+
+---
+
+## ২. Password hashing (bcrypt)
+
+```go
+stored := auth.HashPassword("correct horse battery staple")
+ok     := auth.CheckPassword("correct horse battery staple", stored)
+```
+
+`HashPassword` সুরক্ষিত ডাইজেস্ট ফেরায় (salted); `CheckPassword` যাচাই করে।
+
+---
+
+## ৩. RBAC (মিডলওয়্যার-ভিত্তিক)
+
+এখনো নেটিভ RBAC ইঞ্জিন নেই — route group-এ middleware দিয়ে অনুমোদন যোগ করুন:
+
+```go
+requireRole := func(role string) middleware.Middleware {
+    return func(next router.HandlerFunc) router.HandlerFunc {
+        return func(ctx *router.Context) (interface{}, error) {
+            claims, err := verifyFromRequest(ctx)
+            if err != nil { return nil, err }
+            // claims.roles-এ role আছে কি না পরীক্ষা
+            return next(ctx)
+        }
+    }
+}
+
+admin := r.Group("/admin", requireRole("admin"))
+admin.GET("/dashboard", dashboardHandler)
 ```
 
 ---
 
-## ২. রোল-বেসড অ্যাক্সেস কন্ট্রোল (RBAC Middleware)
+## ৪. নিরাপত্তা মিডলওয়্যার
 
-```nil
-let adminRoute = app.group("/admin")
-adminRoute.use(RequireRole("admin"))
+| Middleware | কাজ |
+|---|---|
+| `SecurityHeaders()` | HSTS, X-Content-Type-Options, Frame-Options ইত্যাদি hardening হেডার |
+| `CORS(CORSConfig{...})` | অনুমোদিত origin নিয়ন্ত্রণ |
+| `RateLimit(requestsPerMin)` | brute-force/DoS প্রশমন |
+| `Recovery()` | panic → 500 (stack leak ছাড়া) |
+| `RequestID()` | নিরীক্ষা/ট্রেসিং |
 
-adminRoute.get("/dashboard", adminDashboardHandler)
-```
+ইনপুট যাচাই, output এস্কেপিং ([SSR](/alap/ssr-and-hydration/)) ও TLS termination
+উপরে যোগ করা প্রয়োজন — alap নিজে TLS প্রোডাকশন-হার্ডেনড নয়।
 
 ---
 
-## ৩. সুরক্ষিত সাইনড সেশন কুকিজ ও CSRF প্রটেকশন
+## ৫. নিরাপত্তা চেকলিস্ট
 
-- **Signed Cookies**: কুকি ট্যাম্পারিং রোধে ক্রিপ্টোগ্রাফিক সিগনেচার।
-- **CSRF Token Middleware**: POST, PUT, DELETE ইত্যাদি মিউটেটিং মেথডে `X-CSRF-Token` যাচাই।
+- [ ] secret env/secret-manager-এ, কখনো repo-তে নয়।
+- [ ] `SecurityHeaders()`, `CORS`, `RateLimit` সব public route-এ।
+- [ ] পাসওয়ার্ড `auth.HashPassword` দিয়ে, plaintext নয়।
+- [ ] JWT `exp` ছোট; refresh আলাদা, rotation-সহ।
+- [ ] সব mutating/sensitive request লগ করুন, কিন্তু secret লগ করবেন না।
+
+---
+
+## ৬. পরবর্তী পড়ুন
+
+- [ওয়েব ফ্রেমওয়ার্ক](/alap/web-framework/)
+- [SSR ও হাইড্রেশন](/alap/ssr-and-hydration/)
+- OS স্তরের নিরাপত্তা: [নিরাপত্তা ও স্যান্ডবক্সিং](/os/security/)

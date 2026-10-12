@@ -1,49 +1,80 @@
 ---
-title: Server-Side Rendering (SSR) & State Hydration
-description: How Alap handles secure HTML rendering and browser hydration.
+title: SSR ও স্টেট হাইড্রেশন
+description: alap-framework-এ server-side rendering, XSS-নিরাপদ এস্কেপিং এবং ক্লায়েন্ট হাইড্রেশন।
 ---
 
-# Server-Side Rendering (SSR) & State Hydration
-
-ওয়েব অ্যাপ্লিকেশনে ফার্স্ট কনটেন্টফুল পেইন্ট (FCP) এবং সার্চ ইঞ্জিন অপ্টিমাইজেশনের (SEO) জন্য Alap একটি ইউনিফাইড SSR এবং ব্রাউজার হাইড্রেশন পাইপলাইন সরবরাহ করে।
+alap-framework `web/ssr` প্যাকেজে server-side rendering (SSR) ও state hydration
+সরবরাহ করে, যাতে প্রথম meaningful পেইন্ট দ্রুত হয়।
 
 ---
 
-## ১. XSS-সুরক্ষিত HTML এসকেপিং
+## ১. SSR রেন্ডার
 
-Alap রেন্ডারার স্বয়ংক্রিয়ভাবে সমস্ত টেক্সট কন্টেন্ট এবং HTML অ্যাট্রিবিউট স্যানিটাইজ করে:
-
-```nil
-let card = Card.new("<script>alert('xss')</script>", "Safe Content")
-let html = card.renderHTML()
-// আউটপুটে &lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt; হিসেবে সুরক্ষিত থাকবে
+```go
+renderer := ssr.New("My App")
+html := renderer.RenderPage(content, map[string]interface{}{
+    "user": "Sarkar",
+    "roles": []string{"admin"},
+})
 ```
 
+`RenderPage` দুটি কাজ করে:
+
+1. **টেক্সট এস্কেপিং** — ব্যবহারকারীর টেক্সট HTML-এ সুরক্ষিতভাবে রাখে (XSS প্রতিরোধ)।
+2. **Hydration state পেজে সিরিয়ালাইজ** — `__NILANG_STATE__` পেলোডে state বসায়।
+
 ---
 
-## ২. স্টেট হাইড্রেশন প্যাটার্ন
+## ২. হাইড্রেশন পেলোড
 
-সার্ভারে রেন্ডার হওয়া প্রারম্ভিক ডেটা ক্লায়েন্টে প্রেরণ করা হয়:
+সার্ভার-রেন্ডারড পেজে state JSON এম্বেড হয়:
 
 ```html
 <script id="__NILANG_STATE__" type="application/json">
   {"user":"Sarkar","roles":["admin"]}
 </script>
-<script>
-  window.__NILANG_INITIAL_STATE__ = JSON.parse(document.getElementById('__NILANG_STATE__').textContent);
-</script>
 ```
 
-ব্রাউজারে পেজ লোড হওয়ার সাথে সাথে Alap Web ক্লায়েন্ট রানটাইম (`runtime.js`) স্বয়ংক্রিয়ভাবে গ্লোবাল স্টেট হাইড্রেশন সম্পন্ন করে এবং `data-alap-id` ও `data-alap-event` চিহ্নিত এলিমেন্টগুলোতে ইভেন্ট ডেলিগেশন সংযুক্ত করে।
+পেজ লোড হওয়ার সাথে সাথে client runtime এই state গ্রহণ করে এবং ইন্টারঅ্যাকটিভ
+ইভেন্ট হ্যান্ডলার যুক্ত করে।
+
+> **সীমাবদ্ধতা:** client runtime (`platform/web` + `web/*`) routing/middleware/SSR
+> স্তরে functional, কিন্তু production load test ও সম্পূর্ণ WebSocket upgrade
+> hardened নয়। দেখুন [ওয়েব ফ্রেমওয়ার্ক](/alap/web-framework/#৭-বর্তমান-সীমাবদ্ধতা-সৎভাবে)।
 
 ---
 
-## ৩. রিঅ্যাক্টিভ সিগন্যালস (Reactive Signals)
+## ৩. XSS নিরাপত্তা — কেন গুরুত্বপূর্ণ
 
-```nil
-let count = Signal.new(0)
-let doubled = Computed.new(|| count.get() * 2)
+SSR-এ টেমপ্লেটে ভারসাম্যহীন বা এস্কেপ-না-করা user input সরাসরি script execution
+ঘটাতে পারে। alap-এর `RenderPage` টেক্সট কন্টেন্ট ও অ্যাট্রিবিউট এস্কেপ করে, তাই:
 
-count.set(5)
-print(doubled.get()) // 10
+```text
+ইনপুট:  <script>alert('xss')</script>
+আউটপুট: &lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;
 ```
+
+তবে **নিজের হাতে raw HTML ইনজেক্ট করা এড়িয়ে চলুন**; শুধু API-র এস্কেপড পথ ব্যবহার করুন।
+
+---
+
+## ৪. নিরাপত্তা হেডার
+
+`middleware.SecurityHeaders()` SSR পেজে hardening হেডার যোগ করে। CORS ও
+rate-limit মিডলওয়্যারসহ স্ট্যাক তৈরি করুন:
+
+```go
+r.Use(
+    middleware.Recovery(),
+    middleware.SecurityHeaders(),
+    middleware.CORS(middleware.CORSConfig{ /* ... */ }),
+)
+```
+
+---
+
+## ৫. পরবর্তী পড়ুন
+
+- [ওয়েব ফ্রেমওয়ার্ক](/alap/web-framework/)
+- [অথেনটিকেশন ও সিকিউরিটি](/alap/auth-and-security/)
+- canonical UI রেন্ডার মডেল: `nilLang/docs/spec/UI_SPEC.md`

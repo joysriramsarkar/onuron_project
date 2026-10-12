@@ -1,97 +1,294 @@
 ---
-title: nilLang ভাষা টিউটোরিয়াল (Language Tutorial)
-description: nilLang প্রোগ্রামিং ভাষার মৌলিক গঠন, ভেরিয়েবল, ফাংশন ও কন্ট্রোল ফ্লো।
+title: nilLang ভাষা টিউটোরিয়াল (Language Tutorial)
+description: nilLang-এর মৌলিক গঠন — বাইন্ডিং, ফাংশন, কন্ট্রোল ফ্লো, টাইপ ও ডিক্লেয়ারেটিভ কম্পোনেন্ট।
 ---
 
-**nilLang** হলো একটি আধুনিক, উচ্চ-পারফরম্যান্স এবং স্মৃতি-নিরাপদ সিস্টেম ও অ্যাপ্লিকেশন প্রোগ্রামিং ভাষা। 
+**nilLang** হলো একটি স্ট্যাটিক, স্ট্রাকচারাল টাইপযুক্ত সিস্টেম ও অ্যাপ্লিকেশন
+প্রোগ্রামিং ভাষা। এর ক্যানোনিক্যাল বাস্তবায়ন Go-তে (`nilLang/`) এবং ভাষার
+কোর কনফরম্যান্স `CORE_FREEZE.md` দ্বারা সুরক্ষিত।
 
-## মূল সিনট্যাক্স ও হ্যালো ওয়ার্ল্ড
+> এই টিউটোরিয়াল ক্যানোনিক্যাল সিনট্যাক্স অনুসরণ করে। আলাদা ডায়ালেক্ট
+> (যেমন `alap-framework`-এর prototype) এর সাথে পার্থক্য জানতে দেখুন
+> [কম্প্যাটিবিলিটি](/nil/compatibility/)।
 
-যেকোনো nilLang প্রোগ্রামের সূচনা হয় `main()` ফাংশনের মাধ্যমে:
+---
 
-```rust
-fn main() {
-    let name = "অনুরণ"
-    print("স্বাগতম, " + name + "!")
-}
+## ১. প্রথম প্রোগ্রাম
 
-main()
+একটি nilLang প্রোগ্রাম থাকে টপ-লেভেল স্টেটমেন্ট বা `main()` কল দিয়ে। ফাইল
+`UTF-8`; আইডেন্টিফায়ার ও স্ট্রিং-এ বাংলা সরাসরি চলে।
+
+```nil
+let appName = "অনুরণ";
+let version = "1.0.0";
+
+puts("স্বাগতম \(appName) v\(version)!");
+```
+
+আউটপুট:
+```text
+স্বাগতম অনুরণ v1.0.0!
+```
+
+`puts`, `print` ও `println` — তিনটিই আউটপুট বিল্টইন হিসেবে আছে।
+
+---
+
+## ২. কমেন্ট
+
+```nil
+// এক-লাইনের কমেন্ট
+/* একাধিক
+   লাইনের কমেন্ট */
 ```
 
 ---
 
-## ভেরিয়েবল ও মিউটেবিলিটি (Variables & Mutability)
+## ৩. বাইন্ডিং: `let` ও `const`
 
-ডিফল্টভাবে nilLang এর সমস্ত ভেরিয়েবল অপরিবর্তনশীল (Immutable):
+- **`let`** → পরিবর্তনযোগ্য (mutable) লেক্সিক্যাল বাইন্ডিং।
+- **`const`** → অপরিবর্তনীয় (immutable) বাইন্ডিং।
 
-```rust
-// অপরিবর্তনীয় ভেরিয়েবল (Immutable)
-let port = 4324
+```nil
+let port = 4324;          // পুনঃঅ্যাসাইন করা যাবে
+const MAX = 1024;         // পুনঃঅ্যাসাইন = কম্পাইল-টাইম এরর (E0104)
 
-// পরিবর্তনশীল ভেরিয়েবল (Mutable)
-let mut counter = 0
-counter = counter + 1
+port = port + 1;          // ✅ ঠিক আছে
+// MAX = 2048;            // ❌ cannot assign to constant 'MAX'
+```
+
+> **নোট:** nilLang-এ `let mut` বসবে না। সব `let` ই ডিফল্টে mutable; অপরিবর্তনীয়
+> চাইলে `const` ব্যবহার করুন।
+
+টাইপ অ্যানোটেশন ঐচ্ছিক — অ্যাসাইনমেন্ট বা লিটারেল দিয়ে টাইপ অনুমিত হয়:
+
+```nil
+let count: i32 = 100;
+let ratio: f64 = 3.14159;
+let active: bool = true;
+let label = "Onuron OS";
+let bytes: Byte[] = [0xDE, 0xAD, 0xBE, 0xEF];
 ```
 
 ---
 
-## ডেটা টাইপস (Basic Types)
+## ৪. প্রাথমিক টাইপ
 
-nilLang এ রয়েছে শক্তিশালী স্ট্যাটিক টাইপিং এবং স্মার্ট টাইপ অনুমিতি (Type Inference):
+| টাইপ | অর্থ | ডিফল্ট |
+|---|---|---|
+| `Int` | ৬৪-বিট signed integer | `0` |
+| `Float` | ৬৪-বিট IEEE float | `0.0` |
+| `String` | UTF-8 স্ট্রিং | `""` |
+| `Bool` | বুলিয়ান | `false` |
+| `Byte` | ৮-বিট unsigned | `0` |
+| `Null` | অনুপস্থিত মান | `null` |
 
-```rust
-let isOnline: bool = true
-let count: int = 100
-let ratio: float = 3.14159
-let label: string = "Onuron OS"
-let bytes: [u8] = [0xDE, 0xAD, 0xBE, 0xEF]
+আকারসহ (sized) সংখ্যা টাইপ: `i8 i16 i32 i64 u8 u16 u32 u64 f32 f64`।
+**কোনো implicit সংখ্যাগত coercion নেই** — `Int` স্বয়ংক্রিয়ভাবে `i32`-এ
+রূপান্তরিত হয় না।
+
+লিটারেল:
+```nil
+let a = 42;          // decimal
+let b = 0xFF;        // hex
+let c = 0o777;       // octal
+let d = 0b1010;      // binary
+let e = 1_000_000;   // _ separator
+let f = ৪২;           // বাংলা অঙ্কও চলে
 ```
 
 ---
 
-## শর্ত ও লুপ (Control Flow)
+## ৫. অপারেটর
 
-### `if - else` স্টেটমেন্ট
-```rust
-let memoryAvailable = 1024 // MB
+| শ্রেণি | অপারেটর |
+|---|---|
+| পাটিগণিত | `+ - * / %` |
+| তুলনা | `== != < <= > >=` |
+| লজিক | `&& \|\| !` |
+| অ্যাসাইনমেন্ট | `= += -=` |
+| Null-coalescing | `??` |
+| Safe access | `?.` |
 
-if memoryAvailable >= 1024 {
-    print("পর্যাপ্ত মেমরি রয়েছে।")
+```nil
+let a = 10;
+let b = 3;
+puts(a / b);            // 3 (integer division)
+puts(a % b);            // 1
+puts("sum=" + string(a + b));
+```
+
+---
+
+## ৬. কন্ট্রোল ফ্লো
+
+শর্ত ও লুপের কন্ডিশন **বন্ধনীর ভিতরে** লিখতে হয়:
+
+```nil
+let score = 82;
+
+if (score > 90) {
+    puts("excellent");
+} else if (score > 75) {
+    puts("good");
 } else {
-    print("সতর্কতা: মেমরি কম।")
+    puts("keep going");
 }
 ```
 
-### `for` লুপ
-```rust
-print("১ থেকে ৫ পর্যন্ত প্রিন্ট:")
-for i in 1..=5 {
-    print("গণনা: " + i)
+```nil
+let i = 0;
+while (i < 5) {
+    puts("\(i)");
+    i = i + 1;
+}
+
+for n in 0..5 {
+    puts("range: \(n)");       // 0,1,2,3,4
+}
+
+for n in 1..=5 {
+    puts("inclusive: \(n)");   // 1..5
 }
 ```
 
-### `while` লুপ
-```rust
-let mut remaining = 3
-while remaining > 0 {
-    print("বুট শুরু হতে বাকি: " + remaining + " সেকেন্ড")
-    remaining = remaining - 1
+`break` ও `continue` সমর্থিত। রেঞ্জ কেবল `for` হেডারে অর্থবহ।
+
+### `match`
+
+```nil
+fn grade(score: Int) -> String {
+    return match score {
+        100 => "perfect",
+        90  => "excellent",
+        _   => "ok"
+    };
 }
 ```
 
 ---
 
-## ফাংশন ও রিটার্ন ভ্যালু (Functions)
+## ৭. ফাংশন
 
-```rust
-fn add(a: int, b: int) -> int {
-    return a + b
+```nil
+fn add(a: Int, b: Int) -> Int {
+    return a + b;
 }
 
-fn main() {
-    let result = add(10, 20)
-    print("যোগফল: " + result) // আউটপুট: ৩০
+fn greet(name: String) {
+    puts("Hello, \(name)!");
 }
 ```
 
-ব্রাউজারেই লাইভ কোড লিখে টেস্ট করতে [nilLang Web Playground](http://localhost:4324/playground) ভিজিট করুন।
+ফাংশন মান (first-class):
+
+```nil
+let double = fn(x) { return x * 2; };
+puts("\(double(21))");   // 42
+```
+
+মেথডের receiver সাধারণ প্রথম প্যারামিটার (`self` কনভেনশন, soft keyword):
+
+```nil
+struct Counter { count: Int }
+
+impl Counter for Counter {
+    fn inc(self) -> Int {
+        self.count = self.count + 1;
+        return self.count;
+    }
+}
+```
+
+---
+
+## ৮. অ্যারে ও হ্যাশ
+
+```nil
+let nums = [10, 20, 30];
+puts("\(nums[0])");          // 10
+
+let config = {
+    "host": "localhost",
+    "port": 4324
+};
+puts(config["host"]);
+```
+
+---
+
+## ৯. struct, enum, trait
+
+```nil
+struct User {
+    id: Int,
+    username: String,
+    isAdmin: Bool,
+}
+
+let dev = User { id: 1, username: "joysri", isAdmin: true };
+puts("ইউজার: \(dev.username)");
+```
+
+```nil
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+```
+
+```nil
+trait Serializable {
+    fn serialize() -> String;
+}
+```
+
+Generic সিনট্যাক্স, ADT ও exhaustive matching এখনো **planned/experimental**
+(§৪.২ দেখুন)।
+
+---
+
+## ১০. ডিক্লেয়ারেটিভ কম্পোনেন্ট (Alap/NilUI)
+
+UI কম্পোনেন্ট থাকে `StateDeclaration` + `render`/`build` ব্লক + ইভেন্ট হ্যান্ডলার:
+
+```nil
+component Counter {
+    state count: i32 = 0;
+
+    render {
+        return {
+            "type": "Page",
+            "title": "Alap UI Counter",
+            "content": [
+                { "type": "Card", "title": "Current Count", "body": "\(count)" },
+                { "type": "Button", "id": "inc", "label": "Increment",
+                  "event": "increment", "payload": {"step": 1} }
+            ]
+        };
+    }
+
+    on increment(payload) {
+        let step: i32 = 1;
+        if (payload != null) {
+            step = payload["step"] ?? 1;
+        }
+        count = count + step;
+        emit("changed", count);
+    }
+}
+```
+
+এখানে `count` একটি mutable state; `emit(name, payload?)` ইভেন্ট রেকর্ড করে।
+
+---
+
+## ১১. পরবর্তী পড়ুন
+
+- [টাইপ সিস্টেম ও মেমরি](/nil/types-and-memory/)
+- [স্ট্যান্ডার্ড লাইব্রেরি](/nil/standard-library/)
+- [কনকারেন্সি](/nil/concurrency/)
+- [এরর মডেল](/nil/error-handling/)
+- [ক্যাপাবিলিটি ও ইফেক্ট](/nil/capabilities-and-effects/)
+- [নিল টুলচেইন](/nil/toolchain/)
+- ক্যানোনিক্যাল গ্রামার: `nilLang/docs/spec/LANGUAGE_SPEC.md`

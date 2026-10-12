@@ -1,84 +1,146 @@
 ---
-title: প্রথম ডেস্কটপ অ্যাপ তৈরি (First App with alap)
-description: alap-framework দিয়ে আপনার প্রথম রিঅ্যাক্টিভ ডেস্কটপ অ্যাপ্লিকেশন বানানোর পূর্ণাঙ্গ গাইড।
+title: first app — alap-framework
+description: alap টুলচেইন দিয়ে প্রথম ডিক্লেয়ারেটিভ UI অ্যাপ তৈরি, চালানো ও বিল্ড করা।
 ---
 
-**alap-framework** হলো onuronOS ও ক্রস-প্ল্যাটফর্ম ডেস্কটপের জন্য নির্মিত একটি ডিক্লোরেটিভ ইউআই ও অ্যাপ্লিকেশন ফ্রেমওয়ার্ক।
+এই গাইডে alap-framework-এর `nil` টুলচেইন দিয়ে একটি ছোট অ্যাপ তৈরি করা হবে।
 
-## নতুন প্রজেক্ট শুরু করা
+> **ডায়ালেক্ট সতর্কতা:** alap-framework তার নিজস্ব NilLang ডায়ালেক্ট ব্যবহার করে
+> (`function`, `let`/`var`/`const`, `@Component`/`@State`, `build()` ব্লক)। এটি
+> খাঁটি **canonical** নয়। খাঁটির জন্য [nilLang টিউটোরিয়াল](/nil/tutorial/) দেখুন।
 
-টার্মিনাল থেকে `alap` সিএলআই ব্যবহার করে একটি নতুন প্রজেক্ট তৈরি করুন:
+---
+
+## ১. ইনস্টল ও প্রকল্প তৈরি
 
 ```bash
-alap init my-notes-app
-cd my-notes-app
-alap dev
+# টুলচেইন বিল্ড
+go build -o bin/nil   ./cmd/nil
+go build -o bin/nilc  ./cmd/nilc
+go build -o bin/nills ./cmd/nills
+
+# নতুন প্রকল্প
+nil init my-first-app
+cd my-first-app
 ```
 
-প্রজেক্ট ফোল্ডার কাঠামো দেখতে নিচের মতো হবে:
+সৃষ্ট কাঠামো:
+
 ```text
-my-notes-app/
-├── package.json
-├── manifest.json
+my-first-app/
+├── alap.yaml           # প্রকল্প ম্যানিফেস্ট
 └── src/
-    └── App.alap
+    ├── main.nil        # program entry point
+    └── App.nil         # ডিক্লেয়ারেটিভ UI root component
 ```
 
 ---
 
-## কোড লেখা: `src/App.alap`
+## ২. `alap.yaml`
 
-একটি সাধারণ কাউন্টার ও নোটস অ্যাপ্লিকেশন লিখুন:
+```yaml
+name: my-first-app
+version: 0.1.0
+entry: src/main.nil
 
-```rust
-component App() {
-    state counter = 0
-    state status = "রেডি"
+permissions:
+  - storage.read
+  - notifications
 
-    fn increment() {
-        counter = counter + 1
-        status = "কাউন্টার আপডেট করা হয়েছে"
-    }
+targets:
+  onuron:  { arch: arm64 }
+  android: { minSdk: 26, targetSdk: 35 }
+  ios:     { minVersion: "16.0" }
+  linux:   { display: wayland }
 
-    view {
-        <Window title="My Notes App" width={700} height={500}>
-            <Header 
-                title="onuronOS নোটপ্যাড" 
-                subtitle="alap-framework দ্বারা চালিত" 
-            />
+dependencies: {}
+```
 
-            <Container padding={24}>
-                <Card>
-                    <Text size="large">বর্তমান গণনা: {counter}</Text>
-                    <Text color="muted">স্ট্যাটাস: {status}</Text>
-                    
-                    <Button variant="primary" onClick={increment}>
-                        গণনা বাড়ান (+)
-                    </Button>
-                </Card>
-            </Container>
-        </Window>
+---
+
+## ৩. কোড — `src/main.nil` ও `src/App.nil`
+
+`main.nil` চালু করে, আর `App.nil` UI বর্ণনা করে:
+
+```nil
+// src/App.nil
+@Entry
+@Component
+component App {
+    @State count: i32 = 0
+    @State message: string = "বোতামে চাপ দিন!"
+
+    build() {
+        Column {
+            Text("কাউন্ট: " + count.toString())
+                .fontSize(24)
+                .color("#333333")
+
+            Button("+১") {
+                onClick => {
+                    count += 1
+                    message = "বাড়ল " + count.toString()
+                }
+            }
+            .padding({ horizontal: 24, vertical: 12 })
+            .backgroundColor("#176BFF")
+            .color("#FFFFFF")
+            .borderRadius(8)
+
+            Text(message).fontSize(14).color("#666666")
+        }
     }
 }
 ```
 
----
-
-## অ্যাপ চালানো ও লাইভ প্রিভিউ
-
-```bash
-alap dev
-```
-ডেভেলপমেন্ট মোডে হট-মডিউল রিলোড (HMR) সক্রিয় থাকবে, যার ফলে কোনো ফাইল সেভ করলেই পরিবর্তনটি নিমেষেই উইন্ডোতে প্রতিফলিত হবে।
+`@State` পরিবর্তন হলে `ui/state`-এর signal/reconciler ট্রি diff করে UI আপডেট করে।
 
 ---
 
-## প্রোডাকশন প্যাকেজ তৈরি (`.onp`)
-
-onuronOS এ রান এবং App Store এ সাবমিট করার জন্য অ্যাপটি বিল্ড ও প্যাকেজ করুন:
+## ৪. চালান ও যাচাই করুন
 
 ```bash
-alap build --release
-alap pack
+nil run src/main.nil     # কম্পাইল + চালান (+ UI tree রিপোর্ট)
+nil check                # টাইপ-চেক (diagnostics প্রিন্ট)
+nil fmt                  # ফরম্যাট
+nil repl                 # ইন্টারঅ্যাকটিভ পরীক্ষা
 ```
-উৎপন্ন ফাইল: `dist/my-notes-app.onp` যা আপনি সরাসরি App Store এ আপলোড করতে পারেন।
+
+> **সীমাবদ্ধতা:** `runtime/types` এখনো non-fatal — চেকার diagnostics দেয় কিন্তু
+> execution আটকায় না। তাই `nil check` পরিষ্কার দেখানো মানেই সব টাইপ-নিরাপদ নয়।
+
+---
+
+## ৫. বিল্ড
+
+```bash
+nil build onuron         # onuronOS .nilax বান্ডল
+nil build linux          # AppImage/Flatpak-শৈলীর ডেস্কটপ বান্ডল
+nil build android        # Gradle প্রকল্প + JNI ব্রিজ
+nil build ios            # Swift/Metal প্রকল্প
+```
+
+প্ল্যাটফর্ম অ্যাডাপ্টারের বিস্তারিত: [প্ল্যাটফর্ম](/alap/platforms/)।
+Onuron বান্ডল সাইন/ইনস্টলের ধাপ: [প্যাকেজ ম্যানেজার](/os/package-manager/)।
+
+---
+
+## ৬. প্যাকেজ ম্যানেজমেন্ট
+
+```bash
+nil pm install           # alap.lock অনুযায়ী ডিপেন্ডেন্সি
+nil add somepkg@^1.2.0   # ডিপেন্ডেন্সি যোগ (alap.lock আপডেট)
+nil pm list              # ইনস্টল করা ডিপেন্ডেন্সি
+nil pm remove somepkg
+```
+
+`pkg/manager` (NilPM) `alap.yaml`/`alap.lock` চালায়; `Audit()` নিরাপত্তা চেক করে।
+
+---
+
+## ৭. পরবর্তী পড়ুন
+
+- [alap আর্কিটেকচার](/alap/architecture/)
+- [কম্পোনেন্ট ও স্টাইলিং](/alap/components-and-styling/)
+- [alap CLI](/alap/cli/)
+- [টেস্টিং](/alap/testing/)

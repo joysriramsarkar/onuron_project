@@ -16,6 +16,10 @@ export default defineConfig({
           items: [
             { label: "Overview", slug: "index" },
             { label: "System Architecture", slug: "architecture" },
+            { label: "Getting Started", slug: "start-here/getting-started" },
+            { label: "Ecosystem", slug: "start-here/ecosystem" },
+            { label: "Glossary", slug: "start-here/glossary" },
+            { label: "FAQ", slug: "start-here/faq" },
           ],
         },
         {
@@ -33,6 +37,14 @@ export default defineConfig({
         {
           label: "App Store & Registry",
           autogenerate: { directory: "store" },
+        },
+        {
+          label: "Emulator",
+          autogenerate: { directory: "emulator" },
+        },
+        {
+          label: "Reference",
+          autogenerate: { directory: "reference" },
         },
       ],
     }),

@@ -1,62 +1,139 @@
 ---
-title: Enterprise ORM & Database Layer
-description: Type-safe SQL Query Builder, Connection Pooling, and Migrations in Alap.
+title: ডেটা লেয়ার, ORM ও ডেটাবেস
+description: alap-framework-এর query builder, transaction, migration এবং embedded JSON database।
 ---
 
-# Enterprise ORM & Database Layer
+alap-framework তিনটি ডেটা সুবিধা দেয়:
 
-Alap ফ্রেমওয়ার্কে এন্টারপ্রাইজ গ্রেড ডেটা অ্যাক্সেসের জন্য টাইপ-সেফ কুয়েরি বিল্ডার এবং ভার্সনড মাইগ্রেশন সিস্টেম অন্তর্ভুক্ত।
+| প্যাকেজ | উদ্দেশ্য |
+|---|---|
+| `data/orm` | SQL query builder, connection pool, transaction |
+| `data/migration` | ভার্সনড, ক্রমানুসারে প্রযুক্ত schema migration |
+| `stdlib/database` | হালকা in-process JSON-backed ডেটাবেস |
+
+> **নোট:** এটি production database নয় — network driver, real-server pooling বা
+> schema introspection নেই।
 
 ---
 
-## ১. টাইপ-সেফ কুয়েরি বিল্ডার (Query Builder)
+## ১. Query builder (`data/orm`)
 
-PostgreSQL এবং SQLite ডায়ালেক্টের জন্য সম্পূর্ণ প্যারামিটারাইজড SQL কুয়েরি তৈরি করুন:
+`Table(name)` একটি fluent builder শুরু করে। মান সবসময় parameterised (string
+interpolation নয়), তাই generated SQL injection-safe।
 
-```nil
-import { Table, DriverPostgres } from "alap/data"
-
-let (sql, params) = Table("orders")
-    .select(["id", "customer_id", "total", "status"])
-    .where("status", "=", "completed")
-    .where("total", ">=", 500)
-    .orderBy("created_at", "DESC")
-    .limit(20)
-    .toSQL()
+```go
+sql, params := orm.Table("orders").
+    Select("id", "customer_id", "total", "status").
+    Where("status", "=", "completed").
+    Where("total", ">=", 500).
+    Limit(20).
+    ToSQL()
 ```
 
-### জেনারেটেড SQL:
+Generated shape:
+
 ```sql
-SELECT id, customer_id, total, status FROM orders WHERE status = $1 AND total >= $2 ORDER BY created_at DESC LIMIT 20
+SELECT id, customer_id, total, status FROM orders WHERE status = $1 AND total >= $2 LIMIT 20
 ```
+
+| মেথড | বর্ণনা |
+|---|---|
+| `Table(name)` | টেবিলে query শুরু |
+| `Select(cols...)` | Projection (ডিফল্ট `*`) |
+| `Where(col, op, val)` | predicate (`=`, `>=`, `<`, …) |
+| `Limit(n)` | সারি সীমা |
+| `ToSQL()` | `(sql, params)` ফেরায় |
+
+> `Where` operator ও মান সংরক্ষণ করে; সঠিক emitted SQL দেখতে `ToSQL()`-এর output-ই
+> contract ধরে নিন।
 
 ---
 
-## ২. ডেটাবেস ট্রানজাকশন (ACID Transactions)
+## ২. Transaction (`data/orm`)
 
-স্বয়ংক্রিয় রোলব্যাক নিশ্চিত করে ট্রানজাকশন পরিচালনা করুন:
-
-```nil
-db.transaction(|tx| {
-    tx.execute("INSERT INTO accounts ...")
-    tx.execute("INSERT INTO logs ...")
-    // কোনো এরর বা এক্সেপশন দেখা দিলে স্বয়ংক্রিয় Rollback হবে
+```go
+pool := orm.NewDBPool()
+err := pool.Transaction(func(tx *orm.Tx) error {
+    // tx দিয়ে কাজ
+    return tx.Commit()
 })
 ```
 
+`DBPool.Transaction` atomic কাজের সীমানা।
+
 ---
 
-## ৩. ভার্সনড স্কিমা মাইগ্রেশন
+## ৩. Migration (`data/migration`)
 
-CLI দিয়ে ডেটাবেস স্কিমা ভার্সনিং পরিচালনা করুন:
+```go
+runner := migration.NewRunner().
+    Register(migration.Migration{Version: 1, Name: "create_users", Up: createUsers}).
+    Register(migration.Migration{Version: 2, Name: "add_index",    Up: addIndex})
 
-```bash
-# পেন্ডিং মাইগ্রেশন আপগ্রেড করুন
-nil db migrate
-
-# শেষ মাইগ্রেশন রোলব্যাক করুন
-nil db rollback
-
-# বর্তমান মাইগ্রেশন স্ট্যাটাস দেখুন
-nil db status
+applied := runner.Up()   // ক্রমানুসারে প্রযুক্ত ভার্সন ফেরায়
 ```
+
+`Up()` ভার্সন-ক্রমে migration প্রয়োগ করে ও প্রযুক্ত ভার্সন তালিকা ফেরায় (টেস্টে
+assert করার উপযোগী)।
+
+---
+
+## ৪. Embedded database (`stdlib/database`)
+
+উদাহরণ, টেস্ট ও ছোট টুলের জন্য file-backed in-process DB — টেবিল রেকর্ড আকারে
+JSON ফাইলে persist করে।
+
+```go
+db, err := database.New("pos.db")
+if err != nil { /* ... */ }
+defer db.Close()
+
+db.CreateTable("orders")
+db.Insert("orders", database.Record{"id": 1, "total": 99})
+
+rows  := db.Query("orders", map[string]interface{}{"total": 99}, 10)
+count := db.Count("orders", nil)
+
+db.Update("orders", map[string]interface{}{"id": 1}, database.Record{"total": 120})
+db.Delete("orders", map[string]interface{}{"id": 1})
+
+names := db.TableNames()
+```
+
+| মেথড | বর্ণনা |
+|---|---|
+| `New(path)` | DB ফাইল খোলা/তৈরি |
+| `CreateTable(name)` | টেবিল তৈরি |
+| `Insert(table, rec)` | রেকর্ড যোগ |
+| `Update(table, where, updates)` | ম্যাচিং রেকর্ড আপডেট; count ফেরায় |
+| `Delete(table, where)` | ম্যাচিং রেকর্ড মুছে; count ফেরায় |
+| `Query(table, where, limit)` | ম্যাচিং রেকর্ড পড়া |
+| `Count(table, where)` | রেকর্ড গণনা |
+| `GetRecord(table, where)` | একটি রেকর্ড |
+| `TableNames()` / `Table(name)` | introspection |
+| `Close()` | persist ও বন্ধ |
+
+---
+
+## ৫. ফাইল ও HTTP client
+
+```go
+_ = fs.WriteTextFile("notes.txt", "hello")
+content, _ := fs.ReadTextFile("notes.txt")
+exists := fs.Exists("notes.txt")
+
+body, _ := net.Get("https://example.com")
+_ = net.Post(url, "application/json", `{"ok":true}`)
+resp, _ := net.Fetch("GET", url, map[string]string{"Accept": "application/json"}, "")
+```
+
+উপলব্ধ `stdlib/fs`: `ReadTextFile`, `WriteTextFile`, `AppendTextFile`, `Exists`,
+`Remove`, `RemoveAll`, `Mkdir`, `ReadDir`।
+
+---
+
+## ৬. পরবর্তী পড়ুন
+
+- [অথেনটিকেশন ও সিকিউরিটি](/alap/auth-and-security/)
+- canonical ডেটা/ORM: `nilLang/std/db.nil`, `nilLang/std/README.md`
+- রেফারেন্স: `alap-framework/docs/DATA.md`

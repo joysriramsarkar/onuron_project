@@ -1,71 +1,131 @@
 ---
-title: Alap Web Framework Architecture
-description: Comprehensive guide to the Alap Web Framework, Radix Tree Routing, and Middleware Pipeline.
+title: alap ওয়েব ফ্রেমওয়ার্ক
+description: alap-framework-এর HTTP স্ট্যাক — radix router, middleware, SSR, SSE ও WebSocket।
 ---
 
-# Alap Web Framework
+alap-framework একটি HTTP স্ট্যাক সরবরাহ করে: radix-tree (trie) router, middleware
+chain, server-side rendering, Server-Sent Events ও WebSocket manager।
 
-**Alap Web Framework** হলো Nilang ল্যাঙ্গুয়েজের অফিসিয়াল এন্টারপ্রাইজ ওয়েব অ্যাপ্লিকেশন ফ্রেমওয়ার্ক। এটি হাই-পারফরম্যান্স Radix Tree রাউটিং, মিডলওয়্যার অনিয়ন আর্কিটেকচার, ফুল-স্ট্যাক SSR এবং রিয়েলটাইম ওয়েব প্রযুক্তির সমন্বয়ে তৈরি।
-
----
-
-## ১. কোর সার্ভার ও Radix Tree রাউটিং
-
-Alap রাউটার লিনিয়ার স্ক্যানিং পরিহার করে **Radix Tree (Trie)** অ্যালগরিদম ব্যবহার করে। ফলে হাজার হাজার প্যারামেট্রিক রাউটেও $O(k)$ টাইম কমপ্লেক্সিটিতে ম্যাচিং সম্পন্ন হয়।
-
-### রাউট নিবন্ধন ও প্যারামিটার কনস্ট্রেইন্ট
-
-```nil
-import { App, route, json } from "alap/web"
-
-let app = App.new("UserService")
-
-// সাধারণ প্যারামিটার
-app.get("/users/:id", getUserHandler)
-
-// টাইপ কনস্ট্রেইন্ট সহ প্যারামিটার
-app.get("/items/{id:int}", getItemById)
-app.get("/orders/{id:uuid}", getOrderByUUID)
-
-// ওয়াইল্ডকার্ড রাউট (Static Assets)
-app.get("/static/*filepath", staticHandler)
+```text
+web/
+├── server/     # net/http সার্ভার wrapper
+├── router/     # radix-tree router, Context, groups
+├── middleware/ # Recovery, RequestID, SecurityHeaders, CORS, RateLimit
+├── ssr/        # server-side rendering + state hydration
+├── sse/        # Server-Sent Events stream
+└── websocket/  # WebSocket client manager
 ```
 
-### রাউট গ্রুপ (Route Groups)
+> **নোট:** নিচের উদাহরণগুলো alap-prototype-এর Go API (হোস্ট-সাইড)।
 
-```nil
-let api = app.group("/api/v1")
-api.use(authMiddleware)
+---
 
-api.get("/profile", getProfile)
-api.post("/settings", updateSettings)
+## ১. সার্ভার
+
+```go
+srv := server.New("UserService")
+_ = srv.Listen(":4324")            // blocks
+_ = srv.Shutdown(ctx)
+```
+
+`server.Server` `http.Handler` implements করে (`ServeHTTP`), তাই বিদ্যমান Go
+সার্ভারের ভিতরে মাউন্টও করা যায়।
+
+---
+
+## ২. Router
+
+`router.New()` একটি radix-tree (trie) router দেয়, যা path segment-এ `O(k)`-এ ম্যাচ করে।
+
+```go
+r := router.New()
+r.Use(middleware.Recovery(), middleware.SecurityHeaders())
+
+r.GET("/users/:id", func(ctx *router.Context) (interface{}, error) {
+    id := ctx.Param("id")
+    return map[string]string{"id": id}, nil
+})
+
+// সীমাবদ্ধ প্যারামিটার: {name:type}
+r.GET("/items/{id:int}", getItem)
+r.GET("/orders/{id:uuid}", getOrder)
+```
+
+| ধরন | উদাহরণ | নোট |
+|---|---|---|
+| Static | `/health` | Literal segment |
+| Named param | `/users/:id` | `ctx.Param("id")` / `ctx.ParamInt("id")` |
+| Constrained | `/items/{id:int}` | `int` / `uuid` constraint |
+| Method | `GET POST PUT DELETE` | এছাড়া `AddRoute(method, pattern, …)` |
+
+Route group prefix ও shared middleware প্রয়োগ করে:
+
+```go
+admin := r.Group("/admin", requireRole("admin"))
+admin.GET("/dashboard", dashboardHandler)
+```
+
+`r.Routes()` → `[]RouteInfo` (introspection ও টেস্টের জন্য)।
+
+---
+
+## ৩. Middleware
+
+```go
+type Middleware func(next router.HandlerFunc) router.HandlerFunc
+```
+
+| Middleware | কাজ |
+|---|---|
+| `Recovery()` | panic → 500 রেসপন্স |
+| `RequestID()` | প্রতি রিকোয়েস্টে unique ID |
+| `SecurityHeaders()` | hardening হেডার |
+| `CORS(CORSConfig{...})` | কনফিগারেবল CORS |
+| `RateLimit(requestsPerMin)` | per-key rate limiting |
+
+---
+
+## ৪. Server-Side Rendering (`web/ssr`)
+
+```go
+renderer := ssr.New("My App")
+html := renderer.RenderPage(content, map[string]interface{}{
+    "user": "Sarkar",
+})
+```
+
+`RenderPage` টেক্সট এস্কেপ করে এবং hydration state পেজে সিরিয়ালাইজ করে
+(`__NILANG_STATE__`)। বিস্তারিত: [SSR ও হাইড্রেশন](/alap/ssr-and-hydration/)।
+
+---
+
+## ৫. Server-Sent Events (`web/sse`)
+
+```go
+stream, err := sse.NewStream(w)
+if err == nil {
+    _ = stream.Emit("tick", map[string]int{"n": 1})
+}
 ```
 
 ---
 
-## ২. মিডলওয়্যার অনিয়ন আর্কিটেকচার (Middleware Onion Pipeline)
+## ৬. WebSocket (`web/websocket`)
 
-রিকোয়েস্ট প্রসেসিংয়ের প্রতিটি স্তরে নিরাপত্তা ও পর্যবেক্ষণ নিশ্চিত করার জন্য স্ট্যান্ডার্ড মিডলওয়্যার চেইন উপস্থিত:
-
-1. **Recovery Middleware**: অ্যাপ্লিকেশন ক্র্যাশ বা প্যানিক থেকে স্বয়ংক্রিয় রিকভারি ও ৫০০ রেসপন্স রিটার্ন।
-2. **Request ID Injection**: ট্রেস করার জন্য প্রতিটি রিকোয়েস্টে ইউনিক `X-Request-ID` ইনজেকশন।
-3. **Auto Security Headers**:
-   - `Content-Security-Policy: default-src 'self'`
-   - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
-   - `X-Content-Type-Options: nosniff`
-   - `X-Frame-Options: SAMEORIGIN`
-   - `Referrer-Policy: strict-origin-when-cross-origin`
-4. **CORS Middleware**: ক্রস-অরিজিন পলিসি ও প্রি-ফ্লাইট OPTIONS অনুরোধ হ্যান্ডলিং।
-5. **Rate Limiter**: ক্লায়েন্ট IP অনুযায়ী স্লাইডিং উইন্ডো রেট লিমিটিং।
+```go
+m := websocket.NewManager()
+m.Register(client)
+m.Broadcast(map[string]string{"type": "update"})
+m.Unregister(client)
+```
 
 ---
 
-## ৩. লাইভ HTTP সার্ভার চালানো
+## ৭. বর্তমান সীমাবদ্ধতা (সৎভাবে)
 
-```bash
-# ডেভেলপমেন্ট সার্ভার
-nil dev --port 8080
+- routing/middleware স্তর unit-tested ও functional।
+- **TLS termination, production load test এবং পূর্ণ WebSocket upgrade handling
+  এখনো hardened নয়।**
+- নিরাপত্তা হেডার/CORS মিডলওয়্যার আছে, কিন্তু এন্টারপ্রাইজ-গ্রেড WAF নয়।
 
-# নিবন্ধিত রাউট টেবিল পরিদর্শন
-nil routes
-```
+রেফারেন্স: `alap-framework/docs/WEB.md`।
