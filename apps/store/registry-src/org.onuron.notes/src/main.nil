@@ -34,7 +34,7 @@ puts("📝 Notebook (" + len(updated) + " notes):");
 let i = 0;
 while (i < len(updated)) {
     puts(renderNote(updated[i]));
-    let i = i + 1;
+    i = i + 1;
 }
 puts("");
 puts("✅ Notes stored locally (offline-first)");

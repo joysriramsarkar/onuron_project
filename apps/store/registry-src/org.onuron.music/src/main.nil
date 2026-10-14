@@ -28,8 +28,8 @@ let i = 0;
 while (i < len(tracks)) {
     let t = tracks[i];
     puts("  " + (i + 1) + ". " + t["title"] + " — " + t["artist"] + "  " + mmss(t["duration"]));
-    let total = total + t["duration"];
-    let i = i + 1;
+    total = total + t["duration"];
+    i = i + 1;
 }
 puts("");
 puts("▶ Total runtime: " + mmss(total));

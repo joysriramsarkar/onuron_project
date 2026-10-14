@@ -30,7 +30,7 @@ let i = 0;
 while (i < len(files)) {
     let f = files[i];
     puts("  " + f["name"] + "  [" + f["kind"] + "]  " + human(f["size"]));
-    let i = i + 1;
+    i = i + 1;
 }
 puts("");
 puts("✅ Directory listing complete");

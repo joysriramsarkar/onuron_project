@@ -23,8 +23,8 @@ while (i < len(items)) {
     let it = items[i];
     let line = it["price"] * it["qty"];
     puts("  " + it["name"] + " x" + it["qty"] + "  = " + line);
-    let subtotal = subtotal + line;
-    let i = i + 1;
+    subtotal = subtotal + line;
+    i = i + 1;
 }
 
 let tax = subtotal * TAX_PERCENT / 100;

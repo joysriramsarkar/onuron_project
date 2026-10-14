@@ -27,8 +27,8 @@
   "package": {
     "url": "https://store.onuron.org/packages/org.onuron.pos-1.0.0.nilax",
     "path": "packages/org.onuron.pos-1.0.0.nilax",
-    "size": 1660,
-    "sha256": "49fd6ac5ea09f78f4dc6c613e15e4aaaecc059b6a515637b5cae215db39616de",
+    "size": 1663,
+    "sha256": "25b14306aa607ae2e57324a4b23b31a5ba28fb9424f558a758cc295bce95a17e",
     "signature": "3FDAa0Ycvnvb/QK0PfPaaVInZ277eQEXURnu90YKgnk/n7QKFKfNyQ/vHWWBRM32zzJdCnZkLRN6oZ+BBvuiBg==",
     "signer": "onuron-team"
   },

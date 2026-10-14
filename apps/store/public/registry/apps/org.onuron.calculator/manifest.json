@@ -19,8 +19,8 @@
   "package": {
     "url": "https://store.onuron.org/packages/org.onuron.calculator-1.0.0.nilax",
     "path": "packages/org.onuron.calculator-1.0.0.nilax",
-    "size": 1421,
-    "sha256": "877f100ecc18e4970bd81887d2fda2d355fb1e45ae4bfca83962cf1bb14325f8",
+    "size": 1423,
+    "sha256": "048cb723ba953f38280fddf2b3b08251e52fa6d179fa0d0349e56a7c9d6d70d3",
     "signature": "/R26rHfus/69pvaw4evLpJXWXNkmlGUDwWxHgiHJqmEUlFXOi6MXEinGS447IrPBMydQL2Oftk7JadEdoTlXDQ==",
     "signer": "onuron-team"
   },

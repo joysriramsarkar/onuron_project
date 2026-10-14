@@ -19,8 +19,8 @@
   "package": {
     "url": "https://store.onuron.org/packages/org.onuron.notes-1.2.0.nilax",
     "path": "packages/org.onuron.notes-1.2.0.nilax",
-    "size": 1747,
-    "sha256": "393a7a0d6343820b01e7402eb2c822be3e9c608489245628bb29ca90088bb67f",
+    "size": 1746,
+    "sha256": "fd5f9a48e1a7a2d9afd7fbad64df1ac3b95b99d2bfa74421140897dfdbb964ba",
     "signature": "5vIcrJtsLnPbJbgAvwPS966OiJL89qdx3W1P5SLITpAqPl/hy/8rE+B388t/zQO8wZ3YqwaVP1zmfAYaeWY+Bg==",
     "signer": "onuron-team"
   },
