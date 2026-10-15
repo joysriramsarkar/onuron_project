@@ -1,8 +1,8 @@
 {
   "id": "org.onuron.pos",
   "name": "Onuron POS",
-  "summary": "\u09aa\u09af\u09bc\u09c7\u09a8\u09cd\u099f \u0985\u09ab \u09b8\u09c7\u09b2 \u0993 \u0987\u09a8\u09ad\u09c7\u09a8\u09cd\u099f\u09b0\u09bf \u09ae\u09cd\u09af\u09be\u09a8\u09c7\u099c\u09ae\u09c7\u09a8\u09cd\u099f",
-  "description": "Onuron POS \u2014 \u09a8\u09c0\u09b2\u09be\u0982 (NilLang) \u0993 \u0986\u09b2\u09be\u09aa (Alap) \u09ab\u09cd\u09b0\u09c7\u09ae\u0993\u09af\u09bc\u09be\u09b0\u09cd\u0995\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u0985\u09ab\u09b2\u09be\u0987\u09a8-\u09ab\u09be\u09b0\u09cd\u09b8\u09cd\u099f \u0995\u09cd\u09af\u09be\u09b6\u09bf\u09af\u09bc\u09be\u09b0, \u09ac\u09bf\u09b2\u09bf\u0982 \u0993 \u09b8\u09cd\u099f\u0995 \u09ae\u09cd\u09af\u09be\u09a8\u09c7\u099c\u09ae\u09c7\u09a8\u09cd\u099f \u09b8\u09ae\u09be\u09a7\u09be\u09a8\u0964",
+  "summary": "পয়েন্ট অফ সেল ও ইনভেন্টরি ম্যানেজমেন্ট",
+  "description": "Onuron POS — নীলাং (NilLang) ও আলাপ (Alap) ফ্রেমওয়ার্কে তৈরি সম্পূর্ণ অফলাইন-ফার্স্ট ক্যাশিয়ার, বিলিং ও স্টক ম্যানেজমেন্ট সমাধান।",
   "version": "1.0.0",
   "minOs": "0.9.0",
   "arch": [
@@ -18,7 +18,9 @@
   ],
   "license": "AGPL-3.0",
   "releaseStage": "reference",
-  "permissions": ["stdout"],
+  "permissions": [
+    "stdout"
+  ],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",
@@ -29,7 +31,7 @@
     "path": "packages/org.onuron.pos-1.0.0.nilax",
     "size": 1663,
     "sha256": "25b14306aa607ae2e57324a4b23b31a5ba28fb9424f558a758cc295bce95a17e",
-    "signature": "3FDAa0Ycvnvb/QK0PfPaaVInZ277eQEXURnu90YKgnk/n7QKFKfNyQ/vHWWBRM32zzJdCnZkLRN6oZ+BBvuiBg==",
+    "signature": "aO758c16bO1C5WWua+ZD2dFZAkJLsCL4iNlF4ckfXvC+9quZhPYaaFRNnP2ACOjF1GBDLEqhD26CdET6OsWLCw==",
     "signer": "onuron-team"
   },
   "media": {

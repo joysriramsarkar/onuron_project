@@ -5,12 +5,22 @@
   "description": "Onuron Terminal — অনুরুণ ওএসের সম্পূর্ণ ক্ষমতাসম্পন্ন লিনাক্স কমান্ড-লাইন ও সিস্টেম কন্ট্রোল টার্মিনাল।",
   "version": "1.0.0",
   "minOs": "0.9.0",
-  "arch": ["x86_64", "aarch64"],
+  "arch": [
+    "x86_64",
+    "aarch64"
+  ],
   "category": "development",
-  "tags": ["terminal", "shell", "bash", "cli"],
+  "tags": [
+    "terminal",
+    "shell",
+    "bash",
+    "cli"
+  ],
   "license": "AGPL-3.0",
   "releaseStage": "reference",
-  "permissions": ["stdout"],
+  "permissions": [
+    "stdout"
+  ],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",
@@ -21,7 +31,7 @@
     "path": "packages/org.onuron.terminal-1.0.0.nilax",
     "size": 1626,
     "sha256": "a4c7ae56762d4fafadb0b6862fa9f9665d28922b4281f7f25ef80bceb73e6e8a",
-    "signature": "4e3ZoE5kVW5LqAsZ9ps44SuFghVvBBmfbEBXT8twq/k045NuSkzvrJmw+FEYHko+ZstjYyzoRjNtubi4//DUCw==",
+    "signature": "us8zKLoF4z5padT4h4UNk3kBeFThCMcS8dRENbuzfciPk/neJM8VfFqMYrZ/ihXYl4p77svVZiAfdMWnSrHECQ==",
     "signer": "onuron-team"
   },
   "media": {

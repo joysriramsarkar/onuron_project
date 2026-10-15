@@ -5,12 +5,21 @@
   "description": "ট্যাবস, ডার্ক মোড ও দ্রুত সার্চসহ onuronOS-এর ডিফল্ট ফাইল ম্যানেজার।",
   "version": "2.0.1",
   "minOs": "0.9.0",
-  "arch": ["x86_64", "aarch64", "riscv64"],
+  "arch": [
+    "x86_64",
+    "aarch64",
+    "riscv64"
+  ],
   "category": "utilities",
-  "tags": ["files", "manager"],
+  "tags": [
+    "files",
+    "manager"
+  ],
   "license": "AGPL-3.0",
   "releaseStage": "reference",
-  "permissions": ["stdout"],
+  "permissions": [
+    "stdout"
+  ],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",
@@ -21,7 +30,7 @@
     "path": "packages/org.onuron.files-2.0.1.nilax",
     "size": 1700,
     "sha256": "cce9bf169255b9d090d24a80aa738fc3c47118493f491d1f12a48959942bf68b",
-    "signature": "ojy4JmfzUQmyZ39s+DDGtqreJcbCc1gP3mXRDtBSi+PPiGE34DQ25C/s7rg9HoPV4tPt84OjcUn5N6bEHTbuBA==",
+    "signature": "yP1k8DnneZAUCXHM+8rY/IP8Q79cEDGin5e9CXdbdq1281KIa9AcChiwofcWTbbj5+Hb7ljZzLYRyR5Az3YKBQ==",
     "signer": "onuron-team"
   },
   "media": {
