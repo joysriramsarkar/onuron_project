@@ -9,6 +9,8 @@
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "validate:verify": "node scripts/validate.mjs --verify",
-    "sign": "node scripts/sign-package.mjs"
+    "sign": "node scripts/sign-package.mjs",
+    "contracts:sync": "node scripts/sync-contracts.mjs",
+    "contracts:check": "node scripts/sync-contracts.mjs --check"
   }
 }
