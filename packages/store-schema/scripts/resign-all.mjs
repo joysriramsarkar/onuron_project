@@ -16,15 +16,19 @@ function findRoot(dir) {
 
 const monorepoRoot = findRoot(process.cwd());
 const workspaceRoot = path.dirname(monorepoRoot);
-const keyFile = path.join(workspaceRoot, ".onuron-keys", "store-signing-key.json");
+const keyFile = process.env.ONURON_SIGNING_KEY_FILE || path.join(workspaceRoot, ".onuron-keys", "store-signing-key.json");
 
-if (!fs.existsSync(keyFile)) {
-  console.error("store-signing-key.json not found at " + keyFile);
-  process.exit(1);
+let rawPriv;
+if (process.env.ONURON_SIGNING_PRIVATE_KEY) {
+  rawPriv = Buffer.from(process.env.ONURON_SIGNING_PRIVATE_KEY, "base64");
+} else {
+  if (!fs.existsSync(keyFile)) {
+    console.error("Set ONURON_SIGNING_PRIVATE_KEY or provide store-signing-key.json at " + keyFile);
+    process.exit(1);
+  }
+  const keyData = JSON.parse(fs.readFileSync(keyFile, "utf8"));
+  rawPriv = Buffer.from(keyData.privateKey, "base64");
 }
-
-const keyData = JSON.parse(fs.readFileSync(keyFile, "utf8"));
-const rawPriv = Buffer.from(keyData.privateKey, "base64");
 const der = Buffer.concat([DER_PKCS8_PREFIX, rawPriv]);
 const privateKey = crypto.createPrivateKey({ key: der, format: "der", type: "pkcs8" });
 
