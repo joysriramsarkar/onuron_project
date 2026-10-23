@@ -27,7 +27,7 @@
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://store.onuron.org/packages/org.onuron.calculator-1.0.0.nilax",
+    "url": "https://raw.githubusercontent.com/joysriramsarkar/onuron_project/test/apps/store/public/packages/org.onuron.calculator-1.0.0.nilax",
     "path": "packages/org.onuron.calculator-1.0.0.nilax",
     "size": 1423,
     "sha256": "048cb723ba953f38280fddf2b3b08251e52fa6d179fa0d0349e56a7c9d6d70d3",

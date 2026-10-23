@@ -26,7 +26,7 @@
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://store.onuron.org/packages/org.onuron.files-2.0.1.nilax",
+    "url": "https://raw.githubusercontent.com/joysriramsarkar/onuron_project/test/apps/store/public/packages/org.onuron.files-2.0.1.nilax",
     "path": "packages/org.onuron.files-2.0.1.nilax",
     "size": 1700,
     "sha256": "cce9bf169255b9d090d24a80aa738fc3c47118493f491d1f12a48959942bf68b",
