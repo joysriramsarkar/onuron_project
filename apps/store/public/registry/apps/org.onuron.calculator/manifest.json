@@ -5,23 +5,33 @@
   "description": "ক্যালকুলেটর — নীলাং (NilLang) ও আলাপ (Alap) ফ্রেমওয়ার্কে তৈরি অতি-দ্রুত, রিঅ্যাক্টিভ ও হালকা গাণিতিক অ্যাপ।",
   "version": "1.0.0",
   "minOs": "0.9.0",
-  "arch": ["x86_64", "aarch64"],
+  "arch": [
+    "x86_64",
+    "aarch64"
+  ],
   "category": "utilities",
-  "tags": ["calculator", "math", "nillang", "alap"],
+  "tags": [
+    "calculator",
+    "math",
+    "nillang",
+    "alap"
+  ],
   "license": "AGPL-3.0",
   "releaseStage": "reference",
-  "permissions": ["stdout"],
+  "permissions": [
+    "stdout"
+  ],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://store.onuron.org/packages/org.onuron.calculator-1.0.0.nilax",
+    "url": "https://raw.githubusercontent.com/joysriramsarkar/onuron_project/test/apps/store/public/packages/org.onuron.calculator-1.0.0.nilax",
     "path": "packages/org.onuron.calculator-1.0.0.nilax",
-    "size": 1421,
-    "sha256": "877f100ecc18e4970bd81887d2fda2d355fb1e45ae4bfca83962cf1bb14325f8",
-    "signature": "/R26rHfus/69pvaw4evLpJXWXNkmlGUDwWxHgiHJqmEUlFXOi6MXEinGS447IrPBMydQL2Oftk7JadEdoTlXDQ==",
+    "size": 1423,
+    "sha256": "048cb723ba953f38280fddf2b3b08251e52fa6d179fa0d0349e56a7c9d6d70d3",
+    "signature": "GkHbV2zHpmg3ZT85HIZJdIfzdmAuJH3TsK+qoO6DzwYGByOF+8ZBxYUwLblRhSx9KdVFbUD8qX39fJZQIL61Aw==",
     "signer": "onuron-team"
   },
   "media": {

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import zlib from "node:zlib";
+import { verifyMirror } from "./sync-contracts.mjs";
 
 function findRoot(dir) {
   let d = dir;
@@ -12,14 +13,15 @@ function findRoot(dir) {
   throw new Error("monorepo root not found");
 }
 
-const REG = path.join(findRoot(process.cwd()), "apps/store/public/registry/apps");
-const STORE_PUBLIC = path.join(findRoot(process.cwd()), "apps/store/public");
+const REG = path.join(findRoot(import.meta.dirname), "apps/store/public/registry/apps");
+const STORE_PUBLIC = path.join(findRoot(import.meta.dirname), "apps/store/public");
 const CATS = ["productivity", "utilities", "media", "games", "development", "communication", "education", "security"];
 const ARCHES = ["x86_64", "aarch64", "riscv64"];
 const PACKAGE_EXTENSIONS = [".nilax", ".onp"];
 const RELEASE_STAGES = ["reference", "preview", "stable"];
 const SEMVER_RE = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const TRUSTED_KEYS_FILE = path.join(import.meta.dirname, "..", "trusted-keys.json");
+const CONTRACT_DIR = path.join(import.meta.dirname, "..", "contracts");
 const DOWNLOAD_TIMEOUT_MS = 15000;
 
 const VERIFY = process.argv.includes("--verify");
@@ -28,6 +30,104 @@ const errors = [];
 const warnings = [];
 const err = (app, msg) => errors.push(`[${app}] ${msg}`);
 const warn = (app, msg) => warnings.push(`[${app}] ${msg}`);
+
+// ---------------------------------------------------------------------------
+// Contract bundle: the capability and target rules the store enforces
+// ---------------------------------------------------------------------------
+//
+// NilLang owns the capability vocabulary and the package format (ADR-0003,
+// ADR-0004). The store mirrors that bundle, checksum-pinned, rather than
+// keeping its own list of permission names — a store-local list is a second
+// answer to "is `storage.read` a real capability", and the two answers
+// eventually disagree.
+//
+// Default-deny: a capability the vocabulary does not carry is refused. If the
+// mirror is missing or does not verify, the validator refuses to run rather than
+// checking nothing, because "checked nothing" and "checked and found nothing"
+// look identical in the output that gates a release.
+
+let CONTRACT = null;
+let CONTRACT_ERROR = null;
+let CONTRACT_CHECKED = false;
+
+/** Normalize a capability name the way NilLang's canonicalize does.
+ *
+ *  Case-insensitive, and '-', '_' and ' ' are removed before matching. This is a
+ *  reimplementation of NilLang's rule, and it is one of the few places where a
+ *  reimplementation is acceptable: it is nine characters of string handling, it
+ *  has a conformance vector in contracts/capabilities/vocabulary.json, and the
+ *  alternative — a cross-process call for every permission on every manifest —
+ *  would be worse. If NilLang's normalisation ever grows a rule, this function
+ *  must grow it in the same change, which the vocabulary mirror's tests cover.
+ */
+function canonicalCapability(name) {
+  let out = String(name).trim().toLowerCase().replace(/[-_\s]/g, "");
+  const aliases = { gps: "location" };
+  return aliases[out] ?? out;
+}
+
+function loadContract() {
+  if (CONTRACT || CONTRACT_ERROR) return CONTRACT;
+  try {
+    const index = verifyMirror(CONTRACT_DIR);
+    const vocabulary = JSON.parse(
+      fs.readFileSync(path.join(CONTRACT_DIR, "capabilities/vocabulary.json"), "utf8")
+    );
+    const abi = JSON.parse(fs.readFileSync(path.join(CONTRACT_DIR, "abi/runtime-abi.json"), "utf8"));
+    const canonical = new Map();
+    for (const entry of vocabulary.capabilities ?? []) canonical.set(entry.name, entry);
+    const aliases = new Map();
+    for (const entry of vocabulary.aliases ?? []) aliases.set(entry.alias, entry.canonical);
+    const targets = new Map();
+    for (const entry of abi.targets ?? []) targets.set(entry.id, entry.status);
+    CONTRACT = { index, vocabulary, abi, canonical, aliases, targets };
+  } catch (e) {
+    CONTRACT_ERROR = e.message;
+    CONTRACT = null;
+  }
+  return CONTRACT;
+}
+
+/**
+ * Check a declared capability list against the published vocabulary.
+ *
+ * Returns a list of human-readable problems; empty means every name is one the
+ * language actually defines.
+ */
+function checkCapabilities(names, where, app) {
+  const contract = loadContract();
+  if (!contract) {
+    err(app, `capability check skipped because the contract mirror is unusable: ${CONTRACT_ERROR}`);
+    return [];
+  }
+  const problems = [];
+  const seen = new Set();
+  for (const raw of names ?? []) {
+    const canonical = canonicalCapability(raw);
+    if (!contract.canonical.has(canonical)) {
+      const planned = (vocabularyPlanned() ?? []).includes(canonical);
+      problems.push(
+        planned
+          ? `${where} requests "${raw}", which is a planned capability refinement and is not implemented`
+          : `${where} requests "${raw}", which is not in the NilLang capability vocabulary`
+      );
+      continue;
+    }
+    if (seen.has(canonical)) {
+      problems.push(`${where} requests "${raw}" twice under different spellings (both are "${canonical}")`);
+    }
+    seen.add(canonical);
+  }
+  return problems;
+}
+
+let PLANNED_CACHE = null;
+function vocabularyPlanned() {
+  if (PLANNED_CACHE) return PLANNED_CACHE;
+  const contract = loadContract();
+  PLANNED_CACHE = (contract?.vocabulary?.planned ?? []).map((p) => canonicalCapability(p.name));
+  return PLANNED_CACHE;
+}
 
 // ---------------------------------------------------------------------------
 // Package format compatibility
@@ -197,6 +297,28 @@ function verifyArchive(app, m, buf) {
   for (const p of inner.permissions ?? []) {
     if (!declared.includes(p)) {
       err(app, `packed app requests permission "${p}" not declared in manifest.permissions`);
+    }
+  }
+
+  // Both lists must name capabilities the language actually defines. Checking
+  // only that one is a subset of the other proves the manifest is consistent,
+  // not that either of them means anything.
+  for (const problem of checkCapabilities(declared, "manifest.permissions", app)) err(app, problem);
+  for (const problem of checkCapabilities(inner.permissions ?? [], "packed manifest", app)) {
+    err(app, problem);
+  }
+
+  for (const target of inner.targets ?? []) {
+    const contract = loadContract();
+    if (!contract) {
+      err(app, `target check skipped because the contract mirror is unusable: ${CONTRACT_ERROR}`);
+      break;
+    }
+    const status = contract.targets.get(target);
+    if (status === undefined) {
+      err(app, `packed manifest targets "${target}", which is not declared in the NilLang runtime ABI`);
+    } else if (status !== "stable") {
+      err(app, `packed manifest targets "${target}", which is ${status} and is not a publishable target`);
     }
   }
 
@@ -387,6 +509,26 @@ for (const dir of fs.readdirSync(REG)) {
   if (m.permissions !== undefined) {
     if (!Array.isArray(m.permissions) || m.permissions.some((p) => typeof p !== "string")) {
       err(dir, "permissions must be an array of strings");
+    } else {
+      // Checked here as well as in verifyArchive so that a package the store
+      // cannot download is still checked: --verify is a network-dependent
+      // extra, and a rule that only applies when the network is up is not a
+      // rule.
+      for (const problem of checkCapabilities(m.permissions, "manifest.permissions", dir)) err(dir, problem);
+    }
+  }
+
+  // --- the signing scheme this store implements ------------------------------
+  // NilLang's contract describes a different scheme (contracts/signing has it
+  // open as signing-store-scheme). Until that is resolved, a verifier states
+  // which one it implements rather than claiming to verify "the" signature.
+  if (!CONTRACT_CHECKED) {
+    CONTRACT_CHECKED = true;
+    const contract = loadContract();
+    if (!contract) {
+      err("contracts", `contract mirror is unusable: ${CONTRACT_ERROR}`);
+    } else if (contract.canonical.size === 0) {
+      err("contracts", "contract mirror holds an empty capability vocabulary");
     }
   }
 

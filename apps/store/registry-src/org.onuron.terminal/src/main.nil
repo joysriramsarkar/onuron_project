@@ -36,7 +36,7 @@ while (i < len(script)) {
     if (out != "") {
         puts("  " + out);
     }
-    let i = i + 1;
+    i = i + 1;
 }
 puts("");
 puts("✅ Session complete");

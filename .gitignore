@@ -12,6 +12,9 @@ Thumbs.db
 .wrangler/
 release-bundles/
 
-# Signing material — private keys must never be committed
+# Signing material ? private keys must never be committed
 *.pem
 *-signing-key.json
+
+// Local nil build outputs (rebuilt from registry-src; only public/packages/*.nilax ships).
+apps/store/registry-src/*/build/

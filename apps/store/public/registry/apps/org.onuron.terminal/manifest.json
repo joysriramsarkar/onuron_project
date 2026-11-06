@@ -5,23 +5,33 @@
   "description": "Onuron Terminal — অনুরুণ ওএসের সম্পূর্ণ ক্ষমতাসম্পন্ন লিনাক্স কমান্ড-লাইন ও সিস্টেম কন্ট্রোল টার্মিনাল।",
   "version": "1.0.0",
   "minOs": "0.9.0",
-  "arch": ["x86_64", "aarch64"],
+  "arch": [
+    "x86_64",
+    "aarch64"
+  ],
   "category": "development",
-  "tags": ["terminal", "shell", "bash", "cli"],
+  "tags": [
+    "terminal",
+    "shell",
+    "bash",
+    "cli"
+  ],
   "license": "AGPL-3.0",
   "releaseStage": "reference",
-  "permissions": ["stdout"],
+  "permissions": [
+    "stdout"
+  ],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://store.onuron.org/packages/org.onuron.terminal-1.0.0.nilax",
+    "url": "https://raw.githubusercontent.com/joysriramsarkar/onuron_project/test/apps/store/public/packages/org.onuron.terminal-1.0.0.nilax",
     "path": "packages/org.onuron.terminal-1.0.0.nilax",
     "size": 1626,
-    "sha256": "943ce13b2a349125f98bf7fa162e1ff785093fa7e27fdf79dbfdc857b7167c6d",
-    "signature": "4e3ZoE5kVW5LqAsZ9ps44SuFghVvBBmfbEBXT8twq/k045NuSkzvrJmw+FEYHko+ZstjYyzoRjNtubi4//DUCw==",
+    "sha256": "a4c7ae56762d4fafadb0b6862fa9f9665d28922b4281f7f25ef80bceb73e6e8a",
+    "signature": "FedEi4Xw9vN9KmH3U3vmWrEcnX3Cy7UZad/kt5Q+9MZh59w8iPvdb/icZvnf+sLA61ojJKv5zx1/IUOFBNEHAQ==",
     "signer": "onuron-team"
   },
   "media": {

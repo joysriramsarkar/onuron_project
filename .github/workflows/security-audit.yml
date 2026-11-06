@@ -16,10 +16,10 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
 
-      - name: Setup Node.js 22
+      - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24.18.0
           cache: pnpm
 
       - name: Install dependencies
@@ -29,7 +29,7 @@ jobs:
 
       - name: Run Vulnerability Audit
         run: |
-          pnpm audit --audit-level=high || echo "Vulnerabilities detected. Review audit log."
+          pnpm audit --audit-level=high
 
       - name: Check Outdated Packages
         run: |

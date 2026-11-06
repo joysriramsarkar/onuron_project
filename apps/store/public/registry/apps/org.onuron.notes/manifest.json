@@ -5,23 +5,32 @@
   "description": "Onuron Notes একটি হালকা নোট অ্যাপ — মার্কডাউন সাপোর্ট, এনক্রিপ্টেড নোট ও ক্লাউড সিঙ্ক ছাড়াই সম্পূর্ণ অফলাইন অভিজ্ঞতা।",
   "version": "1.2.0",
   "minOs": "0.9.0",
-  "arch": ["x86_64", "aarch64"],
+  "arch": [
+    "x86_64",
+    "aarch64"
+  ],
   "category": "productivity",
-  "tags": ["notes", "markdown", "offline"],
+  "tags": [
+    "notes",
+    "markdown",
+    "offline"
+  ],
   "license": "AGPL-3.0",
   "releaseStage": "reference",
-  "permissions": ["stdout"],
+  "permissions": [
+    "stdout"
+  ],
   "developer": {
     "name": "Onuron Team",
     "email": "dev@onuron.org",
     "url": "https://onuron.org"
   },
   "package": {
-    "url": "https://store.onuron.org/packages/org.onuron.notes-1.2.0.nilax",
+    "url": "https://raw.githubusercontent.com/joysriramsarkar/onuron_project/test/apps/store/public/packages/org.onuron.notes-1.2.0.nilax",
     "path": "packages/org.onuron.notes-1.2.0.nilax",
-    "size": 1747,
-    "sha256": "393a7a0d6343820b01e7402eb2c822be3e9c608489245628bb29ca90088bb67f",
-    "signature": "5vIcrJtsLnPbJbgAvwPS966OiJL89qdx3W1P5SLITpAqPl/hy/8rE+B388t/zQO8wZ3YqwaVP1zmfAYaeWY+Bg==",
+    "size": 1746,
+    "sha256": "fd5f9a48e1a7a2d9afd7fbad64df1ac3b95b99d2bfa74421140897dfdbb964ba",
+    "signature": "CM7OrGnRYopG87fmY8JeIO4D5LoOaZhrg/ALRrtNWH41s2MgMgvAUdPm0ROouYsFbdzb94gZ8O6KgMiVNqcfBQ==",
     "signer": "onuron-team"
   },
   "media": {

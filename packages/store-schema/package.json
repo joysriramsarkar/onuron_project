@@ -7,8 +7,11 @@
     ".": "./src/types.ts"
   },
   "scripts": {
+    "lint": "node --check scripts/validate.mjs && node --check scripts/sync-contracts.mjs && node --check scripts/sign-package.mjs && node --check scripts/resign-all.mjs",
     "validate": "node scripts/validate.mjs",
     "validate:verify": "node scripts/validate.mjs --verify",
-    "sign": "node scripts/sign-package.mjs"
+    "sign": "node scripts/sign-package.mjs",
+    "contracts:sync": "node scripts/sync-contracts.mjs",
+    "contracts:check": "node scripts/sync-contracts.mjs --check"
   }
 }
