@@ -30,11 +30,11 @@ main()`;
     <div style="text-align: center; margin-bottom: 32px;">
       <div class="shimmer-pill">
         <span class="pulse-dot"></span>
-        <span>nilLang Web IDE • WebAssembly Engine</span>
+        <span>nilLang Playground • Syntax demo - print() preview only, not execution</span>
       </div>
       <h1 style="font-size: clamp(2rem, 4vw, 3rem); margin: 0 0 12px;">nilLang Web Playground</h1>
       <p class="muted" style="max-width: 600px; margin: 0 auto;">
-        ব্রাউজার থেকেই সরাসরি nilLang কোড লিখুন, প্রিভিউ করুন এবং মুহূর্তের মধ্যে রান করে আউটপুট যাচাই করুন।
+        Syntax demo - print() preview only, not execution. No WebAssembly engine is loaded and no nilLang code is executed in this page; it statically extracts simple print() string literals for preview only. For real execution, build and run nilLang locally (see specs/README.md).
       </p>
     </div>
 
@@ -86,7 +86,7 @@ main()`;
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <polygon points="5 3 19 12 5 21 5 3"></polygon>
             </svg>
-            <span>Run Code</span>
+            <span>Preview print()</span>
             <kbd class="shortcut-kbd">Ctrl+Enter</kbd>
           </button>
           <button id="clear" class="btn btn-ghost" style="padding: 8px 16px; font-size: 0.88rem;">
@@ -96,7 +96,7 @@ main()`;
 
         <div class="ide-status-pill">
           <span class="status-indicator"></span>
-          <span id="status-text">Engine Ready</span>
+          <span id="status-text">Preview ready (no execution)</span>
         </div>
       </div>
 
@@ -104,9 +104,9 @@ main()`;
       <div class="ide-console-wrap">
         <div class="console-header">
           <span>Console Output</span>
-          <span id="exec-stats" class="exec-stats">Execution: 0ms • Memory: 1.2MB</span>
+          <span id="exec-stats" class="exec-stats">Preview only • Execution: n/a • Memory: n/a</span>
         </div>
-        <pre id="out" class="console-body">[Ready] প্রেস করুন 'Run Code' বা Ctrl+Enter...</pre>
+        <pre id="out" class="console-body">[Syntax demo - print() preview only, not execution] Press 'Preview print()' or Ctrl+Enter. No code will be executed.</pre>
       </div>
     </div>
   </main>
@@ -432,12 +432,13 @@ main()`,
     }
   });
 
+  // Static preview only: extracts simple print("...") literals. This does NOT
+  // execute nilLang, load WebAssembly, evaluate expressions, or measure memory.
   function executeCode() {
     if (!outPre || !srcArea) return;
-    const startTime = performance.now();
     const code = srcArea.value.trim();
 
-    if (statusText) statusText.textContent = "Executing...";
+    if (statusText) statusText.textContent = "Previewing (no execution)...";
 
     setTimeout(() => {
       const prints: string[] = [];
@@ -455,17 +456,17 @@ main()`,
         }
       }
 
-      const elapsed = Math.round(performance.now() - startTime + 8);
+      const banner = "[Syntax demo - print() preview only, not execution]\n[No WebAssembly engine, no nilLang execution, no exit code. Execution: n/a - Memory: n/a]\n---";
       if (prints.length > 0) {
-        outPre.textContent = prints.join("\n") + `\n\n[Process completed successfully with exit code 0]`;
+        outPre.textContent = banner + "\n" + prints.join("\n") + `\n---\n[Preview only - expressions, variables and control flow were not evaluated]`;
         outPre.style.color = "#10e5b2";
       } else {
-        outPre.textContent = `✓ [Program executed with 0 outputs]\n[Process completed successfully with exit code 0]`;
+        outPre.textContent = banner + `\n[No simple print("...") literals found to preview - nothing was executed]`;
         outPre.style.color = "#93c5fd";
       }
 
-      if (execStats) execStats.textContent = `Execution: ${elapsed}ms • Memory: 1.1MB • Status: 0 OK`;
-      if (statusText) statusText.textContent = "Execution Finished";
+      if (execStats) execStats.textContent = `Preview only • Execution: n/a • Memory: n/a`;
+      if (statusText) statusText.textContent = "Preview shown (not executed)";
     }, 150);
   }
 

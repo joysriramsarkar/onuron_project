@@ -6,8 +6,10 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "validate": "pnpm --filter @onuron/store-schema validate"
+    "lint": "pnpm validate && pnpm --filter @onuron/store-schema lint",
+    "validate": "pnpm --filter @onuron/store-schema validate",
+    "validate:verify": "pnpm --filter @onuron/store-schema validate:verify",
+    "contracts:check": "pnpm --filter @onuron/store-schema contracts:check"
   },
   "devDependencies": {
     "turbo": "^2.3.3"

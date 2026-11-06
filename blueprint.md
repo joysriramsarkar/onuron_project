@@ -1,3 +1,7 @@
+> **ARCHIVED CHAT TRANSCRIPT - not authoritative, see specs/README.md**
+>
+> This file is a historical chat transcript kept for reference only. It may contain outdated plans and claims. The authoritative specification index is `specs/README.md`, and component maturity is stated in `docs/ECOSYSTEM_MATURITY.md`.
+
 ### USER
 https://github.com/joysriramsarkar/alap-framework, https://github.com/joysriramsarkar/nilLang, https://github.com/joysriramsarkar/onuronOS এদের জন্য একটা ডোমেইন কিনলাম onuron.org। এখানে এগুলোকে একটা ওয়েবসাইট কেমন করে রাখবে, সাবডোমেইন করে? কী কী রাখবো, সব বিস্তারিত বলো। মোবাইল অ্যাপগুলোর লিঙ্ক কোথায় রাখবো যেগুলো অ্যাপ স্টোর ডাউনলোড হবে। আরো যা যা লাগবে। 
 

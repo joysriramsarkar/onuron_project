@@ -13,8 +13,8 @@ function findRoot(dir) {
   throw new Error("monorepo root not found");
 }
 
-const REG = path.join(findRoot(process.cwd()), "apps/store/public/registry/apps");
-const STORE_PUBLIC = path.join(findRoot(process.cwd()), "apps/store/public");
+const REG = path.join(findRoot(import.meta.dirname), "apps/store/public/registry/apps");
+const STORE_PUBLIC = path.join(findRoot(import.meta.dirname), "apps/store/public");
 const CATS = ["productivity", "utilities", "media", "games", "development", "communication", "education", "security"];
 const ARCHES = ["x86_64", "aarch64", "riscv64"];
 const PACKAGE_EXTENSIONS = [".nilax", ".onp"];
